@@ -1,4 +1,4 @@
-# Systemd (I)
+# Systemd
 
 ##Introducción
 
@@ -42,16 +42,16 @@ posible que un administrador pueda cambiar ciertas partes de la configuración d
 Algunas "units" contienen un símbolo @ en su nombre (por ejemplo, nom@cadena.service); esto significa que son instancias de una unit-plantilla, el archivo de configuración de la cual es el que no contiene la parte
 "Cadena" en su nombre (así: nombre @.service). La parte "cadena" es el identificador de la instancia (de hecho, dentro del archivo de configuración de la unit-plantilla el valor "cadena" sustituye todas las ocurrencias del especificador especial %i).
 
-##Comandos para gestionar Units (principalmente de tipo "service")
+##Comandos para gestionar Units
 
 A continuación mostramos algunos de los comandos más importantes para gestionar Units principalmente (No exclusivamente) de tipo "service":
 
 `systemctl [list-Units] [-t {service | socket | ...}] [--all | --failed | --state = inactive]` Muestra el estado de las Units que están "activas" (del tipo indicado, si no se indica, aparecen todas).
 
-- Si se escribe --state = inactive se muestra el estado de las Units que están "inactivas"
+- Si se escribe `--state = inactive` se muestra el estado de las Units que están "inactivas"
 - Como valor del parámetro `--state` también se puede poner cualquier valor válido de la columna SUB
 - Si se escribe `--failed` se muestra el estado de todas las Units con errores
-- Si se escribe --all se muestra el estado de todas las Units ( "activas", "inactivas", con errores y otros)
+- Si se escribe `--all` se muestra el estado de todas las Units ( "activas", "inactivas", con errores y otros)
 -La diferencia entre las columnas LOAD, ACTIVE y SUB la dice la salida de la propia comando:
 
     - **LOAD** = Indica si la Unit ha sido cargada en RAM. Posibles valores: "loaded", "error", "Masked"
@@ -62,7 +62,7 @@ A continuación mostramos algunos de los comandos más importantes para gestiona
 
 `systemctl [-t {service | socket | ...}] list-unit-files`
 
-El comando `list-units` sólo muestra las units que systemd ha intentado leer y cargar en memoria. Ya que systemd sólo lee las units que él piensa que necesita, así no incluye necesariamente todas las units disponibles en el  sistema. Para ver todas las units, incluyendo aquellas que systemd no ha intentando ni siquiera cargar, hay que utilizar `list-unit-files`. Este subcomando muestra el "estado de carga" de cada unit y sus posibles valores son:
+El subcomando `list-units` sólo muestra las units que systemd ha intentado leer y cargar en memoria. Ya que systemd sólo lee las units que él piensa que necesita, así no incluye necesariamente todas las units disponibles en el  sistema. Para ver todas las units, incluyendo aquellas que systemd no ha intentando ni siquiera cargar, hay que utilizar `list-unit-files`. Este subcomando muestra el "estado de carga" de cada unit y sus posibles valores son:
 
 - **"enabled"** o **"enabled-runtime"** : La unit se activará en el siguiente reinicio -y subsiguientes-.
 
@@ -184,7 +184,7 @@ Los ficheros de configuración de las Units "de tipo usuario" se encuentran en o
 Otra característica de las Units "de usuario" es que pueden ser gestionadas por parte de este usuario sin que deba ser administrador del sistema; esto lo puede hacer con las mismas órdenes `systemctl...`  ya conocidas sólo que añadiendo el parámetro --user Así, por ejemplo, para arrancar un servicio automáticamente cada vez que se inicie nuestra sesión habrá que ejecutar `systemctl --user enable nomUnit` ; para ver el estado de
 todas nuestras Units "de usuario" habrá que hacer `systemctl --user list-units` ; para recargar las Units modificadas habrá que hacer `systemctl --user daemon-reload` , etc
 
-##Secciones y directivas comunes en los ficheros de configuración de las Units
+##Ficheros configuración de Units
 La estructura interna de los archivos de configuración de las Units está organizada en secciones, distinguidas cada una por un encabezamiento sensible a mayúsculas y minúsculas rodeado de corchetes ( [Encabezamiento] ). Dentro de las secciones se definen diferentes directivas (también mayúsculas y minúsculas) en la forma de parejas NomDirectiva = valor , donde el valor puede ser una palabra, una frase, una ruta, un número, true/yes, false/no, una
 fecha, etc, dependiendo de su significado.
 
@@ -199,7 +199,6 @@ La primera sección (aunque el orden no importa) siempre suele ser la llamada [U
 
 - **Documentation** = man: sshd (8) https: //ruta/pag.html
     
-
     Proporciona una lista de URIS que apuntan a documentación de la Unit.
 
     El comando `systemctl status` las muestra
@@ -353,7 +352,7 @@ Dependiendo del tipo de Unit que tengamos nos podremos encontrar con diferentes 
     !!!NOTE "NOTA"
         También existe la directiva StandardError = {null | tty | journal | socket} , similar a StandardOutput = pero para la salida de error
 
-##EJERCICIOS
+###EJERCICIOS
 Todos los ejercicios se harán en una máquina virtual donde el usuario pueda tener permisos de administrador:
 
 1. A) Ejecutar `systemctl list-Units -t service | grep ufw` (si estás en Ubuntu) o `systemctl list-Units -t service | grep firewalld` (si está en Fedora). ¿Qué significa la palabra "loaded"? Y "active"? Confirma esto ejecutando `systemctl status ufw / systemctl status firewalld`
@@ -460,8 +459,7 @@ cuáles sirven para comprobar si el proceso INIT de tu sistema es systemd (o no)
 - man init
 - pgrep ^systemd $
 
-#Systemd (II)
-##targets
+##Targets
 Podemos definir un "target" como un "estado" del sistema definido por un determinado conjunto de servicios puestos en marcha (y otros que no). La idea es que, al arrancar el sistema, se llegue a un determinado "target" (Y, opcionalmente, a partir de allí, poder pasar a otro si fuera necesario). A continuación se listan los "targets" más importantes (todos ellos ubicados dentro de `/usr/lib/systemd/system`):
 
 - **poweroff.target** (o "runlevel0.target") Si se llega a este "target", se apaga el sistema
@@ -559,29 +557,20 @@ de nuevo: este proceso es muy rápido pero tiene el inconveniente de que obliga 
 !!!NOTE "Nota"
     Dentro de la carpeta "/ usr / lib / systemd / system-sleep" pueden haber archivos * .sleep, que son scripts ejecutables que se ejecutarán justo antes de la hibernación o suspensión del sistema (es decir, justo en poner en marcha internamente los servicios "systemd-hibernate.service "o" systemd-suspend.service ", los cuales, por cierto, nunca deben ser invocados directamente con systemctl start ... sino utilizando los comandos explicadas en el párrafo anterior: systemctl hibernate o systemctl suspend ). Quien ejecutará estos scripts es el binario / usr / lib / systemd / systemd-sleep, el cual es invocado siempre por estos servicios y admite dos parámetros que podemos utilizar en estos scripts como $ 1 y $ 2 respectivamente. El primer parámetro puede valer "pre" o "post" dependiendo de si la máquina está yendo a la suspensión / hibernación o está volviendo, respectivamente. El segundo parámetro puede valer "suspend" o "hibernate" dependiendo de la acción que realizará y que nos podría server para distinguir qué queremos que haga este script según la acción indicada. Todos los scripts ejecutan en paralelo.
 
-Si se quiere realizar una tarea larga y asegurarse de que la máquina no se suspenderá o apagará mientras tanto,
-se puede invocar el comando correspondiente a esta tarea así: systemd-inhibido comanda_llarga El comando
-systemd-inhibido --list muestra las tareas que tienen este truco en marcha. Si se quiere especificar una acción
-concreta a inhibir se puede indicar con el parámetro - what = acción , donde "acción" puede ser por ejemplo la palabra
-"Shutdown" o "sleep" (equivalente a hibernación o suspensión), entre otros. Encontrará más información en los
-primeros párrafos de https://www.freedesktop.org/wiki/Software/systemd/inhibit/
-Para que el inicio con systemctl start de un determinado servicio (o target) se produzca dentro de un target
-determinado -llamado-el "a.target" - desde el propio archivo de configuración del servicio en cuestión hay que escribir
-las directivas Wants = a.target, Requires = a.target y / o After = a.target (estas directivas se aseguran de llegar
-primero al target "a.target" para iniciar entonces el servicio en cuestión). Por otra parte, también existe la directiva
-Conflicts = a.target , la que se asegura de no estar en el target "a.target" para poder iniciar el servicio en cuestión.
-En el caso de querer iniciar siempre un servicio determinado automáticamente en el target "a.target", entonces
-habrá que escribir además las directivas WantedBy = a.target o RequiredBy = a.target del archivo de configuración del
-servicio (en este último caso, al hacer systemctl enable nomServei se crea un enlace a su archivo de configuración
-dentro de "/lib/systemd/system/a.target.wants").
-Los archivos de configuración de los targets sólo tienen secciones [Unido] (y muy pocas la sección
-[Install]). En este sentido, es interesante consultar los archivos correspondientes, por ejemplo, a multi-user.target
-o graphical.target: sólo encontramos las directivas Description, Documentation, Wants, Requires, After,
-Conflicts y AllowIsolate (ya partir de ellas podemos deducir las dependencias que hay entre targets ... aunque
-por eso hay comandos específicos que enseguida veremos).
+Si se quiere realizar una tarea larga y asegurarse de que la máquina no se suspenderá o apagará mientras tanto, se puede invocar el comando correspondiente a esta tarea así: systemd-inhibit comando_largo El comando
+systemd-inhibit --list muestra las tareas que tienen este truco en marcha. Si se quiere especificar una acción concreta a inhibir se puede indicar con el parámetro - what = acción , donde "acción" puede ser por ejemplo la palabra
+"Shutdown" o "sleep" (equivalente a hibernación o suspensión), entre otros. Encontrará más información en los primeros párrafos de https://www.freedesktop.org/wiki/Software/systemd/inhibit/
+
+Para que el inicio con systemctl start de un determinado servicio (o target) se produzca dentro de un target determinado -llamemosle el "a.target" - desde el propio archivo de configuración del servicio en cuestión hay que escribir
+las directivas Wants = a.target, Requires = a.target y / o After = a.target (estas directivas se aseguran de llegar primero al target "a.target" para iniciar entonces el servicio en cuestión). Por otra parte, también existe la directiva Conflicts = a.target , la que se asegura de no estar en el target "a.target" para poder iniciar el servicio en cuestión.
+
+En el caso de querer iniciar siempre un servicio determinado automáticamente en el target "a.target", entonces habrá que escribir además las directivas WantedBy = a.target o RequiredBy = a.target del archivo de configuración del
+servicio (en este último caso, al hacer `systemctl enable nomServei` se crea un enlace a su archivo de configuración dentro de `/lib/systemd/system/a.target.wants`).
+
+Los archivos de configuración de los targets sólo tienen secciones Unit (y muy pocas la sección [Install]). En este sentido, es interesante consultar los archivos correspondientes, por ejemplo, a multi-user.target o graphical.target: sólo encontramos las directivas Description, Documentation, Wants, Requires, After,Conflicts y AllowIsolate (ya partir de ellas podemos deducir las dependencias que hay entre targets ... aunque por eso hay comandos específicos que enseguida veremos).
 
 
-#EJERCICIOS:
+###EJERCICIOS:
 
 1. Crear un target nuevo llamado "manolo.target" donde el sistema deberá entrar justo después de activar graphical.target (es decir, debe ser el último target al activarse). La idea será asegurarte de que entras en este target para ejecutar un determinado servicio (lo llamaremos "manolo.service") el último de todos. para hacer esto, tienes que hacer lo siguiente:
      
@@ -640,7 +629,7 @@ por eso hay comandos específicos que enseguida veremos).
 
 e) ¿Para qué sirve este programa: https://github.com/ryran/reboot-guard ?
 
-###boot chain
+##Boot chain
 Para saber la jerarquía de dependencias de targets para llegar a iniciar un target (o service!) Determinado se puede utilizar el comando: `systemctl list-dependencies nomTarget.target` (o nomUnit.service )
 
 !!!NOTE "Nota"
@@ -669,7 +658,7 @@ mostrado después de "+" indica el tiempo que la Unit ha tardado en activarse.
 Otras opciones del comando `systemd-analyze` son syscall-filter, verify, dump, log-level, security, time ...Se puede ver si, una vez iniciado el sistema, aún quedan tareas pertenecientes al arranque para completar ejecutando el comando `systemctl list-jobs`
 
 
-###EJERCICIOS:
+###EJERCICIOS
 1.- a) ¿Qué targets deben haberse iniciado para que el servicio gdm se pueda poner en marcha? (esto lo puedes saber con el comando systemctl list-dependencies ... )
 
 b) Ejecutar el comando systemctl `list-dependencies --reverse gdm.service` Qué ves?
@@ -679,227 +668,233 @@ c) ¿Qué hace el comando tree / etc / systemd / system y para qué podría serv
 2.-a) Ejecutar systemd-analyze plot ... y observa qué Unit bloquea más tiempo el arranque de tu sistema. prueba de desactivarla (esperemos no romper nada!) y reinicia. Ejecuta ahora systemd-analyze blame para comprobar si el
 tiempo total de arranque ha disminuido efectivamente.
 
-b) Instal.la el paquete "GraphViz" y genera un gráfico Png con las dependencias del target multi-user. Haz una lista de las dependencias allí mostradas y adjunta la captura del gráfico plantillas Una plantilla es un archivo de configuración de tipo "service" que tiene la particularidad de permitir poner en marcha variantes de un mismo servicio sin tener que escribir un archivo "service" diferente para cada variante.
+b) Instal.la el paquete "GraphViz" y genera un gráfico Png con las dependencias del target multi-user. Haz una lista de las dependencias allí mostradas y adjunta la captura del gráfico 
+
+## Plantillas 
+
+Una plantilla es un archivo de configuración de tipo "service" que tiene la particularidad de permitir poner en marcha variantes de un mismo servicio sin tener que escribir un archivo "service" diferente para cada variante.
+
 Básicamente, para utilizar una plantilla hay que hacer los siguientes pasos:
-1.- El archivo "service" que hará de plantilla debe llamarse "nomServei @ .service". Es decir, hay que indicar
-el símbolo arroba antes del punto
-2.- El contenido de este archivo plantilla puede ser exactamente igual que el de un archivo "service" estándar
-3.- A la hora de iniciar, parar, activar, desactivar, ver el estado, etc de una plantilla, se deberá indicar
-el identificador concreto de la variante con la que queremos trabajar. Este identificador se establece la
-primera vez que arranca la variante y simplemente consiste en una cadena entre la arroba y el punto,
-así: systemctl start nomServei @ identificador. service A partir de aquí, este identificador se hará
-servir de la misma manera por el resto de tareas relacionadas con la gestión de esta variante
-NOTA: An instance file is usually created as a symbolic link to the template file, with the link name including the instance
-identifier. In this way, multiple links with unique Identifiers can point back to a single template file. When managing año
-instance Unit, systemd will look for a file with the exact instance name you Specify on the command line to use but if it
-can not find one, it will look for an associated template file.
-4.- La gracia de las plantillas es que el valor del identificador indicado en el punto anterior se puede utilizar
-dinámicamente dentro del contenido del archivo plantilla (concretamente mediante el símbolo " % y "), de
-lo que según el valor que haya adquirido% y por esa variante se podría poner en marcha el
-servicio escuchando en un puerto diferente (si% y representa un número de puerto), o bien utilizando un archivo de
-configuración diferente (si% y representa un nombre de archivo), o lo que nos convenga.
-NOTA: Otros símbolos especiales que se pueden indicar en un archivo de configuración de una plantilla pueden ser
-% p : representa the Unit name prefijo (this is the Portion of the Unit name that comes before the @ symbol)
-% n : representa the full resulting Unit name (% p plus% e)
-% u : The name of the user configured to run the Unit.
-% U : The same as above, but as a numeric UID instead of name.
-% H : The host name of the system that is running the Unit.
-%% : This is used to insert a literal percentage sign.
-Page 20
-Pongamos un ejemplo. Imaginemos que tenemos un determinado servidor web que queremos ejecutar con dos
-configuraciones diferentes a la vez. La solución sería crear un archivo plantilla llamado por ejemplo
-"Servidorweb @ .service" con un contenido similar al siguiente:
-[Unido]
-Description = My HTTP server
-[Service]
-Type = simple
-ExecStart = / usr / sbin / WebServer --config-file /etc/%i.conf
-[Install]
-WantedBy = multi-user.target
-Con este archivo, se podría iniciar entonces el servidor dos veces, cada una indicando el nombre del archivo de
-configuración deseado, así:
-sudo systemctl start servidorweb@config1.service
-sudo systemctl start servidorweb@config2.service
-Los comandos anteriores lo que harán será ejecutar, respectivamente, los comandos: / usr / sbin / WebServer -
-config-file /etc/config1.conf y / usr / sbin / WebServer -config-file /etc/config2.conf
-EJERCICIOS:
-1.-a) Crear un archivo plantilla que permita poner en marcha diferentes servidores Ncat de forma permanente
-(Recuerda el parámetro -k) escuchando cada uno de ellos en un puerto diferente.
-NOTA: Deberás instalar el paquete "nmap" para disponer del comando ncat
-b) Iniciar un servidor Ncat a partir de la plantilla anterior escuchando en el puerto 2.222 y otro escuchando en el puerto
-3333. Comprueba que, efectivamente, estos dos puertos estén abiertos observando la salida del comando ss
--tnl
-c) Conecta con el cliente Ncat a uno de los servidores anteriores y envíale algún mensaje. Cerrar el cliente (con
-CTRL + C) y ahora vuelve a ejecutarlo para conectar al otro servidor; vuelve a enviarle algún otro mensaje y
+
+1.- El archivo "service" que hará de plantilla debe llamarse "nomServicio@.service". Es decir, hay que indicar el símbolo arroba antes del punto
+
+2.- El contenido de este archivo plantilla puede ser exactamente igual que el de un archivo "service" estándar 
+
+3.- A la hora de iniciar, parar, activar, desactivar, ver el estado, etc de una plantilla, se deberá indicar el identificador concreto de la variante con la que queremos trabajar. Este identificador se establece la primera vez que arranca la variante y simplemente consiste en una cadena entre la arroba y el punto, así: `systemctl start nomServicio@identificador.service` A partir de aquí, este identificador se hará servir de la misma manera por el resto de tareas relacionadas con la gestión de esta variante.
+
+!!!NOTE "Nota"
+    An instance file is usually created as a symbolic link to the template file, with the link name including the instance identifier. In this way, multiple links with unique Identifiers can point back to a single template file. When managing instance Unit, systemd will look for a file with the exact instance name you Specify on the command line to use but if it can not find one, it will look for an associated template file.
+
+4.- La gracia de las plantillas es que el valor del identificador indicado en el punto anterior se puede utilizar dinámicamente dentro del contenido del archivo plantilla (concretamente mediante el símbolo " % y "), de lo que según el valor que haya adquirido% y por esa variante se podría poner en marcha el
+servicio escuchando en un puerto diferente (si% y representa un número de puerto), o bien utilizando un archivo de configuración diferente (si% y representa un nombre de archivo), o lo que nos convenga.
+
+!!!NOTE "Nota"
+    Otros símbolos especiales que se pueden indicar en un archivo de configuración de una plantilla pueden ser %p : representa the Unit name prefijo (this is the Portion of the Unit name that comes before the @ symbol)
+
+    - %n : representa the full resulting Unit name (% p plus% e)
+    - %u : The name of the user configured to run the Unit.
+    - %U : The same as above, but as a numeric UID instead of name.
+    - %H : The host name of the system that is running the Unit.
+    - %% : This is used to insert a literal percentage sign.
+
+
+Pongamos un ejemplo. Imaginemos que tenemos un determinado servidor web que queremos ejecutar con dos configuraciones diferentes a la vez. La solución sería crear un archivo plantilla llamado por ejemplo `Servidorweb@.service` con un contenido similar al siguiente:
+
+    [Unit]
+    Description = My HTTP server
+    [Service]
+    Type = simple
+    ExecStart = /usr/sbin/WebServer --config-file /etc/%i.conf
+    [Install]
+    WantedBy = multi-user.target
+
+Con este archivo, se podría iniciar entonces el servidor dos veces, cada una indicando el nombre del archivo de configuración deseado, así:
+
+    sudo systemctl start servidorweb@config1.service
+    sudo systemctl start servidorweb@config2.service
+
+Los comandos anteriores lo que harán será ejecutar, respectivamente, los comandos: `/usr/sbin/WebServer -config-file /etc/config1.conf` y `/usr/sbin/WebServer -config-file /etc/config2.conf`
+
+
+###EJERCICIOS:
+1.-a) Crear un archivo plantilla que permita poner en marcha diferentes servidores Ncat de forma permanente (Recuerda el parámetro -k) escuchando cada uno de ellos en un puerto diferente.
+
+!!!NOTE "Nota"
+    Deberás instalar el paquete "nmap" para disponer del comando ncat
+
+b) Iniciar un servidor Ncat a partir de la plantilla anterior escuchando en el puerto 2.222 y otro escuchando en el puerto 3333. Comprueba que, efectivamente, estos dos puertos estén abiertos observando la salida del comando ss -tnl
+
+c) Conecta con el cliente Ncat a uno de los servidores anteriores y envíale algún mensaje. Cerrar el cliente (con CTRL + C) y ahora vuelve a ejecutarlo para conectar al otro servidor; vuelve a enviarle algún otro mensaje y
 ciérralo de nuevo. Observa las últimas líneas del Journal: ¿qué ves?
+
 2.- Lee el siguiente párrafo y seguidamente contesta:
-When the user switches consolas using Ctrl + Alt + F2, Ctrl + Alt + F3, and so on, a new terminal then is spawned. in this
-case systemd callos a service named getty @ .service providing the appropriate argumento such as tty2 oro tty3 to the Unit
-file. The% y identifier provides this argumento value to the agetty binary sonido the terminal starts on that new console (as it
-can seen in ExecStart = line from template file).
-a) Para qué sirve el comando agetty? Busca en su página del manual que hace su parámetro -ay
-añádelo a la invocación del comando escrita a la línea ExecStart de dentro del archivo getty @ .service (recuerda
-de ejecutar sudo systemctl daemon-reload justo después). ¿Qué pasa ahora cuando pulses Ctrl + Alt + F2, etc?
-b) enmascarado la instancia tty5 de la plantilla getty @ .service. ¿Qué pasa ahora si haces Ctrl + Alt + F5?
+
+```html
+When the user switches consoles using Ctrl+Alt+F2, Ctrl+Alt+F3,and so on, a new terminal then is spawned. In this case systemd calls a service named getty@.service providing the appropriate argument such as tty2 or tty3 to the unitfile. The %i identifier provides this argument value to the agetty binary so the terminal starts on that new console (as itcan seen in ExecStart= line from template file)
+```
+
+a) Para qué sirve el comando `agetty`? Busca en su página del manual que hace su parámetro -a y añádelo a la invocación del comando escrita a la línea ExecStart de dentro del archivo getty@.service (recuerda ejecutar `sudo systemctl daemon-reload` justo después). ¿Qué pasa ahora cuando pulses Ctrl + Alt + F2, etc?
+
+b) enmascara la instancia tty5 de la plantilla getty@.service. ¿Qué pasa ahora si haces Ctrl + Alt + F5?
+
 NOTA: Es posible que también hayas de enmascarar la plantilla autovt @ .service para que funcione el ejercicio
+
 NOTA: Hay otras maneras más sofisticadas de desactivar terminales virtuales pero las veremos más adelante
-c) ¿Qué te muestra el comando systemctl status getty @ * ?
-Page 21
-3.- Supone que tienes un archivo llamado "/etc/systemd/system/pepe@.service" con el siguiente contenido:
-[Unido]
-Description = lerele
-[Service]
-Type = oneshot
-ExecStart = / usr / local / bin / systemd-email% y admin@elpuig.xeill.net
-User = nobody
-Group = systemd-journal
-donde "systemd-email" es un bash shell script escrito por nosotros diseñado para enviar correos (suponiendo que
-tenemos un servidor Postfix o similar configurado en la máquina) que tiene el siguiente código:
-#! / Bin / bash
-systemctl status -full "$ 1" | mail -s "$ 1" $ 2
-y supone que has añadido la línea OnFailure=pepe@%i.service en la sección [Unido] del archivo ".service"
-correspondiente al / los servicio / s que quiere monitorear.
-a) ¿Cuál comando deberías ejecutar para poner en marcha una instancia del servicio-plantilla pepe @ que
-se encargan de enviar mails en el momento que el servicio Cups falle?
-sockets
-Un aspecto muy interesante de systemd es que permite que un servidor no esté permanentemente
-encendido sino que sólo arranque "bajo demanda" (es decir, cuando detecte una conexión, normalmente externa).
-De este modo, este servidor no consume más recursos que los mínimos imprescindibles, en el momento
-justo. Para lograr esto, lo que pasa es que sí hay un componente "escuchando" todo el rato posibles
-intentos de conexiones, pero este componente no es la Unit "service" en sí sino un "perro guardián" que
+
+c) ¿Qué te muestra el comando `systemctl status getty@*` ?
+
+3.- Supongamos que tienes un archivo llamado `/etc/systemd/system/pepe@.service` con el siguiente contenido:
+    
+    [Unit]
+    Description = lerele
+    [Service]
+    Type = oneshot
+    ExecStart = / usr / local / bin / systemd-email% y admin@elpuig.xeill.net
+    User = nobody
+    Group = systemd-journal
+
+donde "systemd-email" es un bash shell script escrito por nosotros diseñado para enviar correos (suponiendo que tenemos un servidor Postfix o similar configurado en la máquina) que tiene el siguiente código:
+
+    #!/bin/bash
+    systemctl status -full "$1" | mail -s "$1" $2
+
+y se supone que has añadido la línea OnFailure=pepe@%i.service en la sección [Unit] del archivo ".service" correspondiente al / los servicio / s que quiere monitorear. 
+
+a) ¿Qué comando deberías ejecutar para poner en marcha una instancia del servicio-plantilla pepe @ que se encargase de enviar mails en el momento que el servicio Cups falle?
+
+##Sockets
+Un aspecto muy interesante de systemd es que permite que un servidor no esté permanentemente encendido sino que sólo arranque "bajo demanda" (es decir, cuando detecte una conexión, normalmente externa).
+
+De este modo, este servidor no consume más recursos que los mínimos imprescindibles, en el momento justo. Para lograr esto, lo que pasa es que sí hay un componente "escuchando" todo el rato posibles intentos de conexiones, pero este componente no es la Unit "service" en sí sino un "perro guardián" que
 sólo despertará Unit "service" cuando sea necesario. Este "perro guardián" es la Unit de tipo "socket".
-Cada archivo de configuración de una Unit "socket" debe tener exactamente el mismo nombre que el archivo de
-configuración de la Unit "service" que quiere despertar (es decir, si tenemos el servicio "a.service", el socket
-correspondiente deberá llamarse "a.socket"). La idea es tener la Unit "socket" siempre encendido ( systemctl
-enable a.socket ) pero la Unit "service" no ( systemctl disable a.service ); cuando se detecte una conexión, el
-"socket" automáticamente encenderá la Unit "service" (esto se puede ver haciendo systemctl status a.service mientras
+
+Cada archivo de configuración de una Unit "socket" debe tener exactamente el mismo nombre que el archivo de configuración de la Unit "service" que quiere despertar (es decir, si tenemos el servicio "a.service", el socket
+correspondiente deberá llamarse "a.socket"). La idea es tener la Unit "socket" siempre encendido ( `systemctl enable a.socket` ) pero la Unit "service" no ( `systemctl disable a.service` ); cuando se detecte una conexión, el
+"socket" automáticamente encenderá la Unit "service" (esto se puede ver haciendo `systemctl status a.service` mientras
 existe la conexión) y la apagará de nuevo pasado un determinado tiempo sin actividad (por defecto 5 minutos).
-Obviamente, si paráramos el "socket" ( systemctl stop a.socket ) o el deshabilitéssim el próximo reinicio ( systemctl
-disable a.socket ) ya no habría "perro guardián" atento y, por tanto, el servicio ya no se pondría en marcha
-automáticamente.
-Para cambiar el puerto donde escucha un "socket" (entre otras cosas) hay que modificar la configuración del
-"Socket" propiamente dicho y eso no depende de la configuración del servidor en cuestión. Los archivos de configuración
-de cada "socket" se pueden encontrar, como cualquier otra Unit, o bien dentro de la carpeta "/ usr / lib / systemd / system"
-o bien dentro de "/ etc / systemd / system" y se puede utilizar igualmente el comando systemctl edit a.socket para
-generar archivos "override". La sección que nos interesa en estos tipos de ficheros es la sección [Socket] , lo
-puede contener alguna de las siguientes directivas más importantes:
-ListenStream = [IP:] nºport
-Indica el número de puerto TCP por donde escuchará el socket. Opcionalmente, se puede indicar una IP
-concreta para especificar que sólo escuchará en el puerto ofrecido por aquella IP y ninguna más.
-NOTA: Se pueden indicar varias líneas ListemStream para hacer que el socket escuche en varios puertos a la vez. Por otra parte,
-como que esta línea puede estar escrita en diferentes archivos, si se quiere asegurar que sólo se escuche en un puerto concreto sin
-tener en cuenta otras líneas que pueda haber leído systemd previamente, se puede añadir primero una línea ListemStream vacía
-(así: ListemStream = ) y luego la línea ListenStream asociada al puerto deseado; lo que hace la línea ListemStream vacía es
-"resetear" todas las líneas ListemStream anteriores
-Page 22
-ListenDatagram = [IP:] nºport
-Indica el número de puerto UDP por donde escuchará el socket. Opcionalmente, se puede indicar una IP
-concreta para especificar que sólo escuchará en el puerto ofrecido por aquella IP y ninguna más.
-ListenSequentialPacket = / ruta / arxiu.socket
-Indica el socket de tipo UNIX por donde se escuchará. Sólo sirve para comunicaciones entre
-procesos de la misma máquina
-Service = unNomAlternatiu
-Si el nombre del archivo "service" no es igual que el nombre del archivo "socket", aquí se puede indicar
-entonces el nombre que tiene el archivo "service" para que el socket el sepa encontrar.
-Accept = yes
-Si se indica, hace que se genere una instancia del servicio diferente para cada conexión. Útil cuando se
-utilizan plantillas. Si su valor es no (por defecto) sólo una instancia del servicio
-gestionará todas las conexiones.
-El comando systemctl status * .socket nos permite saber cuántos y cuáles sockets están escuchando ahora
-mismo; el valor "Accepted" muestra cuántas conexiones se han realizado en total desde que el socket ha sido
-iniciado y el valor "Connected" muestra cuántas conexiones están actualmente activas
-Como cualquier otra Unit, se pueden ver la lista de sockets con el comando s ystemctl list-Units -t
-socket pero además disponemos del comando específica systemctl list-sockets , la cual informa de qué servicio
-correspondiente activan y en qué puerto / socket UNIX escuchan.
-EJERCICIOS:
-1.-a) Crea el fichero "/etc/systemd/system/dateserver.socket" con el siguiente contenido:
-[Unido]
-Description = Servicio de fecha en el puerto 55555
-[Socket]
-ListenStream = 55555
-Accept = true
-[Install]
-WantedBy = sockets.target
-b) Crear el fichero "/etc/systemd/system/dateserver@.service" con el siguiente contenido:
-[Unido]
-Description = Servicio de fecha
-[Service]
-Type = simple
-ExecStart = / opt / dateserver.sh
-StandardOutput = socket
-StandardError = journal
-c) Crear el fichero "/opt/dateserver.sh" con el siguiente contenido (y dale permisos de ejecución!):
-#! / Bin / bash
-while [[true]]
-do
-Page 23
-# Atención: comprueba que date se encuentre dentro de / usr / bin; dependiendo de la distribución eso cambia
-/ Usr / bin / date
-sleep 1
-dé
-d) Abre un terminal y ejecuta el comando nc ipServidor 55555 . ¿Qué ves? Abre otro terminal diferente y
-ejecuta el mismo comando. ¿Qué ves? ¿Qué te muestra el comando systemctl status dateserver.socket ? ¿Y la
-comando systemctl status dateserver @ * ? ¿Y el comando systemctl list-Units dateserver @ * ?
-2.- Haz que el servidor SSH que tengas instal.lat a la máquina (si no lo tienes, instal.la'l) inicie sólo a través
-de un socket. concretamente:
-a) Crear el fichero "/etc/systemd/system/sshMitjo.socket" con el siguiente contenido:
-[Unido]
-Description = Mi SSH Socket
-[Socket]
-ListenStream = 22
-Accept = yes
-[Install]
-WantedBy = sockets.target
+
+Obviamente, si paráramos el "socket" ( `systemctl stop a.socket` ) o lo deshabilitamos para el próximo reinicio ( `systemctl disable a.socket` ) ya no habría "perro guardián" atento y, por tanto, el servicio ya no se pondría en marcha automáticamente.
+
+Para cambiar el puerto donde escucha un "socket" (entre otras cosas) hay que modificar la configuración del "Socket" propiamente dicho y eso no depende de la configuración del servidor en cuestión. Los archivos de configuración
+de cada "socket" se pueden encontrar, como cualquier otra Unit, o bien dentro de la carpeta "/ usr / lib / systemd / system" o bien dentro de "/ etc / systemd / system" y se puede utilizar igualmente el comando systemctl edit a.socket para generar archivos "override". La sección que nos interesa en estos tipos de ficheros es la sección [Socket] , lo puede contener alguna de las siguientes directivas más importantes:
+
+- ListenStream = [IP:] nºpuerto Indica el número de puerto TCP por donde escuchará el socket. Opcionalmente, se puede indicar una IP concreta para especificar que sólo escuchará en el puerto ofrecido por aquella IP y ninguna más.
+
+    !!!NOTE "Nota"
+        Se pueden indicar varias líneas ListemStream para hacer que el socket escuche en varios puertos a la vez. Por otra parte, como esta línea puede estar escrita en diferentes archivos, si se quiere asegurar que sólo se escuche en un puerto concreto sin tener en cuenta otras líneas que pueda haber leído systemd previamente, se puede añadir primero una línea ListemStream vacía (así: ListemStream = ) y luego la línea ListenStream asociada al puerto deseado; lo que hace la línea ListemStream vacía es "resetear" todas las líneas ListemStream anteriores
+
+- ListenDatagram = [IP:] nºport Indica el número de puerto UDP por donde escuchará el socket. Opcionalmente, se puede indicar una IP concreta para especificar que sólo escuchará en el puerto ofrecido por aquella IP y ninguna más.
+
+- ListenSequentialPacket = /ruta/arxiu.socket Indica el socket de tipo UNIX por donde se escuchará. Sólo sirve para comunicaciones entre procesos de la misma máquina
+
+- Service = unNomAlternatiu Si el nombre del archivo "service" no es igual que el nombre del archivo "socket", aquí se puede indicar entonces el nombre que tiene el archivo "service" para que el socket el sepa encontrar.
+
+- Accept = yes Si se indica, hace que se genere una instancia del servicio diferente para cada conexión. Útil cuando se utilizan plantillas. Si su valor es no (por defecto) sólo una instancia del servicio gestionará todas las conexiones.
+
+El comando `systemctl status * .socket` nos permite saber cuántos y cuáles sockets están escuchando ahora mismo; el valor "Accepted" muestra cuántas conexiones se han realizado en total desde que el socket ha sido
+iniciado y el valor "Connected" muestra cuántas conexiones están actualmente activas 
+
+Como cualquier otra Unit, se pueden ver la lista de sockets con el comando `systemctl list-Units -t socket` pero además disponemos del comando específico `systemctl list-sockets` , el cual informa de qué servicio correspondiente activan y en qué puerto / socket UNIX escuchan.
+
+###EJERCICIOS:
+
+1.-a) Crea el fichero `/etc/systemd/system/dateserver.socket` con el siguiente contenido:
+
+    [Unit]
+    Description = Servicio de fecha en el puerto 55555
+    [Socket]
+    ListenStream = 55555
+    Accept = true
+    [Install]
+    WantedBy = sockets.target
+
+b) Crear el fichero `/etc/systemd/system/dateserver@.service` con el siguiente contenido:
+
+    [Unit]
+    Description = Servicio de fecha
+    [Service]
+    Type = simple
+    ExecStart = / opt / dateserver.sh
+    StandardOutput = socket
+    StandardError = journal
+
+c) Crear el fichero `/opt/dateserver.sh` con el siguiente contenido (y dale permisos de ejecución!):
+
+    #!/bin/bash
+    while [[true]]
+    do
+        # Atención: comprueba que date se encuentre dentro de /usr/bin; dependiendo de la distribución eso cambia
+        /usr/bin/date
+    sleep 1
+    done
+
+d) Abre un terminal y ejecuta el comando `nc ipServidor 55555` . ¿Qué ves? Abre otro terminal diferente y ejecuta el mismo comando. ¿Qué ves? ¿Qué te muestra el comando `systemctl status dateserver.socket`? ¿Y el comando `systemctl status dateserver@*` ? ¿Y el comando `systemctl list-Units dateserver @ *`?
+
+2.- Haz que el servidor SSH que tengas instal.lat a la máquina (si no lo tienes, instal.la'l) inicie sólo a través de un socket. concretamente:
+- a) Crear el fichero "/etc/systemd/system/sshMitjo.socket" con el siguiente contenido:
+
+    [Unit]
+    Description = Mi SSH Socket
+    [Socket]
+    ListenStream = 22
+    Accept = yes
+    [Install]
+    WantedBy = sockets.target
+
 b) Crear el fichero "/etc/systemd/system/sshMitjo@.service" con el siguiente contenido:
-[Unido]
-Description = Mi SSH Server
-[Service]
-Type = simple
-ExecStart = - / usr / sbin / sshd -y
-StandardInput = socket
-StandardOutput = socket
-NOTA: Aquí la clave está en la combinación del parámetro -y del binario sshd (el cual hace que habilitar la posibilidad de que pueda recibir
-peticiones a través de sockets), y la directiva StandardInput (lo realiza de forma efectiva este tipo de comunicación entre el
-socket y el servidor SSH)
-NOTA: Importante is the "-" in front of the binary name. This ENSUR that the exit status of the para-connection sshd process is
-forgotten by systemd. Normally, systemd will store the exit status of a all service instances that die abnormally. SSH will sometimes
-die abnormally with an exit code of 1 oro similar, and we want to make sure that this does not cause systemd to keep around
-information for numerous previous connections that died this way (until this information is forgotten with systemctl reset-failed).
-c) Ejecutar el comando systemctl enable sshMitjo.socket y systemctl disable ssh.service (si fuera necesario) y reinicia
-la máquina. Una vez hecho, comprueba que el socket sshMitjo esté funcionando pero no el servicio sshMitjo.
-Ejecuta ssh usuario @ ipServidor para entrar en el servidor SSH (deberías de conseguir sin problemas) y
-comprueba seguidamente que ahora sí está funcionando una instancia del servicio sshMitjo
-d) ¿Qué haría un comando como systemctl killsshd@172.31.0.52 : 22-172.31.0.4: 47779.service?
-Page 24
-3.-a) En el ejercicio anterior hemos tenido la suerte de que el servidor SSH ofrece un parámetro (-y) que le permite
-delegar la apertura de los sockets (puertos) a un "agente externo" como es systemd. Pero no siempre tendremos un
-servidor que ofrezca esta posibilidad. En este sentido, lee los siguientes párrafos y resumen con las
-tus propias palabras que explica:
-One of the limitations of socket activación is that it requires the activated application to be aware that it may be socket-activated; the
-process of accepting an existing socket is different from creating a listening socket from scratch. Consequently a lot of widely used
-applications do not support it. The systemd developers have known that it may take some time to get activación apoyo everywhere, sonido
-they Introduced "systemd-socket-proxyd", a small TCP and Unix domain socket proxy server. This does understand activación, and
-will sit between the network and our server, transparently forwarding packets between the two. The steps to use this tool are:
-Step 1: We create a socket that Listener on the puerto that will eventually be served by the proxy / server combination.
-Step 2: On the first connection to the socket systemd activados the proxy service and hands it the socket.
-Step 3: When the proxy is started the corresponding server is first Broughten up (thanks to the Requires / After dependency)
-The proxy then shuttles all traffic between the server and the network. The only trick here is that we need to bind the server to a puerto
-other than the real-target puerto (8080 instead of 80 if we are running a webserver, for instance). This is because that puerto will be
-owned by the socket / proxy, and you can not bind two processes to the same socket and interface.
+
+    [Unido]
+    Description = Mi SSH Server
+    [Service]
+    Type = simple
+    ExecStart = - / usr / sbin / sshd -y
+    StandardInput = socket
+    StandardOutput = socket
+
+!!!NOTE "Nota"
+    Aquí la clave está en la combinación del parámetro -y del binario sshd (el cual hace que habilitar la posibilidad de que pueda recibir peticiones a través de sockets), y la directiva StandardInput (lo realiza de forma efectiva este tipo de comunicación entre el socket y el servidor SSH)
+
+!!!NOTE "Nota"
+    Important is the "-" in front of the binary name. This ensures that the exit status of the per-connection sshd process isforgotten by systemd. Normally, systemd will store the exit status of a all service instances that die abnormally. SSH will sometimesdie abnormally with an exit code of 1 or similar, and we want to make sure that this doesn't cause systemd to keep aroundinformation for numerous previous connections that died this way (until this information is forgotten with systemctl reset-failed).
+
+c) Ejecutar el comando `systemctl enable sshMitjo.socket` y `systemctl disable ssh.service` (si fuera necesario) y reinicia la máquina. Una vez hecho, comprueba que el socket sshMitjo esté funcionando pero no el servicio sshMitjo.
+
+Ejecuta `ssh usuario @ ipServidor` para entrar en el servidor SSH (deberías de conseguir sin problemas) y comprueba seguidamente que ahora sí está funcionando una instancia del servicio sshMitjo
+
+d) ¿Qué haría un comando como `systemctl killsshd@172.31.0.52 : 22-172.31.0.4: 47779.service`?
+
+3.-a) En el ejercicio anterior hemos tenido la suerte de que el servidor SSH ofrece un parámetro (-y) que le permite delegar la apertura de los sockets (puertos) a un "agente externo" como es systemd. Pero no siempre tendremos un
+servidor que ofrezca esta posibilidad. En este sentido, lee los siguientes párrafos y resumen con tus propias palabras que explica:
+
+One of the limitations of socket activation is that it requires the activated application to be aware that it may be socket-activated; theprocess of accepting an existing socket is different from creating a listening socket from scratch. Consequently a lot of widely usedapplications don't support it. The systemd developers have known that it may take some time to get activation support everywhere, sothey introduced "systemd-socket-proxyd", a small TCP and Unix domain socket proxy server. This does understand activation, andwill sit between the network and our server, transparently forwarding packets between the two. The steps to use this tool are:
+
+Step 1: We create a socket that listens on the port that will eventually be served by the proxy/server combination. 
+
+Step 2: On the first connection to the socket systemd activates the proxy service and hands it the socket. 
+
+Step 3: When the proxy is started the corresponding server is first brought up (thanks to the Requires/After dependency)
+
+The proxy then shuttles all traffic between the server and the network. The only trick here is that we need to bind the server to a portother than the real-target port (8080 instead of 80 if we are running a webserver, for instance). This is because that port will beowned by the socket/proxy, and you can't bind two processes to the same socket and interface.
+
 Step 1: "myserver-proxy.socket" file
-[Socket]
-ListenStream = 0.0.0.0: 80
-[Install]
-WantedBy = sockets.target
+
+    [Socket]
+    ListenStream=0.0.0.0:80
+    [Install]
+    WantedBy=sockets.target
+
 Step 2: "myserver-proxy.service" file
-[Unido]
-Requires = myserver.service
-After = myserver.service
-[Service]
-ExecStart = / usr / lib / systemd / systemd-socket-proxyd 127.0.0.1:8080
+
+    [Unit]
+    Requires=myserver.service
+    After=myserver.service
+    [Service]
+    ExecStart=/usr/lib/systemd/systemd-socket-proxyd 127.0.0.1:8080
+
 Step 3: "myserver.service" file
-[Unido]
-Description = Server example (replace ExecStart value with something more realistic)
-[Service]
-#We listening server s listening puerto only to loopback interface because it 's there where input packages comas from proxy
-ExecStart = / usr / bin / ncat -k -l 127.0.0.1 8080
+
+    [Unit]
+    Description=Server example (replace ExecStart value with something more realistic)
+    [Service]
+    # We listening server's listening port only to loopback interface because it's there where input packages comes from 
+    proxyExecStart=/usr/bin/ncat -k -l 127.0.0.1 8080  
