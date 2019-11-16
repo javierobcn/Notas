@@ -1,0 +1,7 @@
+site_name: Notas
+repo_url: https://github.com/javierobcn/Notas
+markdown_extensions:
+    - toc:
+        permalink: 
+    - admonition
+    - def_list
