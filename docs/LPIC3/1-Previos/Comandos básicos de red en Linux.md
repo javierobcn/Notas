@@ -197,3 +197,5 @@ intermedios a través de los que va pasando. también muestra estadísticas de t
 -c nº Número de paquetes de prueba que se enviarán (si no se indica, son infinitos y hay que parar el envío pulsando CTRL + C)
 
 -i nº Número de segundos que se espera para enviar el siguiente paquete
+
+aa
