@@ -80,6 +80,12 @@
 </li>
 
         
+            
+<li >
+    <a href="../Systemd/">Systemd</a>
+</li>
+
+        
     </ul>
   </li>
 
@@ -103,8 +109,8 @@
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
-                    <li class="disabled">
-                        <a rel="prev" >
+                    <li >
+                        <a rel="prev" href="../Systemd/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
@@ -131,7 +137,7 @@
     
         <li class="main active"><a href="#comandos-basicos-de-red-en-linux">Comandos básicos de red en Linux</a></li>
         
-            <li><a href="#nomenclatura-de-tarjetas-de-red">Nomenclatura de tarjetas de red:</a></li>
+            <li><a href="#nomenclatura-de-tarjetas-de-red">Nomenclatura de tarjetas de red</a></li>
         
             <li><a href="#ver-la-configuracion-actual">Ver la configuración actual</a></li>
         
@@ -149,13 +155,27 @@
         
             <li><a href="#mtr">mtr</a></li>
         
+            <li><a href="#ss">ss</a></li>
+        
+            <li><a href="#ncat">ncat</a></li>
+        
+            <li><a href="#nmap">nmap</a></li>
+        
+            <li><a href="#nslookup">nslookup</a></li>
+        
+            <li><a href="#whois">whois</a></li>
+        
+            <li><a href="#wget">wget</a></li>
+        
+            <li><a href="#curl">curl</a></li>
+        
     
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
 <h1 id="comandos-basicos-de-red-en-linux">Comandos básicos de red en Linux<a class="headerlink" href="#comandos-basicos-de-red-en-linux" title="Permanent link"></a></h1>
-<h2 id="nomenclatura-de-tarjetas-de-red">Nomenclatura de tarjetas de red:<a class="headerlink" href="#nomenclatura-de-tarjetas-de-red" title="Permanent link"></a></h2>
+<h2 id="nomenclatura-de-tarjetas-de-red">Nomenclatura de tarjetas de red<a class="headerlink" href="#nomenclatura-de-tarjetas-de-red" title="Permanent link"></a></h2>
 <p>Las tarjetas de red en sistemas Linux se pueden llamar de las siguientes maneras:</p>
 <ul>
 <li><strong>lo</strong>: Corresponde a la tarjeta "loopback". Recordemos que hemos dicho que esta tarjeta físicamente no existe (es un "invento" del sistema operativo) y suele tener siempre tiene la IP 127.0.0.1/8. Sirve para establecer una conexión con sí misma, de tal forma que podemos tener en la misma máquina un programa cliente que conecte a un programa servidor sin salir "fuera".</li>
@@ -174,9 +194,10 @@
 <li>Sus direcciones IP respectivas (y la máscara correspondiente)</li>
 <li>Otros datos (como si permite el envío "broadcast", si está en modo "promiscuo", etc).</li>
 </ul>
-<blockquote>
-<p>NOTA: El comando <code>ip address show</code> se puede escribir de forma más corta así: <code>ip a s</code>. Incluso, se puede dejar de escribir el verbo show (o s) porque es la acción por defecto (por lo tanto, se puede hacer <code>ip address</code> o <code>ip a</code> y sería lo mismo). También es útil el parámetro -c (así: <code>ip -c a s</code>) para ver los datos más relevantes en colores.</p>
-</blockquote>
+<div class="admonition note">
+<p class="admonition-title">NOTA</p>
+<p>El comando <code>ip address show</code> se puede escribir de forma más corta así: <code>ip a s</code>. Incluso, se puede dejar de escribir el verbo show (o s) porque es la acción por defecto (por lo tanto, se puede hacer <code>ip address</code> o <code>ip a</code> y sería lo mismo). También es útil el parámetro -c (así: <code>ip -c a s</code>) para ver los datos más relevantes en colores.</p>
+</div>
 <p>Para activar / desactivar una tarjeta: ip link set {up|down} dev nomTarjeta</p>
 <h3 id="puerta-de-enlace">Puerta de enlace<a class="headerlink" href="#puerta-de-enlace" title="Permanent link"></a></h3>
 <p>El comando <code>ip route show</code> (o bien <code>ip route show dev nomTarjeta</code> o sus variantes <code>ip route</code>, <code>ip r s</code> o <code>ip r</code>) debe mostrar una línea que comenzará con la expresión <strong>"default vía"</strong> seguida de la dirección IP de la puerta de enlace establecida. 
@@ -195,29 +216,40 @@ Este comando puede mostrar más líneas, pero no nos interesarán mucho ... (qui
 <p>Para borrar una IP / máscara concreta de una tarjeta: <code>ip address del v.x.y.z / n dev nomTarjeta</code></p>
 </li>
 </ul>
-<blockquote>
-<p>NOTA: También se puede hacer <code>ip address flush dev nomTarjeta</code> si lo que se quiere es borrar de golpe cualesquiera de las eventuales diferentes direcciones IP que pueda tener la tarjeta indicada</p>
-</blockquote>
+<div class="admonition note">
+<p class="admonition-title">NOTA</p>
+<p>También se puede hacer <code>ip address flush dev nomTarjeta</code> si lo que se quiere es borrar de golpe cualesquiera de las eventuales diferentes direcciones IP que pueda tener la tarjeta indicada</p>
+</div>
 <p>Para asignar la puerta de enlace concreta a una tarjeta: <code>ip route add default vía v.x.y.z dev nomTarjeta</code>. Antes, sin embargo, debería borrar la que había asignada antes (si no se hace da error), así: <code>ip route del default dev nomTarjeta</code>.</p>
-<blockquote>
-<p>NOTA: También se puede escribir <code>ip route add 0.0.0.0/0 vía v.x.y.z dev nomTarjeta</code>. Es equivalente.</p>
-<p>NOTA: De forma alternativa, en vez de hacer <code>ip route del …</code> y después <code>ip route add …</code>, el cambio de puerta de enlace predeterminada se podría hacer directamente en un solo paso, así: <code>ip route change default vía v.x.y.z dev nomTarjeta</code></p>
-<p>NOTA: También se puede indicar que se quiere utilizar una determinada puerta de enlace sólo para llegar a una red-destino concreta. En este caso, entonces, no estaríamos hablando de puerta de enlace «por defecto» sino de una puerta de enlace «específica». La puerta de enlace «por defecto» sería usada una vez que el sistema hubiera comprobado que el destino deseado no forma parte del conjunto de destinos indicados en puertas de enlace específicas. Para crear una puerta de enlace específica hay que ejecutar el comando <code>ip route add ip.red.Destino/Mascara vía v.x.y.z dev nomTarjeta</code> Se puede añadir además un último parámetro metric n, que indica la preferencia de la ruta en el caso de que hubieran varias que llevaran al mismo destino (a modo de «backup»): un n menor indica una mayor preferencia.</p>
-<p>NOTA: Una vez asignada una dirección IP a una tarjeta, el sistema calcula automáticamente su dirección IP de red correspondiente y genera una ruta a ella (es por eso que es necesario indicar la máscara en ip address add …)
+<div class="admonition note">
+<p class="admonition-title">NOTA</p>
+<p>También se puede escribir <code>ip route add 0.0.0.0/0 vía v.x.y.z dev nomTarjeta</code>. Es equivalente.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">NOTA</p>
+<p>De forma alternativa, en vez de hacer <code>ip route del …</code> y después <code>ip route add …</code>, el cambio de puerta de enlace predeterminada se podría hacer directamente en un solo paso, así: <code>ip route change default vía v.x.y.z dev nomTarjeta</code></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">NOTA</p>
+<p>También se puede indicar que se quiere utilizar una determinada puerta de enlace sólo para llegar a una red-destino concreta. En este caso, entonces, no estaríamos hablando de puerta de enlace «por defecto» sino de una puerta de enlace «específica». La puerta de enlace «por defecto» sería usada una vez que el sistema hubiera comprobado que el destino deseado no forma parte del conjunto de destinos indicados en puertas de enlace específicas. Para crear una puerta de enlace específica hay que ejecutar el comando <code>ip route add ip.red.Destino/Mascara vía v.x.y.z dev nomTarjeta</code> Se puede añadir además un último parámetro metric n, que indica la preferencia de la ruta en el caso de que hubieran varias que llevaran al mismo destino (a modo de «backup»): un n menor indica una mayor preferencia.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">NOTA</p>
+<p>Una vez asignada una dirección IP a una tarjeta, el sistema calcula automáticamente su dirección IP de red correspondiente y genera una ruta a ella (es por eso que es necesario indicar la máscara en ip address add …)
 Por ejemplo, si se asigna la IP 203.0.113.25/24 a la tarjeta enp0s3, se creará automáticamente una ruta en la red 203.0.113.0/24 directa, por lo que el sistema sabrá que para comunicarse con hosts de esta red no necesitará ninguna puerta de enlace intermediaria sino que lo podrá hacer directamente.</p>
-</blockquote>
+</div>
 <h2 id="establecer-una-configuracion-estatica-de-forma-permanente-en-sistemas-debian-clasicos">Establecer una configuración estática de forma permanente (en sistemas Debian clásicos)<a class="headerlink" href="#establecer-una-configuracion-estatica-de-forma-permanente-en-sistemas-debian-clasicos" title="Permanent link"></a></h2>
 <p>Todos los comandos anteriores, sin embargo, sólo «funcionan» mientras la máquina se mantiene encendida: si apaga entonces las direcciones IP / máscaras y puertas de enlace configuradas con las órdenes «ip» anteriores se pierden y hay, pues, que volver a ejecutarlas de nuevo en el siguiente inicio.</p>
 <p>Para que la configuración deseada de IP / máscara y puerta de enlace (y servidor DNS también, gestionado con alguno de los programas comentados en párrafos anteriores) para una determinada tarjeta de red se mantenga de forma permanente en cada reinicio de la máquina, hay que escribir los valores adecuados en un determinado archivo. En sistemas Debian/Ubuntu, este archivo se denomina /etc/network/interfaces y debe tener un aspecto similar al siguiente (las líneas que comienzan por # son comentarios, las tabulaciones son opcionales):</p>
-<pre><code># Las líneas "auto" sirven para activar la tarjeta en cuestión (en este #caso la tarjeta "lo")
+<pre><code class="text"># Las líneas &quot;auto&quot; sirven para activar la tarjeta en cuestión (en este #caso la tarjeta &quot;lo&quot;)
 auto lo
-# La línea siguiente indica que la tarjeta "lo" es de 
-# tipo "loopback" (y que, por tanto, tendrá la IP 127.0.0.1)
+# La línea siguiente indica que la tarjeta &quot;lo&quot; es de 
+# tipo &quot;loopback&quot; (y que, por tanto, tendrá la IP 127.0.0.1)
 iface lo inet loopback
 # En el mismo archivo se pueden configurar todas las tarjetas que 
 # se quieran: la siguiente se llama enp3s0
 auto enp3s0
-# La palabra "static" indica que los valores de IP, máscara, etc 
+# La palabra &quot;static&quot; indica que los valores de IP, máscara, etc 
 # son fijos en cada reinicio
 iface enp3s0 inet static
 # A continuación se indican los valores de IP, máscara, puerta de 
@@ -227,9 +259,11 @@ netmask w.w.w.w
 gateway v.x.y.z
 dns-nameservers v.x.y.z v.x.y.z
 </code></pre>
-<blockquote>
-<p>NOTA: Atención, la línea «<strong>dns-nameservers</strong>» del archivo anterior sólo funciona (es decir, se copian los servidores DNS indicados allí en el archivo central del sistema donde deben estar para ser utilizados: /etc/resolv.conf) si hay instalado un paquete llamado «<strong>resolvconf</strong>». Si no lo está, estas líneas no se  tendrán en cuenta.</p>
-</blockquote>
+
+<div class="admonition warning">
+<p class="admonition-title">Atención</p>
+<p>Atención, la línea «<strong>dns-nameservers</strong>» del archivo anterior sólo funciona (es decir, se copian los servidores DNS indicados allí en el archivo central del sistema donde deben estar para ser utilizados: /etc/resolv.conf) si hay instalado un paquete llamado «<strong>resolvconf</strong>». Si no lo está, estas líneas no se  tendrán en cuenta.</p>
+</div>
 <p>Este archivo es leído por un servicio del sistema (un demonio) que se pone en marcha automáticamente al arrancar la máquina y que se denomina «networking». Esto quiere decir que en cualquier momento que hagamos un cambio dentro de este archivo, para que se tenga en cuenta o bien habrá que reiniciar la máquina o bien simplemente reiniciar el servicio, así: <code>sudo systemctl restart networking</code></p>
 <h2 id="establecer-una-configuracion-estatica-de-forma-permanente-en-sistemas-systemd">Establecer una configuración estática de forma permanente (en sistemas systemd)<a class="headerlink" href="#establecer-una-configuracion-estatica-de-forma-permanente-en-sistemas-systemd" title="Permanent link"></a></h2>
 <p><strong>«Systemd-networkd»</strong> es un demonio que gestiona las configuraciones de las diferentes interfaces de red (físicas y / o virtuales) de un sistema systemd, representando, pues, una alternativa al demonio «Networking» de sistemas Debian así como también al scripts ifcfg- * clásicos de Fedora / Suse o al Network Manager integrado en muchos escritorios.</p>
@@ -252,12 +286,12 @@ DNS=10.1.10.2 #Opcional (Es necesario tener el servicio systemd-resolved funcion
 DNS=10.1.10.3 #Cada servidor DNS ha d'indicar-se en una línia separada
 </code></pre>
 
-<p>Los archivos de configuración de systemd-networkd proporcionados por la distribución se encuentran en /usr/lib/systemd/network y los administrados por nosotros se tienen que ubicar en /etc/systemd/network. Todos estos archivos se leen -sin distinción de donde estén ubicados – en orden alfanumérico según el nombre que tienen, ganando siempre la primera configuración encontrada en caso de que afectara a la misma tarjeta. Eso sí, si en las dos carpetas se encuentra un fichero con el mismo nombre, lo que hay bajo /etc/systemd/network anula siempre a lo que hay en /usr/lib/systemd/network (una consecuencia de esto es que si el archivo en /etc/… apunta a /dev/null, lo que se estará haciendo es deshabilitar.</p>
+<p>Los archivos de configuración de systemd-networkd proporcionados por la distribución se encuentran en <code>/usr/lib/systemd/network</code> y los administrados por nosotros se tienen que ubicar en <code>/etc/systemd/network</code>. Todos estos archivos se leen -sin distinción de donde estén ubicados – en orden alfanumérico según el nombre que tienen, ganando siempre la primera configuración encontrada en caso de que afectara a la misma tarjeta. Eso sí, si en las dos carpetas se encuentra un fichero con el mismo nombre, lo que hay bajo <code>/etc/systemd/network</code> anula siempre a lo que hay en <code>/usr/lib/systemd/network</code> (una consecuencia de esto es que si el archivo en /etc/… apunta a /dev/null, lo que se estará haciendo es deshabilitar.</p>
 <p>Existen tres tipos diferentes de archivos de configuración:</p>
 <ul>
-<li>los «.network» aplican la configuración descrita bajo su sección [Network] a aquellas tarjetas de red que tengan una característica que concuerde con todos los valores indicados en las diferentes líneas bajo la sección [Match] (normalmente aquí sólo indica su nombre mediante una única línea «Name =»)</li>
-<li>los «.netdev» sirven para crear nuevas interfaces de red de tipo virtual ( «bridges», «bonds», etc) -la configuración de red se seguirá indicando en su correspondiente archivo .network)</li>
-<li>los «.link» sirven para definir nombres alternativos a las tarjetas de red en el momento de ser reconocidas por el sistema (vía systemd-udev).</li>
+<li>los <strong>«.network»</strong> aplican la configuración descrita bajo su sección [Network] a aquellas tarjetas de red que tengan una característica que concuerde con todos los valores indicados en las diferentes líneas bajo la sección [Match] (normalmente aquí sólo indica su nombre mediante una única línea «Name =»)</li>
+<li>los <strong>«.netdev»</strong> sirven para crear nuevas interfaces de red de tipo virtual ( «bridges», «bonds», etc) -la configuración de red se seguirá indicando en su correspondiente archivo .network)</li>
+<li>los <strong>«.link»</strong> sirven para definir nombres alternativos a las tarjetas de red en el momento de ser reconocidas por el sistema (vía systemd-udev).</li>
 </ul>
 <p>En las líneas bajo la sección [Match] -por ejemplo, en «Name =», se puede utilizar el comodín *. En esta línea en concreto también se puede escribir un conjunto de nombres separados por un espacio en blanco a modo de diferentes alternativas.</p>
 <p>En los archivos .network puede haber una sección (no vista en los ejemplos anteriores) titulada [Link] bajo la que pueden haber varias líneas más relacionadas con el comportamiento «hardware» de la tarjeta, como la línea «MACAddress = xx: xx: xx: xx: xx: xx», la cual sirve para asignar a la tarjeta en cuestión una dirección MAC ficticia, la línea «MTUBytes = no», la cual sirve para indicar el tamaño de la MTU admitida (útil por ejemplo para activar los «jumbo frames» si se pone 9000 como valor), o la línea «ARP = no» para desactivar el protocolo ARP en la tarjeta en cuestión (activado por defecto).</p>
@@ -311,7 +345,97 @@ intermedios a través de los que va pasando. también muestra estadísticas de t
 <p>-n No resuelve nombres (es decir, no hace la consulta previa en el servidor DNS del sistema).</p>
 <p>-c nº Número de paquetes de prueba que se enviarán (si no se indica, son infinitos y hay que parar el envío pulsando CTRL + C)</p>
 <p>-i nº Número de segundos que se espera para enviar el siguiente paquete</p>
-<p>aa</p></div>
+<h2 id="ss">ss<a class="headerlink" href="#ss" title="Permanent link"></a></h2>
+<p>Muestra datos sobre las conexiones existentes (o que pueden existir) en
+nuestra máquina. Concretamente, muestra el estado de la conexión (los más habituales son ESTABLISHED y LISTEN -este último indica que el
+puerto está abierto pero sin conexión -… otros estados a menudo son
+temporales y terminan derivando en una conexión establecida o bien
+desapareciendo), muestra la IP y el puerto local utilizados para establecer la conexión (o para escuchar, segundos) y la IP y puerto remoto donde la
+correspondiente IP + puerto local están conectados.</p>
+<p>NOTA: Otro cliente similar es el comando <code>host nomDNS [ip.serv.DNS]</code></p>
+<p>-t Mostrar sólo las conexiones TCP actuales</p>
+<p>-u Mostrar sólo las conexiones UDP actuales</p>
+<p>-n No resuelve nombres (es decir: muestra IPs y puertos en formato numérico en lugar de con nombres)</p>
+<p>-a (Combinado con -t y/o -u): Muestra, además de las conexiones actuales, los puertos a la escucha</p>
+<p>-l (Combinado con -t y / o -u): Muestra sólo los puertos a la escucha (las conexiones actuales no)</p>
+<p>-p (Combinado con -t y / o -u): Muestra 1 columna más: el ejecutable «detrás» de cada puerto local</p>
+<p>–s Muestra un resumen con estadísticas</p>
+<h2 id="ncat">ncat<a class="headerlink" href="#ncat" title="Permanent link"></a></h2>
+<p><code>ncat ip.oNom.Maq.Remota noport</code></p>
+<p>Cliente Netcat que viene dentro del paquete «nmap»: realiza una
+conexión (TCP) en la máquina y puerto indicado. Se puede añadir el
+parámetro -v (modo verboso) y -n (no resuelve nombres), entre otros.</p>
+<p>-v Modo verboso (-vv es más verboso y -vvv más aún)</p>
+<p><code>ncat -l -k -p nº</code> Servidor Netcat: pone a la escucha el nº de puerto (TCP) indicado. el argumento -l sirve para «abrir» el puerto, el parámetro -p sirve para indicar el número de puerto a abrir y el parámetro -k permite que se puedan conectar más de un cliente a la vez.</p>
+<p>-e /ruta/comando Todo lo que se reciba de la red será pasado al comando indicado, la salida será devuelta al cliente. Si el comando indicado fuera
+/Bin/bash, la entrada se entenderá como un comando a ejecutar (y la
+salida será la salida del comando ejecutado).
+Exemples Ncat</p>
+<p><strong>Chat</strong> </p>
+<p>Servidor: <code>ncat -l -p 5588</code> &lt;—&gt; Cliente: <code>ncat ipServidor 5588</code></p>
+<p>El servidor se pone a escuchar en el puerto 5588 (por defecto siempre es TCP), con lo que todo lo que le llegue de la red -es decir, del cliente-lo pasará a la stdout (pantalla), y todo lo que escriba por stdin (teclado) pasará a la red -es decir, hacia el cliente-. Lo mismo ocurre en el otro lado de la comunicación. Si se añade el parámetro -k al servidor, múltiples clientes podrán enviar mensajes al servidor y este, lo que envíe, lo enviará a todos sin discriminación</p>
+<p><strong>Envío de un archivo</strong></p>
+<p>Servidor: <code>ncat -l -p 5555 &lt; archivo</code> &lt;-&gt; Cliente: <code>ncat ipServidor 5555 &gt; archivo</code></p>
+<p>Muy similar a lo anterior: el servidor se pone a escuchar en el puerto 5555, pero en vez de responder por teclado a la stdin, la entrada proviene de un archivo, el cual esperará latente a que cuando se establezca una comunicación por ese puerto, su contenido viaje bit a bit por la red hacia el cliente, el cual lo recibirá y lo guardará en forma de archivo otra vez. Lo malo es que tal como se ha hecho, no se sabe cuándo se ha acabado la transferencia: hay que esperar un tiempo prudencial y entonces hacer Ctrl+C.</p>
+<p><strong>Reproducción de audio en streaming</strong></p>
+<p>Servidor: <code>ncat -l -p 5858</code> Cliente: <code>ncat ipServidor 5858 | mpg123 –</code></p>
+<p>El ejemplo es idéntico al anterior, teniendo un archivo en este caso de audio. La única diferencia es que en el cliente, el archivo no se redirecciona para grabarlo en disco sino que se entuba a un reproductor de audio por consola, como mpg123 (el guión del final es para indicarle que el fichero o lista de reproducción le proviene de la tubería).</p>
+<p><strong>Clonación de discos por red</strong></p>
+<p>Servidor: <code>ncat -l -p 5678 | dd of=a.iso.gz</code> &lt;—-&gt;Cliente: <code>dd if=/dev/sda | gzip -c | ncat ipServidor 5678</code></p>
+<p>El ejemplo es parecido al anterior: primero en el cliente se comprime bit a bit el contenido del disco «sda» y se le envía ya comprimido al servidor, el cual recibe este contenido binario y lo almacena en un archivo, bit a bit too.</p>
+<h2 id="nmap">nmap<a class="headerlink" href="#nmap" title="Permanent link"></a></h2>
+<p><code>nmap -sn { ipInici-ipFinal [altraIP …] | ipConAsteriscos }</code></p>
+<p>Muestra qué ordenadores están presentes en la red. existen muchos otros parámetros de escaneo (-sU, -sX, -sF, etc) que utilizan diferentes técnicas más
+o – rápidas / sigilosas / precisas, pero no las veremos.</p>
+<p>-v Modo verboso (-vv es más verboso y -vvv más aún)</p>
+<p>-n No resuelve nombres</p>
+<p><code>nmap -p nº, nº-nº ipOrdenador</code> Muestra qué puertos (del rango indicado) tiene abiertos un ordenador concreto. Aquí también se pueden utilizar diferentes técnicas pero tampoco profundizaremos</p>
+<p>-O Muestra el sistema operativo del ordenador y los programas «detrás» de los
+puertos abiertos. Se puede combinar con el parámetro -sV, el cual muestra también las versiones. El parámetro -A es la combinación de los dos.</p>
+<h2 id="nslookup">nslookup<a class="headerlink" href="#nslookup" title="Permanent link"></a></h2>
+<p><code>nslookup nombreDNS [ip.serv.DNS]</code></p>
+<p>Cliente DNS que pregunta al servidor indicado o, si no se indica ninguno, al que esté configurado en <code>/etc/resolv.conf</code>. Normalmente, además de devolver la IP (o IPs equivalentes) asociadas al nombre indicado, también muestra los «alias» que tiene este nombre</p>
+<div class="admonition note">
+<p class="admonition-title">NOTA</p>
+<p>Otro cliente similar es el comando <code>host nomDNS [ip.serv.DNS]</code></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">NOTA</p>
+<p>Otro cliente similar es el comando <code>dig [@ip.serv.DNS] nomDNS.</code> O <code>drill</code></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">NOTA</p>
+<p>Otro cliente pero sólo compatible con systemd-resolved es <code>systemd-resolve</code></p>
+</div>
+<h2 id="whois">whois<a class="headerlink" href="#whois" title="Permanent link"></a></h2>
+<p><code>whois dominioDNS</code></p>
+<p>Consulta en los servidores whois publicos (administrados por la IANA) para averiguar el propietario o registrador del dominio</p>
+<h2 id="wget">wget<a class="headerlink" href="#wget" title="Permanent link"></a></h2>
+<p><code>wget https://url/un/archivo</code></p>
+<p>Descarga al disco duro el archivo indicado</p>
+<p>-c Continúa la descarga (si anteriormente falló) desde donde se interrumpió</p>
+<p>-O nombre Indica el nombre que tendrá el archivo una vez descargado</p>
+<p>-r Realiza una descarga recursiva si la URL indicada es la de una carpeta en vez de la de un archivo. Combinado con el parámetro -l nº sirve para indicar hasta qué nivel (1 = una subcarpeta, 2 =dos subcarpetas) se quiere descargar … si no se indica se entiende «infinito»</p>
+<p>-N Descarga sólo los archivos más nuevos que los locales</p>
+<p>-A «ext1», «ext2», … Descarga sólo los archivos que encuentre con la extensión indicada El parámetro contrario (descarga todo excepto los archivos indicados) es -R</p>
+<p>–no-parent No descarga contenido anterior a la URL indicada</p>
+<p>-nd Todo lo descarga en la misma carpeta local (sin respetar, pues, la jerarquía de carpetas del sitio remoto)</p>
+<p>-k Una vez hecha la descarga, transforma los enlaces para que todo el contenido se pueda visitar offline (cambia las rutas absolutas para relativas y los recursos no descargados los referencia con la URL completa</p>
+<h2 id="curl">curl<a class="headerlink" href="#curl" title="Permanent link"></a></h2>
+<p><code>curl https://url/un/archivo</code></p>
+<p>Descargar el fichero indicado y muestra en pantalla su contenido</p>
+<p>-o nombre Descargar archivo indicado y lo guarda en el disco duro con el nombre que se especifique</p>
+<p>-O Descargar el fichero indicado y lo guarda en el disco duro con el nombre que tenga el original</p>
+<p>-C – Continúa la descarga desde el no de byte indicado (si es un guión, será a partir de donde se paró la descarga -fallida- anterior del mismo archivo</p>
+<p>-s Modo «silencioso» (no muestra ni las estadísticas de descarga ni los errores, nada)</p>
+<p>-SS Modo «silencioso» pero mostrando los mensajes de error</p>
+<p>-v Modo «verboso». Sirve para mostrar las cabeceras de cliente enviadas a la petición</p>
+<p>-Y No descarga el archivo: sólo muestra la cabecera de respuesta HTTP del servidor</p>
+<p>-y Mostrar en pantalla tanto las cabeceras de respuesta como el contenido del archivo pedido</p>
+<p>-D nombre Guarda en el disco duro, en forma de archivo con el nombre indica, las cabeceras de respuesta</p>
+<p>-L Si el servidor web devuelve un código de redirección (3xx), lo sigue automáticamente</p>
+<p>-H «cabecera: valor» Realiza una petición indicando un valor concreto para la cabecera HTTP de cliente indicada. Se pueden poner múltiples parámetros -H.</p>
+<p>–X tipo Realiza una petición del tipo indicado (POST, PUT, etc). Por defecto son GET</p></div>
             
         </div>
 

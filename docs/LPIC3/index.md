@@ -17,7 +17,7 @@
 - Teoria básica sobre NFS
 - Gestió básica de mòduls del kernel
 - Journald i journalctl
-- Systemd
+- [Systemd](1-Previos/Systemd)
 - Breu descripció de /proc i de /sys
 - Comanda Jq (per l'eve.json de Suricata, Beats de l'ELK, etc)
 - D-Bus (IPC per Firewalld, Systemd,...)
