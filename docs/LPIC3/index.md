@@ -6,14 +6,17 @@
 - [Lo que hace falta saber para superar el examen 303](https://www.lpi.org/our-certifications/exam-303-objectives)
 
 ##Recursos para descargar:
+- [Fedora Workstation](https://getfedora.org/es/workstation/download/)
+- [Virtual Box Image Fedora](https://www.osboxes.org/fedora/)
 - Màquina servidora LDAP+Kerberos+NFS4 ja funcional
 - Màquina client SSSD ja funcional
 - Arxiu ldif amb usuaris de mostra
 
+
 ##Documentos del curso
 ###1.Previos
 - [Comandos básicos de red en Linux](1-Previos/Comandos básicos de red en Linux)
-- Teoria básica sobre LDAP (i NSS)
+- [Teoria básica sobre LDAP (i NSS)](1-Previos/Autenticación e Identificación de usuarios con LDAP)
 - Teoria básica sobre NFS
 - Gestió básica de mòduls del kernel
 - Journald i journalctl
