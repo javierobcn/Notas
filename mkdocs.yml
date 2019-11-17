@@ -1,9 +1,9 @@
 site_name: Notas
 site_url: https://javierobcn.github.io/Notas/
 repo_url: https://github.com/javierobcn/Notas
+theme:
+  name: 'material'
 markdown_extensions:
-    - toc:
-        permalink: 
     - admonition
     - def_list
     - sane_lists

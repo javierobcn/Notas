@@ -16,8 +16,8 @@
 ##Documentos del curso
 ###1.Previos
 - [Comandos básicos de red en Linux](1-Previos/Comandos básicos de red en Linux)
-- [Teoria básica sobre LDAP (i NSS)](1-Previos/Autenticación e Identificación de usuarios con LDAP)
-- Teoria básica sobre NFS
+- [Teoria básica sobre LDAP y NSS](1-Previos/Autenticación e Identificación de usuarios con LDAP) 
+- [Teoria básica sobre NFS](1-Previos/Compartir ficheros con NFSv4)
 - Gestió básica de mòduls del kernel
 - Journald i journalctl
 - [Systemd](1-Previos/Systemd)
