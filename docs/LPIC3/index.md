@@ -18,18 +18,18 @@
 - [Comandos básicos de red en Linux](1-Previos/Comandos básicos de red en Linux)
 - [Teoria básica sobre LDAP y NSS](1-Previos/Autenticación e Identificación de usuarios con LDAP) 
 - [Teoria básica sobre NFS](1-Previos/Compartir ficheros con NFSv4)
-- Gestió básica de mòduls del kernel
-- Journald i journalctl
+- [Gestió básica de mòduls del kernel](https://q2dg.github.io/LPIC3-303/ModulsKernel.pdf)
+- [Journald i journalctl](https://q2dg.github.io/LPIC3-303/Journalctl.pdf)
 - [Systemd](1-Previos/Systemd)
-- Breu descripció de /proc i de /sys
-- Comanda Jq (per l'eve.json de Suricata, Beats de l'ELK, etc)
-- D-Bus (IPC per Firewalld, Systemd,...)
+- Breve descripción de [/proc](https://www.thegeekdiary.com/understanding-the-proc-file-system) y de [/sys](https://www.thegeekdiary.com/understanding-the-sysfs-file-system-in-linux/)
+- [Comanda Jq](https://q2dg.github.io/LPIC3-303/Jq.pdf) (per l'eve.json de Suricata, Beats de l'ELK, etc)
+- [D-Bus](https://q2dg.github.io/LPIC3-303/DBus.pdf) (IPC per Firewalld, Systemd,...)
 - Servidor Apache (HTTP)
 
 
 ###Autenticació-Autorització:
 - Introducción
-- Autenticación vs Autorización
+- [Autenticación vs Autorización](2-Autenticación-Autorización/Autenticación_vs_Autorización)
 - Hashes i endevinació de contrasenyes. Keyloggers
 
 ### Módulos PAM
