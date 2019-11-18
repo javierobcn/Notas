@@ -1,6 +1,6 @@
 ## Sistemas
 ### Linux
-- LPIC 1
+- [LPIC 1](LPIC1/index.md)
 - LPIC 2
 - [LPIC 3](LPIC3/index.md)
 

@@ -32,7 +32,7 @@ local `/etc/group` (mediante la línea group:...), que la de contraseñas es el 
 `/etc/resolv.conf`
 
 !!!NOTE "Nota"
-    NOTA: Las otras líneas del archivo `/etc/nsswitch.conf` no son tan utilizadas pero las comentamos aquí: la línea networks indica que los nombres de redes se buscarán en el fichero local `/etc/networks` (ver `man networks` para más información sobre este fichero), la línea protocols indica que los nombres de los protocolos se buscarán en el fichero local `/etc/protocols` (ver `man protocols` para más información sobre este fichero), la línea services indica que los nombres de los servicios se buscarán en el fichero local `/etc/services` (ver `man services` para más información sobre este fichero) y la línea ethers indica que la correspondencia estática entre direcciones MAC e IPs se buscará en el fichero local `/etc/ethers` (ver `man ethers` para más información sobre este fichero).
+    Las otras líneas del archivo `/etc/nsswitch.conf` no son tan utilizadas pero las comentamos aquí: la línea networks indica que los nombres de redes se buscarán en el fichero local `/etc/networks` (ver `man networks` para más información sobre este fichero), la línea protocols indica que los nombres de los protocolos se buscarán en el fichero local `/etc/protocols` (ver `man protocols` para más información sobre este fichero), la línea services indica que los nombres de los servicios se buscarán en el fichero local `/etc/services` (ver `man services` para más información sobre este fichero) y la línea ethers indica que la correspondencia estática entre direcciones MAC e IPs se buscará en el fichero local `/etc/ethers` (ver `man ethers` para más información sobre este fichero).
 
 ##LDAP
 
@@ -52,7 +52,8 @@ ser necesario porque las Reglas predefinidas cubren la mayoría de casos prácti
 
 !!!NOTE "Nota"
     NOTA: En el caso de carecer de atributo “uid”, el atributo que suele hacer de identificador de la entrada suele ser “cn”.
-    
+
+!!!NOTE "Nota"
     NOTA: Una Regla que TODOS las entradas de un árbol de directorio han de implementar (mediante su correspondiente atributo "objectClass"), independientemente del resto de Reglas que se deseen añadir en cada una de ellas, es una Regla llamada "top". Al implementar esta Regla en una entrada lo que se consigue es que esa entrada pueda disponer precisamente del atributo "objectClass" (es decir, el atributo "objectClass" está definido en la Regla "top", a modo de definición recursiva).
 
 Las entradas se organizan en una estructura jerárquica en forma de árbol invertido. Tradicionalmente,la parte superior de esta estructura refleja la jerarquía de los dominios DNS (incluso regionales) de la organización, de manera que las entradas que representan a la compañía (como “pepsi.com”, “unicef.org” o “yahoo.es”) aparecen en el árbol por encima de otras entradas que representan unidades organizativas internas. Las primeras suelen identificarse por la presencia del atributo “dc” (domain component), y para
@@ -64,7 +65,7 @@ es “uid=pperez,ou=empleados,dc=nike,dc=es”, nos estaremos refiriendo a una e
 (objetClass, cn, givenname, sn, o,mail ...).
 
 !!!NOTE "Nota"
-    Una explicación más pormenorizada sobre cómo se organiza la estructura en árbol de un directorio LDAP se encuentra en [https://fy.blackhats.net.au/blog/html/pages/ldap_guide_part_1_foundations.html](https://fy.blackhats.net.au/blog/html/pages/ldap_guide_part_1_foundations.html)
+    Una explicación más pormenorizada sobre cómo se organiza la estructura en árbol de un directorio LDAP se encuentra en https://fy.blackhats.net.au/blog/html/pages/ldap_guide_part_1_foundations.html
 
 LDAP tiene definidas las operaciones necesarias para interrogar y actualizar el directorio (adicionar y borrar una entrada, modificar una entrada existente, cambiar el nombre de una entrada, etc). No obstante, la
 mayor parte del tiempo LDAP se utiliza para buscar información almacenada en el directorio: las operaciones de búsqueda permiten que en una porción del directorio se busquen entradas que cumplan con algún criterio especificado en el filtro de búsqueda.
