@@ -3,7 +3,37 @@ site_url: https://javierobcn.github.io/Notas/
 repo_url: https://github.com/javierobcn/Notas
 theme:
   name: 'material'
+  language: 'es'
 markdown_extensions:
-    - admonition
-    - def_list
-    - sane_lists
+  - admonition
+  - def_list
+  - sane_lists
+  - footnotes
+  - meta
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - codehilite:
+      guess_lang: False
+      use_pygments: True
+      noclasses: True
+      pygments_style: monokai
+  - toc:
+      permalink: true
+extra_css: [extra.css]
+google_analytics:
+  - 'UA-152756073-1'
+  - 'auto'
