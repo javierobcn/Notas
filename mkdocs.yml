@@ -1,6 +1,7 @@
-site_name: Notas
+site_name: Knowledge Space *!
 site_url: https://javierobcn.github.io/Notas/
 repo_url: https://github.com/javierobcn/Notas
+repo_name: 'javierobcn/Notas'
 theme:
   name: 'material'
   language: 'es'
@@ -37,3 +38,7 @@ extra_css: [extra.css]
 google_analytics:
   - 'UA-152756073-1'
   - 'auto'
+extra:
+  social:
+    - type: 'github'
+      link: 'https://github.com/javierobcn'

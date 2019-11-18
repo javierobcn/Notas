@@ -109,7 +109,7 @@ Para acceder a una carpeta compartida montada en el servidor con el método "bin
 eso sí, indicando la "/" inicial). Por ejemplo, si la carpeta raíz es `/var/unacarpeta` y se quiere compartir la carpeta `/opt/unaaltra` que está montada en el servidor dentro `/var/unacarpeta/unasubcarpeta`, el cliente debe
 montarla así:
 ``` bash
-mount -t nfs4 ipservidor: /unasubcarpeta/punto/local/de/montaje
+mount -t nfs4 ipservidor:/unasubcarpeta /punto/local/de/montaje
 ```
 En cualquier caso, para comprobar si el montaje se ha realizado correctamente, podemos ejecutar el comando `findmnt` o bien el comando `df`. En ambos casos tendremos que ver la presencia del nuevo punto de montaje, al que podremos acceder normalmente vía cd, listar su contenido vía ls, etc.
 
@@ -140,3 +140,32 @@ A la hora de hacer el montaje con el comando mount, se pueden indicar diferentes
 !!!NOTE "Nota"
   Por ejemplo, el comando `mount.nfs4 -o ro, port=2000,soft,retry=4 ip:/ruta/remota /ruta/local` monta en "/ruta/local" la carpeta "/ruta/remota" existente en el servidor "ip" en modo sólo lectura (ro), conectándose al puerto 2000 del servidor y estableciendo el número de intentos para realizar las operaciones en 4, después de los cuales, se informará de error y no se continuará intentándolo.
 
+No obstante, tener que escribir el comando mount a mano cada vez que queremos acceder a una carpeta compartida no es muy práctico (además de que lo tenemos que hacer como administrador). Lo más habitual es montar durante el arranque del cliente las carpetas compartidas que se quieran utilizar para tenerlas así disponibles inmediatamente por cualquier usuario del sistema cliente que inicie sesión (sea o no administrador), sin tener que hacer nada. Para hacer esto, el cliente debemos modificar un archivo de texto llamado `/etc/fstab`. Este archivo, de hecho, no es únicamente utilizado para NFS, sino que es mucho más general: contiene todos los tipos de almacenes a montar en el arranque del sistema (particiones locales, carpetas Samba, etc, etc).
+
+Cada línea de este archivo consta de seis campos separados por un espacio en blanco o un tabulador (para más información, consultar `man fstab`):
+
+* El 1º campo indica la partición / carpeta compartida concreta que deberá montar durante el arranque del sistema operativo (por ejemplo, la partición local `/dev/sda1` o una carpeta compartida remota NFS)
+
+* El 2º campo indica la ruta de la carpeta que funcionará como su punto de montaje local
+
+* El 3º campo indica el sistema de archivos en los que está formateada la partición / carpeta compartida (Valores posibles son: ext4, xfs, jfs, vfat -por "fat32" -, ntfs, swap, o auto -por no especificar ningún sistema en concreto y que el fstab el determine él solo en el momento del montaje ... esta opción es útil para lectores de unidades extraíbles como CD / DVDs que pueden contener diferentes sistemas de ficheros dependiendo de la unidad introducida-)
+* El 4º campo indica las opciones de montaje se aplican (separadas por comas)
+* El 5º campo actualmente no se utiliza y casi siempre vale 0
+* El 6º campo indica si el comando fsck se ejecutará al reiniciar el sistema cuando se monte esta partición / carpeta compartida (un valor 0 significa que no se comprueba el sistema de ficheros, un valor 1 quiere decir que sí y un valor 2 significa que sí, pero después de haber comprobado las particiones marcadas con valor 1; normalmente la partición raíz del sistema debe tener un 1 mientras el resto de particiones puede tener un 0 o un 2) .Las opciones de montaje pueden ser cualquiera de las opciones específicas de NFS4 (las listadas en `man nfs`) o bien cualquiera de las generales del comando mount (es decir, las que están listadas en `man mount`). Entre estas últimas, hay algunas que tienen más sentido dentro de "/etc/fstab" que en un comando mount normal:
+
+|Opción|Función|
+|------|-------|
+|**auto**|Indica que la partición / carpeta compartida correspondiente se montará automáticamente durante el arranque. En otras palabras: es la manera "de activar" esta línea. La opción contraria es "noauto", que sirve para "desactivar" la línea sin tener que borrarla, haciendo que sólo se pueda montar la partición / carpeta compartida correspondiente de forma manual con el comando mount o bien sí se combina con la opción "x-systemd.automount" (ver más abajo)|
+|**exec**|Permite que se puedan ejecutar los binarios existentes en la partición / carpeta compartida correspondiente. La opción contraria es "noexec".|
+|**suid**|Permite reconocer el permiso especial "suid" en los binarios existentes en la partición / carpeta compartida correspondiente. Este permiso especial se utiliza para permitir a usuarios que no son administradores ejecutar binarios que en teoría sólo podría ejecutar el usuario administrador (como el binario `passwd`, por ejemplo). La opción contraria es "**nosuid**"|
+|**dev**|Permite reconocer los archivos de dispositivos que puedan existir en la partición / carpeta compartida correspondiente. La opción contraria es "nodev".|
+|**user**|Permite que cualquier usuario (sin ser administrador) pueda montar con el comando mount la partición / carpeta compartida correspondiente (pero sólo el usuario que lo haya montado la podrá desmontar). Esta opción implica "noexec", "nosuid" y "nodev", a no ser que se indique lo contrario. La opción contraria (es decir, que sólo el usuario root pueda montar la partición / carpeta compartida correspondiente) es "nouser"|
+|**users**|Permite que cualquier usuario (sin ser administrador) pueda montar con el comando mount la partición / carpeta compartida correspondiente, y también que cualquier otro usuario (o el mismo) la pueda desmontar. Esta opción implica "noexec", "nosuid" y "nodev", a no ser que se indique lo contrario.|
+|**sync**|Hace que las escrituras a la partición / carpeta compartida correspondiente se realicen de forma síncrona (es decir, que se apliquen inmediatamente) .La opción contraria es "async", lo cual implica que las escrituras se realicen de forma asíncrona (es decir, que todas las escrituras se apliquen de golpe pasado un tiempo determinado). Estas opciones en NFS no se utilizan porque no se establecen en el cliente sino en el servidor a la hora de compartir la carpeta dentro de "/etc/exports" (Son opciones homónimas, de hecho).|
+|**defaults**|Equivale a "rw", "suid", "dev", "exec", "auto", "nouser" y "async" x-systemd.automount Esta opción se debe escribir junto con la opción "noauto". Sirve para no montar la partición / carpeta compartida correspondiente en el arranque del sistema sino cuando el usuario quiera acceder por primera vez (el retraso es imperceptible). esto permite no tener montadas unidades que quizás el usuario no utilizará en esa sesión, y además permite no obtener errores al arrancar el cliente si en ese momento el servidor no está disponible. Se puede utilizar además la opción "x-systemd.device-timeout = n", donde n es el número de segundos que el cliente intentará montar el dispositivo antes de abandonar (porque éste no esté disponible, por ejemplo). No obstante, sólo funciona para sistemas con systemd.|
+
+En el caso concreto de montar carpetas compartidas NFS, el primer campo (que, recordemos, representa el recurso a montar) se escribe indicando la ip/nombre del servidor NFS seguido de ":" y de la ruta en el servidor de la carpeta compartida a la que se quiere acceder (que será "/" en el caso de ser la carpeta fsid = 0 o "/unasubcarpeta" si "unasubcarpeta" es el punto de montaje -bind bajo ella). Por lo tanto, un ejemplo de archivo `/etc/fstab` para un
+cliente NFS podría ser este:
+``` bash
+ipServ:/ruta/comp/servidor /punto/montaje nfs4 noauto,x-systemd.automount 0 0
+```

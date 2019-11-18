@@ -7,7 +7,7 @@
 ## Programación 
 
 ###Otros lenguajes de marcas
-- [Markdown](https://python-markdown.github.io/)
+- [Sintaxis Markdown](https://daringfireball.net/projects/markdown/syntax/)
 
 ### Generadores de sitios estáticos
 - [MkDocs](mkdocs/mkdocs.md)
