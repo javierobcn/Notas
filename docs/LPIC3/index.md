@@ -20,7 +20,7 @@
 - [Teoria básica sobre NFS](1-Previos/Compartir ficheros con NFSv4)
 - [Gestió básica de mòduls del kernel](https://q2dg.github.io/LPIC3-303/ModulsKernel.pdf)
 - [Journald i journalctl](https://q2dg.github.io/LPIC3-303/Journalctl.pdf)
-- [Systemd](1-Previos/Systemd)
+- [Systemd](../LPIC1/Systemd.md)
 - Breve descripción de [/proc](https://www.thegeekdiary.com/understanding-the-proc-file-system) y de [/sys](https://www.thegeekdiary.com/understanding-the-sysfs-file-system-in-linux/)
 - [Comanda Jq](https://q2dg.github.io/LPIC3-303/Jq.pdf) (per l'eve.json de Suricata, Beats de l'ELK, etc)
 - [D-Bus](https://q2dg.github.io/LPIC3-303/DBus.pdf) (IPC per Firewalld, Systemd,...)

@@ -1,10 +1,18 @@
 #LPIC 101
+## Enlaces
+
+- [Resumen de las certificaciones LPI](http://www.lpi.org/our-certifications/summary-of-certifications)
+- [Resumen de la certificación LPIC-1](http://www.lpi.org/our-certifications/lpic-1-overview)
+- [Lo que hay que saber para superar el examen 101](http://www.lpi.org/our-certifications/exam-101-objectives)
+- [Lo que hay que saber para superar el examen 102](http://www.lpi.org/our-certifications/exam-102-objectives)
+- [Novedades de la versión 5.0 del examen](https://wiki.lpi.org/wiki/LPIC-1_Summary_Version_4.0_To_5.0)
+
 
 ##Prompt
 ##man
 ##Estructura de una orden de comandos
 ##standard input, standard output y standard error
-##Comandos Básicos
+##Comandos Básicos Linux
 
 * ls
 * pwd
@@ -46,6 +54,8 @@
 * Run levels y arranque del sistema:
 * Systemd
 * Upstart
+
+##[Systemd](Systemd.md)
 
 ##Networking
 
