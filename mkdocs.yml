@@ -31,10 +31,10 @@ markdown_extensions:
       guess_lang: False
       use_pygments: True
       noclasses: True
-      pygments_style: monokai
+      #pygments_style: monokai
   - toc:
       permalink: true
-extra_css: [extra.css]
+#extra_css: [extra.css]
 google_analytics:
   - 'UA-152756073-1'
   - 'auto'
