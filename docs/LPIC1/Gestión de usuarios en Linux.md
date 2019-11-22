@@ -71,7 +71,11 @@ Si le ponemos a un usuario el shell `/bin/false` cuando este usuario entre hará
 
 **`userdel`** → inicia el proceso de borrar un usuario con opciones definidas en `/etc/userdel.conf`
 
-**`usermod`** → modificar usuario. Ej. `usermod -s /bin/false usuario` → quita el shell al usuario especificado y le impide hacer login. `usermod -m` → mover la home a otra carpeta
+**`usermod`** → modificar usuario. 
+
+*  Ej. `usermod -s /bin/false usuario` → quita el shell al usuario especificado y le impide hacer login. 
+*  `usermod -m` → mover la home a otra carpeta
+*  `usermod -a -G sudo javier` --> Agrega el usuario **Javier** al grupo **sudo**, lo cual le permitirá impersonarse en el usuario root mediante el comando sudo
 
     
 ## Gestión de grupos

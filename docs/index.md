@@ -1,3 +1,5 @@
+Title: Bienvenido
+
 ## Sistemas
 ### Linux
 - [LPIC 1](LPIC1/index.md)
@@ -10,5 +12,6 @@
 - [Sintaxis Markdown](https://daringfireball.net/projects/markdown/syntax/)
 
 ## Software
-- [MkDocs](mkdocs/mkdocs.md)
-- [git](git/git.md)
+- [MkDocs](Software/mkdocs/mkdocs.md)
+- [git](Software/git/git.md)
+- [terminator](Software/terminal/terminator.md)

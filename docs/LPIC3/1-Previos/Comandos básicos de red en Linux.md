@@ -151,11 +151,12 @@ Otro método para establecer estos datos es el método «dinámico», en el que 
 
 
 Para pedir en un momento determinado una configuración completa de red (IP, máscara, puerta de enlace, servidores DNS, etc) a un servidor DHCP ya funcionando en nuestra LAN hemos de ejecutar un cliente DHCP, como el comando `dhclient`
+
 `Dhclient nomTarjeta` Pide -para la tarjeta indicada- los datos de red (IP, máscara, puerta de enlace, servidor DNS, etc) a algún servidor DHCP que esté escuchando a la LAN de nuestra máquina.
 
--v Muestra por pantalla todo el proceso de petición y respuesta (útil para ver si va)
+**-v** Muestra por pantalla todo el proceso de petición y respuesta (útil para ver si va)
 
--r Borra todos los datos de red que pueda tener actualmente la tarjeta indicada
+**-r** Borra todos los datos de red que pueda tener actualmente la tarjeta indicada
 
 
 ##Establecer una configuración dinámica de forma permanente
@@ -163,13 +164,13 @@ Para pedir en un momento determinado una configuración completa de red (IP, má
 
 Para pedir los datos de red a algún servidor DHCP de nuestra red, en vez
 de tener que hacerlo manualmente con el comando ` dhclient`, se puede hacer de forma automática cada vez que nuestra máquina arranque (de modo que nosotros no tengamos que hacer nada y ya tengamos, si todo va bien, estos datos ya asignadas una vez iniciamos sesión). Esto se logra simplemente escribiendo las siguientes líneas en el archivo /etc/network/interfaces:
-```TEXT
+```
 auto enp3s0
 iface enp3s0 inet dhcp
 ```
 ### En sistemas systemd
-En el caso concreto de querer asignar una IP dinámica en un sistema con el demonio systemd-netword funcionando, habrá que tener un archivo como este (llamado por ejemplo «/Etc/systemd/network/lalala.network»):
-```TEXT
+En el caso concreto de querer asignar una IP dinámica en un sistema con el demonio systemd-netword funcionando, habrá que tener un archivo como este (llamado por ejemplo `/etc/systemd/network/lalala.network`):
+```
 [Match]
 Name = enp1s0
 [Network]

@@ -7,18 +7,17 @@
 
 ##Recursos para descargar:
 - [Fedora Workstation](https://getfedora.org/es/workstation/download/)
-- [Virtual Box Image Fedora](https://www.osboxes.org/fedora/)
+- [Virtual Box Image Fedora](Recursos/Virtual Box Image Fedora.md)
 - Màquina servidora LDAP+Kerberos+NFS4 ja funcional
 - Màquina client SSSD ja funcional
 - Arxiu ldif amb usuaris de mostra
-
 
 ##Documentos del curso
 ###1.Previos
 - [Comandos básicos de red en Linux](1-Previos/Comandos básicos de red en Linux)
 - [Teoria básica sobre LDAP y NSS](1-Previos/Autenticación e Identificación de usuarios con LDAP) 
 - [Teoria básica sobre NFS](1-Previos/Compartir ficheros con NFSv4)
-- [Gestió básica de mòduls del kernel](https://q2dg.github.io/LPIC3-303/ModulsKernel.pdf)
+- [Breve introducción a la gestión de módulos del kernel](../LPIC2/Kernel)
 - [Journald i journalctl](https://q2dg.github.io/LPIC3-303/Journalctl.pdf)
 - [Systemd](../LPIC1/Systemd.md)
 - Breve descripción de [/proc](https://www.thegeekdiary.com/understanding-the-proc-file-system) y de [/sys](https://www.thegeekdiary.com/understanding-the-sysfs-file-system-in-linux/)
@@ -31,10 +30,10 @@
 - [Hashes i endevinació de contrasenyes. Keyloggers](https://q2dg.github.io/LPIC3-303/HashesContrasenyesiKeyloggers.pdf)
 
 ###3.Módulos PAM
-- [PAM i mòduls interessants, (pam_limit, pam_pwquality, etc) (Pes 3)](3.Módulos PAM/PAM) 
+- [PAM i mòduls interessants, (pam_limit, pam_pwquality, etc) (Pes 3)](../LPIC2/PAM.md) 
 
-###4.Client Kerberos+LDAP i FreeIPA (NSS+PAM+SSSD)
-- [Instal.lació servidor 389DS](https://q2dg.github.io/LPIC3-303/LDAP-Kerberos-FreeIPA/PracticaInstalacion389DS.pdf)
+###4.LDAP, Kerberos y FreeIPA (NSS+PAM+SSSD)
+- [Instalación servidor 389DS](ldap_kerberos_freeipa.md)
 - [Administración básica de un directorio 389DS](https://q2dg.github.io/LPIC3-303/LDAP-Kerberos-FreeIPA/PracticaAdministracionBasicaDirectorio.pdf)
 - Autenticació i identificació contra servidor 389DS fent servir SSSD(Pes 5)
 - Instal.lació i configuració d'un servidor MIT Kerberos i cooperació amb servidors LDAP i NFS(Pes 5)PENDENT NFS
@@ -50,7 +49,7 @@
 - ACLs(Pes 3)
 
 ###7.SELinux
-- SELinux(Pes 4)
+- [SELinux(Pes 4)](selinux.md)
 
 ###8.RADIUS
 - RADIUS(Pes 4)
@@ -67,10 +66,10 @@
 - Altres FIMs
 - ELK (amb Falco i Audit)
 
-###11.Detectors de rootkits i malware
+###11.Detectores de rootkits y malware
 - Lynis, OpenSCAP, Rkhunter, Maldet, Aide (Pes 4)
 - Ansible (com a mètode per aplicar de forma automàtica els canvis de configuració suggerits pels programes anteriors)
-- Honeypots (com a mètode de captura i estudi de malware)
+- Honeypots (como método de captura y estudio de malware)
 - Metasploit (eina per crear "malware" ad-hoc i introduir-lo a víctimes fent servir algun exploit)
 - Yara (eina per crear definicions pròpies de detecció de malware) PENDENT
 

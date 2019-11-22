@@ -1,10 +1,21 @@
+# Project information
 site_name: Knowledge Space *!
+site_description: Notas sobre Linux
+site_author: javierobcn
 site_url: https://javierobcn.github.io/Notas/
+
+# Repository
 repo_url: https://github.com/javierobcn/Notas
 repo_name: 'javierobcn/Notas'
+
+# Configurations
 theme:
   name: 'material'
   language: 'es'
+  feature:
+    tabs:true
+  logo:
+    icon: 'live_help'
 markdown_extensions:
   - admonition
   - def_list
@@ -31,9 +42,10 @@ markdown_extensions:
       guess_lang: False
       use_pygments: True
       noclasses: True
-      #pygments_style: monokai
+      pygments_style: friendly
   - toc:
       permalink: true
+
 #extra_css: [extra.css]
 google_analytics:
   - 'UA-152756073-1'

@@ -3,7 +3,7 @@
  
 Para instalar el servidor: `apt install samba`
 
-Per instalar el cliente: `apt install cifs-útiles` y opcionalmente, `apt install smbclient` También existe el paquete `samba-doc`. Hay muchos ejemplos de configuración en `/usr/share/doc/samba-doc/htmldocs/index.html` y en la carpeta `/usr/share/doc/samba-doc/examples`. También el propio `smb.conf` tiene ejemplos. 
+Para instalar el cliente: `apt install cifs-utils` y opcionalmente, `apt install smbclient` También existe el paquete `samba-doc`. Hay muchos ejemplos de configuración en `/usr/share/doc/samba-doc/htmldocs/index.html` y en la carpeta `/usr/share/doc/samba-doc/examples`. También el propio `smb.conf` tiene ejemplos. 
 
 ##Demonios y puesta en marcha
 

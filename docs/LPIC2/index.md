@@ -27,7 +27,7 @@
 ##Servidores y clientes Samba
 ##rsync
 
-##Servidores y clientes SSH
+##[Servidores y clientes SSH](ssh.md)
 ##cortafuegos Iptables
 ##Implementación VPN mediante OpenVPN
 ##Red Tor (no entra)
@@ -38,13 +38,13 @@
 
 ##Servidores y clientes de correo
 
-##Framework PAM
+##[Framework PAM](PAM.md)
 ##Servidores y clientes LDAP
 ##Archivo ldif de apoyo
 
 ##BIOS y UEFI
 ##grub
-##Módulos del kernel
+##[Módulos del kernel]("kernel.md")
 ##udev
 ##Inventario de hardware
 
