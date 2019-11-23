@@ -33,7 +33,7 @@ Tendremos una máquina debian 8.5 con usuario linux clave linux y root clave too
 ##Detección de hardware
 ##Particionado de discos
 ##Instalacion de Linux
-##Gestión de permisos en Linux
+##[Gestión de permisos en Linux](Gestión de permisos en Linux.md)
 ##[Gestión de usuarios en Linux](Gestión de usuarios en Linux.md)
 ##Arranque de Linux ( GRUB+GRUB LEGACY+INIT.D/UPSTART)
 ##Cargadores de arranque
