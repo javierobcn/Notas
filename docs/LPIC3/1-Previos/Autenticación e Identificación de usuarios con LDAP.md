@@ -91,5 +91,4 @@ son:
 
 - [**Samba4**](http://www.samba.org) : Servidor LDAP propio + Servidor Kerberos (tipo Heimdal) + Servidor DNS propio + Servidor NTP propio + Servidor de compartición de carpetas.
 
-- [**Active Directory**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/active-directory-domain-services) : “Suite” de servidor LDAP + Kerberos + DNS + NTP (entre otros) desarrollada por Microsoft e integrada en las versiones “Server” de sus sistemas Windows para poder almacenar y gestionar de
-forma centralizada la información de sus dominios de administración (usuarios, equipos, configuraciones, permisos, etc).
+- [**Active Directory**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/active-directory-domain-services) : “Suite” de servidor LDAP + Kerberos + DNS + NTP (entre otros) desarrollada por Microsoft e integrada en las versiones “Server” de sus sistemas Windows para poder almacenar y gestionar de forma centralizada la información de sus dominios de administración (usuarios, equipos, configuraciones, permisos, etc).

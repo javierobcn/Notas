@@ -23,16 +23,8 @@ Tendremos una máquina debian 8.5 con usuario linux clave linux y root clave too
 ##Caracteres Especiales
 ##Text Parsing
 ##[History Expansion](History Expansion.md)
-##Vim masterclass
-* Modos
-* Búsquedas
-* Navegar
-* Edición
-* VIM autocomplete trick ;)
-
-##Gestión de paquetes
-* instaladores de paquetes
-* instalación de un paquete que no está en los repositorios
+##[Vim masterclass](Vim masterclass)
+##[Gestión de paquetes](Gestión de paquetes)
 
 ##Compilación de programas
 ##Gestión de procesos en Linux
