@@ -7,6 +7,8 @@ Title: Bienvenido
 - [LPIC 3](LPIC3/index.md)
 
 ## Programación 
+### Odoo
+
 
 ###lenguajes de marcas
 - [Sintaxis Markdown](https://daringfireball.net/projects/markdown/syntax/)

@@ -85,7 +85,7 @@ lo instalamos con:
 si aparecen errores de dependencias, la instalación se quedará en un estado inconsistente, para solucionarlo ejecutamos:
 
     :::bash
-    apt-get -f install # → arreglará problemas de dependencias al instalar un paquete con dpkg y lo dejará ya instalado.
+    apt-get -f install # arreglará problemas de dependencias al instalar un paquete con dpkg y lo dejará ya instalado.
 
 `dpkg -r` →  para eliminar un paquete
 
@@ -113,8 +113,9 @@ Por ej. para instalar Elastic Search tendremos diferentes alternativas:
 - Descargamos de su web el fichero .deb
 
 - Incluimos en los repositorios:
-
-    wget -o “https://packages….” | apt-key add -
+        
+        :::bash
+        wget -o “https://packages….” | apt-key add -
 		echo “deb https://packages…. debian stable main | tee -a /etc/apt/elasticsearch.list
 
 Es habitual tener los repositorios separados:
@@ -123,9 +124,10 @@ Es habitual tener los repositorios separados:
 
 basta colocarlos en la carpeta `sources.list.d` y se realizará su inclusión
 
-Nota: los paquetes ubuntu en debian y viceversa puede hacerse pero no es lo mas recomendable, podría haber discrepancias.
+!!! note "Nota"
+    Los paquetes ubuntu en debian y viceversa puede hacerse pero no es lo mas recomendable, podría haber discrepancias.
 
-Se pueden convertir paquetes RPM a deb y viceversa con una herramienta llamada alien
+Se pueden convertir paquetes RPM a deb y viceversa con una herramienta llamada `alien`
 
 Según el fabricante de software es posible encontrar siempre la ultima versión siguiendo una norma por ej. WordPress siempre tiene el mismo fichero /latest.tar.gz que permite su inclusión en un script.
 
@@ -133,6 +135,9 @@ Según el fabricante de software es posible encontrar siempre la ultima versión
 ##Software para automatización de infraestructura
 
 Ansible
+
 puppet
+
 cheff
+
 recomendable ansible, curva de aprendizaje menor que en puppet y es muy complejo.

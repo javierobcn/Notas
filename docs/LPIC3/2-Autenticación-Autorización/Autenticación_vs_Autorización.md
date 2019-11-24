@@ -53,7 +53,6 @@ básicamente deben proporcionar un sistema de almacenar nombres y contraseñas. 
         Tanto los servidores LDAP con los SGBDs pueden contener, además de la información estrictamente relacionada con la autenticación (nombres y contraseñas, básicamente), diferente información extra relacionada con los usuarios autenticados (como datos personales: teléfono, email, etc o datos de sistema: ruta de la carpeta personal, shell preferido, etc, etc). De hecho, incluso se podría combinar el uso de Kerberos (o RADIUS) con otro servidor LDAP o SGBD, delegando así el proceso de autenticación sólo en Kerberos (o RADIUS) y utilizando la base de datos LDAP / relacional sólo de fuente de información complementaria. RADIUS, por su parte, también incorpora ciertas funcionalidades relacionadas con procesos de autorizaciones, principalmente relacionadas con el acceso a redes
 
 ##Autorización
-
 Se llama "autorización", por otra parte, al proceso que determina qué puede hacer y / o donde puede acceder el elemento autenticado. Una vez un determinado elemento ha sido identificado (por ejemplo, un usuario), el sistema determinará, con los datos que obtenga de este usuario (provenientes de diferentes fuentes), a qué recursos (es decir, a qué programas, carpetas y ficheros, hardware, etc) estará autorizado a entrar / conectar / leer / modificar / escribir / eliminar / ejecutar, etc y en cuáles no. Así pues, hay que distinguir entre autenticación y la autorización para que son dos
 procesos separados.
 

@@ -43,7 +43,6 @@ Algunas "units" contienen un símbolo @ en su nombre (por ejemplo, nom@cadena.se
 "Cadena" en su nombre (así: nombre @.service). La parte "cadena" es el identificador de la instancia (de hecho, dentro del archivo de configuración de la unit-plantilla el valor "cadena" sustituye todas las ocurrencias del especificador especial %i).
 
 ##Comandos para gestionar Units
-
 A continuación mostramos algunos de los comandos más importantes para gestionar Units principalmente (No exclusivamente) de tipo "service":
 
 `systemctl [list-Units] [-t {service | socket | ...}] [--all | --failed | --state = inactive]` Muestra el estado de las Units que están "activas" (del tipo indicado, si no se indica, aparecen todas).
@@ -173,25 +172,52 @@ activo en la máquina. De este modo, cada instancia se iniciará automáticament
 
 Los ficheros de configuración de las Units "de tipo usuario" se encuentran en otras carpetas separadas de las de las Units "de sistema". Concretamente (se muestran en orden de precedencia ascendente):
 
-- "/Usr/lib/systemd/user": Para Units proporcionados por los paquetes instalados en el sistema
-- "~ / .Local / share / systemd / user": Para Units de paquetes que han sido instaladas en la carpeta personal
-- "/ Etc / systemd / user": Para Units proporcionados por administrador del sistema
-- "~ / .Config / systemd / user": Para Units construidas por el propio usuario
+- `/usr/lib/systemd/user`: Para Units proporcionados por los paquetes instalados en el sistema
+- `~/.local/share/systemd/user`: Para Units de paquetes que han sido instaladas en la carpeta personal
+- `/etc/systemd/user`: Para Units proporcionados por administrador del sistema
+- `~/.config/systemd/user`: Para Units construidas por el propio usuario
 
 !!!NOTE "NOTA"
     La variable especial **%h** se puede utilizar dentro de los archivos de configuración de las Units "de usuario" para indicar la ruta de la carpeta personal del usuario en cuestión.
 
-Otra característica de las Units "de usuario" es que pueden ser gestionadas por parte de este usuario sin que deba ser administrador del sistema; esto lo puede hacer con las mismas órdenes `systemctl...`  ya conocidas sólo que añadiendo el parámetro --user Así, por ejemplo, para arrancar un servicio automáticamente cada vez que se inicie nuestra sesión habrá que ejecutar `systemctl --user enable nomUnit` ; para ver el estado de
-todas nuestras Units "de usuario" habrá que hacer `systemctl --user list-units` ; para recargar las Units modificadas habrá que hacer `systemctl --user daemon-reload` , etc
+Otra característica de las Units "de usuario" es que pueden ser gestionadas por parte de este usuario sin que deba ser administrador del sistema; esto lo puede hacer con las mismas órdenes `systemctl...`  ya conocidas añadiendo el parámetro **--user**. Así, por ejemplo, para arrancar un servicio automáticamente cada vez que se inicie nuestra sesión habrá que ejecutar `systemctl --user enable nomUnit` ; para ver el estado de todas nuestras Units "de usuario" habrá que hacer `systemctl --user list-units` ; para recargar las Units modificadas habrá que hacer `systemctl --user daemon-reload` , etc
+
+### Ejemplo de servicio por usuario para mkDocs Autoarrancable al iniciar sesión
+
+Crearemos un [servicio de usuario] que permitirá arrancar el comando mkdocs con la opción serve y hará disponible de forma automática el servidor web incorporado de mkDocs para consultar estas notas. 
+
+*  Creamos un fichero `~/.config/systemd/user/docs.service` con el contenido:
+
+        [Unit]
+        Description = MkDocs Notas
+        [Service]
+        Type = simple
+        ExecStart = /usr/local/bin/mkdocs serve -f /home/javier/Documentos/Documentos/docs/mkdocs.yml
+        [Install]
+        WantedBy = multi-user.target
+
+
+*  A continuación recargamos las units con el comando reload, activamos el servicio para sucesivos reinicios y hacemos que arranque, con los siguientes comandos:
+        
+        systemctl --user daemon-reload
+        systemctl --user enable docs
+        systemctl --user start docs
+
+
+!!! note "Nota"
+    observa el uso del parámetro --user en los coomandos anteriores, lo cual indica que las operaciones solo afectan al usuario actual, no a todo el sistema. 
+
 
 ##Ficheros configuración de Units
+### Estructura interna
 La estructura interna de los archivos de configuración de las Units está organizada en secciones, distinguidas cada una por un encabezamiento sensible a mayúsculas y minúsculas rodeado de corchetes ( [Encabezamiento] ). Dentro de las secciones se definen diferentes directivas (también mayúsculas y minúsculas) en la forma de parejas NomDirectiva = valor , donde el valor puede ser una palabra, una frase, una ruta, un número, true/yes, false/no, una
 fecha, etc, dependiendo de su significado.
 
 !!!NOTE "NOTA"
     NOTA: También pueden existir directivas donde no se escriba ningún valor (es decir, así: NomDirectiva = ). En este caso, se estará "Reseteando" (es decir, anulando) el valor que previamente se hubiera dado en otro sitio
 
-La primera sección (aunque el orden no importa) siempre suele ser la llamada [Unit] y se utiliza para definir datos sobre la propia Unit en sí como Unit que es y la relación que tiene ésta con otros Units. algunas de sus directivas más habituales son:
+####Sección [Unit]
+La primera sección (aunque el orden no importa) suele ser la llamada [Unit] y se utiliza para definir datos sobre la propia Unit en sí y la relación que tiene con otras Units. algunas de sus directivas más habituales son:
 
 - **Description** = Una breve descripción de la Unit
     
@@ -203,14 +229,13 @@ La primera sección (aunque el orden no importa) siempre suele ser la llamada [U
 
     El comando `systemctl status` las muestra
 
-- **Wants** = unservei.service unaltre.service untarget.target ...
+- **Wants** = unservicio.service otro.servicio untarget.target ...
     
     Lista las Units que deberían estar iniciadas para que el Unit en cuestión pueda funcionar correctamente. Si no lo están ya, systemd las iniciará en paralelo junto con el Unit en cuestión; si se quiere indicar un cierto orden en vez de iniciar todas en paralelo, se puede utilizar las directivas After = o Before =. Si alguna de las Units listadas falla al iniciarse, el Unit en cuestión se iniciará igualmente
 
-- **Requires** = unservei.service unaltre.service untarget.target ...
+- **Requires** = unservicio.service otro.service untarget.target ...
 
     Lista las Units que imprescindiblemente deben estar iniciadas para que el Unit en cuestión pueda funcionar correctamente. Si no lo están ya, systemd las iniciará en paralelo junto con el Unit en cuestión; si se quiere indicar un cierto orden en vez de iniciar todas en paralelo, se puede utilizar las directivas After = o Before =. Si alguna de las Units listadas falla al iniciarse, el Unit en cuestión también fallará automáticamente
-
 
 - **BindsTo** = unservei.service unaltre.service untarget.target ...
     Similar a Requires = pero, además, hace que el Unit en cuestión se detenga automáticamente si alguna de las Units asociadas finaliza.
@@ -222,7 +247,7 @@ La primera sección (aunque el orden no importa) siempre suele ser la llamada [U
     Indica, de las Units listadas en las directivas Wants = o Requires =, qué no se iniciarán en paralelo sino antes de la Unit en cuestión. Si aquí se indicara alguna Unit que no se encontrara listada en Wants = o Requires =, esta directiva no se tendrá en cuenta.
 
 !!!NOTE "NOTA"
-    Lo más típico es tener una Unit A que necesita que la Unit B esté funcionando previamente para poderse poner en marcha. En este caso, simplemente habría que añadir las líneas Requires = B y After = B en la sección [Unido] del Unit A. Si la dependencia es opcional, se puede sustituir Requires = B para Wants = B
+    Lo más típico es tener una Unit A que necesita que la Unit B esté funcionando previamente para poderse poner en marcha. En este caso, simplemente habría que añadir las líneas Requires = B y After = B en la sección [Unit] del Unit A. Si la dependencia es opcional, se puede sustituir Requires = B por Wants = B
 
 - **Conflicts** = unservei.service unaltre.service ...
     Lista las Units que no pueden estar funcionando a la vez que el Unit en cuestión. iniciar una Unit con esta directiva causará que las aquí listadas se detengan automáticamente.
@@ -252,8 +277,8 @@ Al igual que con "ConditionXXX", hay un conjunto de directivas que empiezan por 
 - **AllowIsolate** = yes
     Esta directiva sólo tiene sentido para Units de tipo target. Si su valor es "yes" (por defecto es "no") indica que el target en cuestión admitirá que se le aplique el comando systemctl Isolate (ver más abajo)
 
-Por otra parte, la última sección (aunque el orden no importa) de un archivo de configuración de una Unit siempre suele ser la llamada [**Install**] , la cual, atención, es opcional. Se utiliza para definir cómo y cuando la Unit puede
-ser activada o desactivada. Algunas de sus directivas más habituales son:
+####Sección [Install]
+Por otra parte, la última sección (aunque el orden no importa) de un archivo de configuración de una Unit siempre suele ser la llamada [**Install**] , la cual, atención, es opcional. Se utiliza para definir cómo y cuando la Unit puede ser activada o desactivada. Algunas de sus directivas más habituales son:
 
 - **WantedBy** = untarget.target unaltre.target ...
     
@@ -263,7 +288,7 @@ ser activada o desactivada. Algunas de sus directivas más habituales son:
 
 - **RequiredBy** = untarget.target unaltre.target ...
 
-    Similar a WantedBy = pero donde el fallo del Unit en cuestión en ejecutar systemctl enable hará que los targets indicados aquí no puedan llegar a alcanzar. La carpeta donde se encuentra el link de el Unit en este caso se denomina `/etc/systemd/system/nomTarget.requires`
+    Similar a WantedBy = pero donde el fallo del Unit en cuestión al ejecutar `systemctl enable` hará que los targets indicados aquí no puedan llegar a alcanzarse. La carpeta donde se encuentra el link de la Unit en este caso se denomina `/etc/systemd/system/nomTarget.requires`
 
 - **Alias** ​​= unaltrenom.tipusUnit
     
@@ -273,8 +298,7 @@ ser activada o desactivada. Algunas de sus directivas más habituales son:
 
     Permite activar o desactivar diferentes Units como conjunto. La lista debe consistir en todas las Units que también se quieren tener habilitadas cuando la Unit en cuestión esté habilitada
 
-###Sección [Service] (por Units de tipo .service):
-
+####Sección [Service] (para Units de tipo .service):
 Dependiendo del tipo de Unit que tengamos nos podremos encontrar con diferentes secciones específicas dentro de su fichero de configuración, normalmente escritas entre la sección [Unit] el principio y la sección [Install] del final (si existe). En el caso de las Units de tipo "service", por ejemplo, nos encontramos con la sección específica llamada [Service] , la cual puede incluir diferentes directivas como las siguientes:
 
 !!!NOTE "NOTA"
@@ -291,7 +315,7 @@ Dependiendo del tipo de Unit que tengamos nos podremos encontrar con diferentes 
     - **oneshot**: Útil para scripts, que se ejecutan (haciendo `systemctl start` igualmente) una vez y finalizan.Systemd esperará hasta que el proceso finalice e interpreta que está listo cuando haya finalizado.
     Se puede considerar el uso de la directiva RemainAfterExit = yes para "engañar" a systemd diciéndole que el servicio continúa activo aunque el proceso haya finalizado; en este caso, la directiva ExecStop = no se llegará a hacer efectiva nunca. 
 
-    También están las posibilidades "dbus" (similar a "simple" pero systemd interpreta que está listo cuando el nombre indicado en BusName = ha sido adquirido), "idle" (similar a "simple" pero con la ejecución retrasada hasta que no se ejecute nada más; se puede utilizar este método, por ejemplo, para emitir un sonido justo después de la finalización del arranque del sistema.) y "notify" (El sistema más completo, donde se establece un canal de comunicación interno entre el servicio y Systemd para notificarse estados y eventos vía la API propia de systemd sd_notify () y donde Systemd interpreta que está listo cuando recibe el estado correspondiente a través de este canal; si queremos que scripts utilicen este método hay que usar el comando systemd-notify )
+    También están las posibilidades **dbus** (similar a "simple" pero systemd interpreta que está listo cuando el nombre indicado en BusName = ha sido adquirido), **idle** (similar a "simple" pero con la ejecución retrasada hasta que no se ejecute nada más; se puede utilizar este método, por ejemplo, para emitir un sonido justo después de la finalización del arranque del sistema.) y **notify** (El sistema más completo, donde se establece un canal de comunicación interno entre el servicio y Systemd para notificarse estados y eventos vía la API propia de systemd sd_notify () y donde Systemd interpreta que está listo cuando recibe el estado correspondiente a través de este canal; si queremos que scripts utilicen este método hay que usar el comando `systemd-notify` )
 
 - **ExecStart** = /ruta/ejecutable param1 param2 ...
     Indica el comando (y parámetros) a ejecutar cuando se realiza un `systemctl start` Si la ruta de el ejecutable comienza con un guión ( "-"), valores de retorno del comando diferentes de 0 (que normalmente se considerarían señal de error) se considerarán como válidos.
@@ -341,7 +365,7 @@ Dependiendo del tipo de Unit que tengamos nos podremos encontrar con diferentes 
     Set the user or group that the processes are executed as, respectively. They can take a single user/group name, or a numeric ID as argument. For system services (services run by the system service manager, i.e. managed by PID 1) the default is "root". For user services of any other user, switching user identity is not permitted, hence the only valid setting is the same user the user's service manager is running as. If no group is set, the default group of the user is used.
 
 - **WorkingDirectory** = / ruta / carpeta
-    Indica el directorio de trabajo del servicio en cuestión. Si no se especifica esta directiva, el valor por defecto es "/" (en el caso de servicios de sistema) o $ HOME (en el caso de servicios de usuario, es decir, iniciados con --user -). Si la ruta se precede con un símbolo "-", el hecho de que la carpeta correspondiente no exista no se interpretará como un error. Si se ha indicado la directiva User =, se puede escribir "~" como valor de esta directiva, equivalente así a la ruta de la carpeta personal del usuario indicado en User =.
+    Indica el directorio de trabajo del servicio en cuestión. Si no se especifica esta directiva, el valor por defecto es "/" (en el caso de servicios de sistema) o $ HOME (en el caso de [servicios de usuario], es decir, iniciados con --user -). Si la ruta se precede con un símbolo "-", el hecho de que la carpeta correspondiente no exista no se interpretará como un error. Si se ha indicado la directiva User =, se puede escribir "~" como valor de esta directiva, equivalente así a la ruta de la carpeta personal del usuario indicado en User =.
 
 - **StandardOutput** = {null | tty | journal | socket}
     Indica donde se imprimirá la salida estándar de los programas indicados en las directivas ExecStart =, y ExecStop =. El valor "null" representa el destino / dev / null. El valor "tty" representa un terminal (ya sea de tipo virtual - / dev / ttyX- o pseudo - / dev / pts / X-), el cual deberá ser especificado mediante la directiva TTYPath = . El valor "journal" es el valor por defecto (es decir, que si el programa en cuestión imprimiera algo en la pantalla del terminal al ejecutarse en primer plano, esta salida se redireccionará el Journal en ejecutarse vía un archivo .service). El valor "socket" sirve para indicar que la salida debe enviarse al socket asociado al servidor con el fin de viajar al otro extremo de la comunicación (ver más adelante).
@@ -898,3 +922,7 @@ Step 3: "myserver.service" file
     [Service]
     # We listening server's listening port only to loopback interface because it's there where input packages comes from 
     proxyExecStart=/usr/bin/ncat -k -l 127.0.0.1 8080  
+
+
+[servicio de usuario]:/../LPIC1/Systemd/#servicios-systemd-por-usuario
+[servicios de usuario]:/../LPIC1/Systemd/#servicios-systemd-por-usuario

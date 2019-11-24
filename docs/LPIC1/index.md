@@ -19,13 +19,14 @@ Tendremos una máquina debian 8.5 con usuario linux clave linux y root clave too
 
 
 ##[Linea de comandos](command line.md)
+*  [History Expansion](History Expansion.md)
+
 ##[Estructura de carpetas (FHS Filesystem Hierarchy Standard)](Estructura de carpetas.md)
 ##Caracteres Especiales
 ##Text Parsing
-##[History Expansion](History Expansion.md)
+
 ##[Vim masterclass](Vim masterclass)
 ##[Gestión de paquetes](Gestión de paquetes)
-
 ##Compilación de programas
 ##Gestión de procesos en Linux
 ##[Kernel](kernel.md)
@@ -35,7 +36,7 @@ Tendremos una máquina debian 8.5 con usuario linux clave linux y root clave too
 ##Instalacion de Linux
 ##[Gestión de permisos en Linux](Gestión de permisos en Linux.md)
 ##[Gestión de usuarios en Linux](Gestión de usuarios en Linux.md)
-##Arranque de Linux ( GRUB+GRUB LEGACY+INIT.D/UPSTART)
+##Arranque de Linux (GRUB+GRUB LEGACY+INIT.D/UPSTART)
 ##Cargadores de arranque
 
 * Run levels y arranque del sistema:
@@ -44,26 +45,4 @@ Tendremos una máquina debian 8.5 con usuario linux clave linux y root clave too
 
 ##[Systemd](Systemd.md)
 
-##Networking
-* Tabla de máscaras de red
-* PILA TCP
-* Redes Lan
-    * ifconfig
-    * Dispositivo virtual o alias
-    * utilidad ipcalc (calculadora IP)
-    * mac address
-* ficheros de config de red
-    * Redhat
-    * Debian
-    * Otros ficheros de configuración
-* Otros comandos de red
-    * route
-    * netstat
-    * dhclient
-* Cómo funciona el DNS?
-* Resolución de problemas de conectividad
-* netcat
-* Puntos a chequear cuando falla la conectividad
-* Definir el nombre de máquina o hostname
-* Listado de servicios y puertos
-* Navegadores en modo texto
+##[Networking](Networking.md)

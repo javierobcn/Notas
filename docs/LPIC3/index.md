@@ -14,7 +14,7 @@
 
 ##Documentos del curso
 ###1.Previos
-- [Comandos básicos de red en Linux](1-Previos/Comandos básicos de red en Linux)
+- [Comandos básicos de red en Linux](/LPIC1/Networking/#comandos-basicos-de-red-en-linux)
 - [Teoria básica sobre LDAP y NSS](1-Previos/Autenticación e Identificación de usuarios con LDAP) 
 - [Teoria básica sobre NFS](1-Previos/Compartir ficheros con NFSv4)
 - [Breve introducción a la gestión de módulos del kernel](../LPIC2/Kernel)
@@ -33,8 +33,8 @@
 - [PAM i mòduls interessants, (pam_limit, pam_pwquality, etc) (Pes 3)](../LPIC2/PAM.md) 
 
 ###4.LDAP, Kerberos y FreeIPA (NSS+PAM+SSSD)
-- [Instalación servidor 389DS](ldap_kerberos_freeipa.md)
-- [Administración básica de un directorio 389DS](https://q2dg.github.io/LPIC3-303/LDAP-Kerberos-FreeIPA/PracticaAdministracionBasicaDirectorio.pdf)
+- [Instalación servidor 389DS](Instalación y Configuración ldap 389DS.md)
+- [Administración básica de un directorio 389DS](Administración básica 389DS.md)
 - Autenticació i identificació contra servidor 389DS fent servir SSSD(Pes 5)
 - Instal.lació i configuració d'un servidor MIT Kerberos i cooperació amb servidors LDAP i NFS(Pes 5)PENDENT NFS
 - FreeIPA (client, servidor i rèplica)(Pes 4)PENDENT

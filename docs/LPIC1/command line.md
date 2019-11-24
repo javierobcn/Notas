@@ -35,6 +35,8 @@ En el prompt, el símbolo ~ (altgr + ñ) indica siempre la home del usuario logu
 
 La tecla tab rellena comandos, archivos, directorios etc, usarla para ayuda
 
+
+
 ##man
 Para obtener ayuda acerca de un comando miramos las páginas del manual:
 `man ls` → pág. del manual para el comando ls
@@ -64,7 +66,8 @@ ls -lisa *.*
 -  Stderr → 2 (Salida de error) → normalmente por pantalla
 
 ##Comandos Básicos
-###ls
+
+ls
 -l formato de lista largo
 ```
     - indica que es un fichero
@@ -77,31 +80,41 @@ ls -lisa *.*
 ```
 
 -la imprime los nombres de ficheros ocultos por comenzar con un .
--lart ordena los ficheros por fecha y la r invierte dicho orden
-pwd
-Indica el path absoluto de donde estamos en este momento.
-/home/linux 
-En Linux todo cuelga del directorio raiz /
-cd
-cambiar de directorio
-cd - nos devuelve al directorio anterior donde estábamos
-cd sin nada nos devuelve al home del usuario
-file <nombre del fichero>
-Indica el tipo de fichero
-mkdir / rmdir
-crear / eliminar directorios
-cd /tmp
-mkdir cesta/fruta/peras (No funciona)
-mkdir -p cesta/fruta/peras (El parametro -p de parent permite hacerlo)
-pueden utilizarse rangos:
-mkdir -p cesta/fruta/{peras,manzanas}/kaka
-mkdir -p cesta/fruta/{1,2,3}/kaka
-cp
-Copia de ficheros cp origen destino
-mv
-Elimina el fichero de origen
-touch filename
-crea un archivo
 
-rm -rf <directory> borra el directorio y todo lo que contiene de forma recursiva y forzada. !ojo!
+-lart ordena los ficheros por fecha y la r invierte dicho orden
+
+pwd --> Indica el path absoluto de donde estamos en este momento.
+
+    /home/linux 
+
+En Linux todo cuelga del directorio raiz /
+
+cd --> cambiar de directorio
+
+cd - --> nos devuelve al directorio anterior donde estábamos
+
+cd sin nada nos devuelve al home del usuario
+
+file <nombre del fichero> --> Indica el tipo de fichero
+
+mkdir / rmdir --> crear / eliminar directorios
+    
+    cd /tmp
+    mkdir cesta/fruta/peras (No funciona)
+    mkdir -p cesta/fruta/peras (El parametro -p de parent permite hacerlo)
+
+pueden utilizarse rangos:
+
+    mkdir -p cesta/fruta/{peras,manzanas}/kaka
+    mkdir -p cesta/fruta/{1,2,3}/kaka
+
+cp --> Copia de ficheros 
+    
+    cp origen destino
+
+mv --> Elimina el fichero de origen
+
+touch filename --> crea un archivo
+
+rm -rf <directory> --> borra el directorio y todo lo que contiene de forma recursiva y forzada. !ojo!
 

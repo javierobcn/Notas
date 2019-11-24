@@ -4,7 +4,7 @@ Linux con seguridad mejorada (SELinux, https://github.com/SELinuxProject) es un 
 
 * Los administradores no tienen forma de controlar a los usuarios: un usuario podría establecer permisos legibles para todo el mundo en archivos confidenciales (como las claves ssh). Incluso podría hacer `chmod +rwx` en todo su directorio de inicio y nada le detendría. La misma razón puede extenderse a cualquier programa (tal vez troyano) ejecutado por ese usuario porque los procesos heredan los permisos del usuario. En resumen: un usuario normal puede otorgar (y restringir) el acceso a sus archivos de propiedad a otros usuarios y grupos o incluso cambiar el propietario del archivo, dejando expuestos los archivos críticos a cuentas que no necesitan este acceso. Es cierto que se podría restringir a este usuario el acceso a algunos archivos, pero eso es discrecional: no hay forma de que el administrador pueda aplicarlo a cada archivo individual en el sistema.
 
-* El acceso a la raíz (o sudo) en un sistema DAC le da a la persona (quizás hackeada) o al (quizás troyano) permisos de programa para realizar lo deseado en una máquina. En esencia, hay dos niveles de privilegio (raíz y usuario), y no hay una manera fácil de aplicar un modelo de privilegios mínimos (las cárceles chroot no son una opción porque también son discrecionales).
+* El acceso a la raíz (o sudo) en un sistema DAC le da a la persona (quizás hackeada) o al programa (quizás troyanizado) permisos para realizar lo deseado en una máquina. En esencia, hay dos niveles de privilegio (raíz y usuario), y no hay una manera fácil de aplicar un modelo de privilegios mínimos (las jaulas chroot no son una opción porque también son discrecionales).
 
 Pero si está utilizando un sistema MAC, los usuarios no podrán evitar las reglas establecidas previamente por el administrador del sistema. Estas reglas definen lo que un usuario o proceso puede hacer, limitando cada proceso a su
 dominio propio para que el proceso pueda interactuar solo con ciertos tipos de archivos y otros procesos permitidos o dominios. Esto evita que un hacker secuestre cualquier proceso para obtener acceso a todo el sistema. Esta restricción es implementada desde el nivel del núcleo: se aplica a medida que la política SELinux se carga en la memoria y, por lo tanto, el control de acceso se vuelve obligatorio.
@@ -13,9 +13,6 @@ En SELinux todo está denegado: el sysadmin debe escribir una serie de política
 archivos, puertos, tuberías, ...). Si un servicio, programa o usuario posteriormente intenta acceder o modificar un archivo o recurso que no es necesario funcionalmente, entonces se deniega el acceso y se registra la acción.
 
 Por ejemplo, el usuario de Apache solo puede acceder al directorio `/var/www/html` y nada más porque hay una política SELinux que manda eso. No hay acceso por defecto, incluso si usted es el usuario root. Debido a que SELinux se implementa dentro del núcleo, no es necesario que las aplicaciones individuales sean especialmente desarrolladas para trabajar bajo SELinux aunque, por supuesto, si se desarrollan para observar el error y los códigos que devuelve SELinux podrían funcionar mejor. Si SELinux bloquea una acción, la aplicación subyacente es informada con un un error de tipo normal (o, al menos, convencional) de "acceso denegado" a la solicitud.
-
-La política de SELinux no es algo que reemplace la seguridad tradicional de DAC. Si una regla DAC prohíbe un acceso de usuario a un archivo, las reglas de política de SELinux no se evaluarán porque la primera línea de defensa ya
-ha bloqueado el acceso. Las decisiones de seguridad de SELinux entran en juego después de que se haya evaluado la seguridad de DAC. Así que si se deniega el acceso a un recurso, primero verifique los permisos comunes de acceso. Pero tenga en cuenta que si el DAC y el MAC entran en conflicto, La política de SELinux tiene prioridad. Entonces, supongamos que cambia, como root, la propiedad del servicio `httpd` a cualquiera (ejecutando el comando `chmod 777 httpd`); la política predeterminada de SELinux todavía evita cualquier intento de un usuario de matar el servidor web.
 
 Una gran introducción a SELinux es https://wiki.gentoo.org/wiki/SELinux/Quick_introduction y, en general, https://wiki.gentoo.org/wiki/SELinux sitio completo.
 
@@ -51,6 +48,9 @@ La política SELinux "targeted" se proporciona con 4 formas de control de acceso
 
 ##Conceptos básicos de SELinux
 ###Política
+La política de SELinux no es algo que reemplace la seguridad tradicional de DAC. Si una regla DAC prohíbe un acceso de usuario a un archivo, las reglas de política de SELinux no se evaluarán porque la primera línea de defensa ya
+ha bloqueado el acceso. Las decisiones de seguridad de SELinux entran en juego después de que se haya evaluado la seguridad de DAC. Así que si se deniega el acceso a un recurso, primero verifique los permisos comunes de acceso. Pero tenga en cuenta que si el DAC y el MAC entran en conflicto, La política de SELinux tiene prioridad. Entonces, supongamos que cambia, como root, la propiedad del servicio `httpd` a cualquiera (ejecutando el comando `chmod 777 httpd`); la política predeterminada de SELinux todavía evita cualquier intento de un usuario de matar el servidor web.
+
 Una política de SELinux define el acceso de los usuarios a los roles, el acceso de los roles a los dominios y el acceso de los dominios a los tipos. Primero, el usuario tiene que estar autorizado para acceder a un rol, y luego el rol tiene que estar autorizado para acceder al dominio. El dominio a su vez está restringido para acceder solo a ciertos tipos de archivos:
 ###Usuarios y Roles
 * SELinux tiene un conjunto de usuarios preconstruidos. Cada cuenta de usuario normal de Linux se asigna a uno o más Usuarios de SELinux.
@@ -79,7 +79,7 @@ Estas etiquetas (algunas veces llamadas "contextos" también) se almacenan como 
 
     usuario: rol: tipo: sensibilidad
 
-Veamos la etiqueta o contexto de un archivo, por ejemplo, del archivo `/etc/fstab` usando el parámetro **-Z** del comando ls:
+Veamos la etiqueta o contexto de un archivo, por ejemplo, del archivo `/etc/fstab` usando el parámetro **-Z** del comando [ls]:
     
     ls -lZ /etc/fstab
     -rw-rw-r--. 1 root root system_u:object_r:etc_t:s0 709 oct 29 18:02 /etc/fstab
@@ -117,5 +117,65 @@ Si quieres conocer el contexto de seguridad SELinux de un proceso; por ejemplo, 
 
 por lo que sus dominios son `syslogd_t`.
 
-##comandos básicos de SELinux
-###semanage, chcon, restorecon
+El acceso solo se permite entre dominios y tipos similares: un proceso que se ejecuta en el contexto httpd_t, por ejemplo, puede interactuar con un objeto con la etiqueta httpd_something_t. Entonces, cuando Apache se ejecuta en el dominio "httpd_t"  puede leer "/var/www/html/index.html" porque es del tipo "httpd_sys_content_t" pero no puede acceder a "/home/username/myfile.txt" aunque este archivo sea legible porque El contexto de seguridad de SELinux del archivo "/home/username/myfile.txt"  no es del tipo "httpd_t". Si Apache fuera a ser explotado, suponiendo por el bien de este ejemplo que el derecho de la cuenta raíz necesitaba efectuar un reinicio de SELinux no se obtuvo el etiquetado en otro contexto, no podría iniciar ningún proceso que no esté en httpd_t dominio (que evita la escalada de privilegios) o acceder a cualquier archivo que no esté en un dominio relacionado con httpd_t.
+
+A menos que lo especifique la política, los procesos y archivos se crean con los contextos de sus padres. Así que si tenemos un proceso llamado "proc_a" que genera otro proceso llamado "proc_b", el proceso generado se ejecutará
+en el mismo dominio que "proc_a" a menos que la política de SELinux especifique lo contrario. Del mismo modo, si tenemos un directorio con un tipo de "some_context_t", cualquier archivo o directorio creado debajo tendrá el mismo tipo contexto a menos que la política diga lo contrario. Esta herencia no se conserva cuando los archivos se copian a otro ubicación. En una operación de copia, el archivo o directorio copiado asumirá el contexto de tipo de la ubicación de destino Este cambio de contexto puede ser anulado por la cláusula --preserver = context en el comando cp. (disponible
+del paquete "setools-console")
+
+##Comandos Básicos SELinux
+###semanage
+Podemos usar ‘semanage’ para cambiar el contexto de un archivo / directorio (de manera similar a cómo 'chown' o 'chmod' puede usarse para cambiar la propiedad o los permisos de archivo estándar de un archivo). Por ejemplo, para cambiar el contexto de `/home/dan/html`, ejecute los siguientes comandos:
+
+    sudo semanage fcontext -a -t httpd_sys_content_t ‘/home/dan/html(/.*)?’
+
+!!!note "Nota"
+    si no conoce la etiqueta pero conoce un archivo con la etiqueta equivalente que desea, puede hacer: 
+
+        `sudo semanage fcontext -a -e /ruta/archivo1/ruta/archivo2`
+
+Para verificar el contexto de seguridad de todos los archivos / directorios en el sistema de archivos podemos ejecutar:
+
+    sudo semanage fcontext -l
+
+###chcon
+Sin embargo, otro comando que se puede usar para hacer lo mismo (es decir: cambiar el contexto de un archivo o archivos / directorios (opcionalmente recursivamente con el parámetro -R) es `chcon`:
+
+    sudo chcon -vR -t httpd_sys_content_t / home / dan / html
+
+!!!note "Nota"
+    NOTA: Si no conoce la etiqueta pero conoce un archivo con el etiquetado equivalente que desea, puede hacer lo siguiente: 
+
+        sudo chcon -referencia /ruta/archivo1 /ruta/archivo2
+
+!!!note "Nota"
+    NOTA: Puede cambiar todo el contexto simplemente haciendo 
+
+        chcon user:role:type:sensibilidad /ruta/archivo 
+
+o cualquier otra parte de el contexto con -los argumentos -u, -r o -l , respectivamente.
+
+La modificación de los contextos de seguridad de ambas maneras (a través de `semanage fcontext -a` o `chcon`) persistirá entre reinicios del sistema pero en caso de haber ejecutado el cambio a través de `chcon`, durará solo hasta que
+la porción modificada del sistema de archivos se vuelve a etiquetar. Si desea que un cambio de contexto sea permanente, incluso después de que un sistema de archivos completo se vuelve a etiquetar, debe usar `semanage fcontext -a`. Eso es porque este último escribe una regla personalizada local (un denominado Módulo de políticas) en `/etc/selinux/targeted/contexts/files/file_contexts.local` para que pueda "recordar" más tarde, si es necesario volver a aplicarlo.
+
+###restorecon
+El comando `restorecon` se puede usar para restaurar los contextos de seguridad SELinux predeterminados de los archivos 
+
+Usemos Apache como ejemplo: supongamos que un usuario edita una copia de index.html en su directorio de inicio y mueve (`mv`) el archivo a DocumentRoot `/var/www/html` (que tiene un contexto diferente por defecto:
+"Httpd_sys_content_t"). Mientras que el comando copy (`cp`) generalmente hará que el archivo adopte el contexto de seguridad del directorio de destino, move (`mv`) mantendrá el contexto de seguridad de la fuente. Entonces Apache no podrá cargar este archivo porque no tendrá la etiqueta correcta. Podríamos usar el comando `chcon` para cambiar el contexto de seguridad de los archivos en cuestión, pero como los archivos ahora están en el Apache DocumentRoot predeterminado (`/var/www/html`) solo debemos restaurar los contextos de seguridad predeterminados para ese directorio o archivo (s). 
+
+De hecho, ejecutar [chcon] requiere que sepas el contexto correcto para el archivo, pero `restorecon` no necesita esto especificado. para
+restaurar solo el archivo index.html, usaríamos ...:
+
+    sudo restorecon -v /var/www/html/index.html
+
+... o para restaurar recursivamente los contextos de seguridad predeterminados 
+para todo el directorio:
+
+    sudo restorecon -Rv / var / www / html
+
+Como dijimos, el sistema sabe qué contexto aplicar cuando ejecuta `restorecon` porque SELinux "Recuerda" el contexto de cada archivo o directorio: se enumeran los contextos de archivos que ya existen en el sistema
+en el archivo `/etc/selinux/targeted/contexts/files/file_contexts`. Es un archivo grande y enumera cada tipo de archivo asociado con cada aplicación y su contexto
+
+[ls]: /../LPIC1/command%20line/#ls
+[chcon]: #chcon
