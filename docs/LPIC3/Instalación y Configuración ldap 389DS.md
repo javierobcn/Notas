@@ -72,6 +72,15 @@ que este fichero puede ser modificado igualmente mediante cualquier editor de te
 !!! note "Nota"
     NOTA: At installation, Directory Server contains the following: a server front-end responsible for network communications, plug-ins for server functions, such as access control and replication, a basic directory tree containing server-related data (defined in "dse.ldif" file) and a database back-end plug-in responsible for managing the actual storage and retrieval of server data.
 
+### Abrir puertos en el Firewall
+
+    :::bash
+    systemctl status firewalld
+    systemctl enable firewalld
+    systemctl start firewalld
+    firewall-cmd --permanent --add-port={389/tcp,636/tcp}
+    firewall-cmd --reload
+
 
 
 [IP fija]:/LPIC1/Networking/#establecer-una-configuracion-dinamica-de-forma-permanente

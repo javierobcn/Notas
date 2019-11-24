@@ -67,8 +67,10 @@ ls -lisa *.*
 
 ##Comandos Básicos
 
-ls
--l formato de lista largo
+`ls`
+
+**-l** formato de lista largo
+
 ```
     - indica que es un fichero
     d- indica que es un directorio
@@ -83,21 +85,21 @@ ls
 
 -lart ordena los ficheros por fecha y la r invierte dicho orden
 
-pwd --> Indica el path absoluto de donde estamos en este momento.
+`pwd` --> Indica el path absoluto de donde estamos en este momento.
 
     /home/linux 
 
 En Linux todo cuelga del directorio raiz /
 
-cd --> cambiar de directorio
+`cd` --> cambiar de directorio
 
-cd - --> nos devuelve al directorio anterior donde estábamos
+`cd -` --> nos devuelve al directorio anterior donde estábamos
 
-cd sin nada nos devuelve al home del usuario
+`cd` sin nada nos devuelve al home del usuario
 
-file <nombre del fichero> --> Indica el tipo de fichero
+`file <nombre del fichero>` --> Indica el tipo de fichero
 
-mkdir / rmdir --> crear / eliminar directorios
+`mkdir` / `rmdir` --> crear / eliminar directorios
     
     cd /tmp
     mkdir cesta/fruta/peras (No funciona)
@@ -108,13 +110,14 @@ pueden utilizarse rangos:
     mkdir -p cesta/fruta/{peras,manzanas}/kaka
     mkdir -p cesta/fruta/{1,2,3}/kaka
 
-cp --> Copia de ficheros 
+`cp` --> Copia de ficheros 
     
     cp origen destino
 
-mv --> Elimina el fichero de origen
+`mv` --> Elimina el fichero de origen
 
-touch filename --> crea un archivo
+`touch filename` --> crea un archivo
 
-rm -rf <directory> --> borra el directorio y todo lo que contiene de forma recursiva y forzada. !ojo!
+`rm -rf <directory>` --> borra el directorio y todo lo que contiene de forma recursiva y forzada. !ojo!
 
+Otros [comandos básicos relacionados con la gestión de archivos](/LPIC1/Comandos%20Linux/#gestionar-archivos-y-directorios)

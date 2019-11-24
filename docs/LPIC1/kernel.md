@@ -30,3 +30,4 @@ echo “estoy usando kernel: `uname -r`”
 
 
 `lsmod` → muestra los módulos del kernel cargados ahora mismo.
+
