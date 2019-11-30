@@ -131,6 +131,8 @@ Se pueden convertir paquetes RPM a deb y viceversa con una herramienta llamada `
 
 Según el fabricante de software es posible encontrar siempre la ultima versión siguiendo una norma por ej. WordPress siempre tiene el mismo fichero /latest.tar.gz que permite su inclusión en un script.
 
+##[Mas comandos relacionados](/LPIC1/Comandos%20Linux/#gestion-de-paquetes-deb-debian-ubuntu-y-otros)
+
 
 ##Software para automatización de infraestructura
 

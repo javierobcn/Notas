@@ -7,10 +7,14 @@ Systemd es varias cosas:
 - El proceso Init (PID 1) del sistema
 - El gestor de demonios
 - Un intermediario entre aplicaciones de usuario y ciertas partes de la API del kernel de Linux
+- Después del Kernel0 es uno de los componentes mas importantes de Linux
 
 La configuración general de systemd se encuentra en el archivo `/etc/systemd/system.conf`; muchos valores por defecto están allí establecidos.
 
 Para saber la versión actual de systemd que hay funcionando el sistema, hacer `systemctl --version`
+
+
+Documentación extensa sobre Systemd: https://freedesktop.org/wiki/Software/systemd/
 
 ##"Units": tipos y ubicación
 

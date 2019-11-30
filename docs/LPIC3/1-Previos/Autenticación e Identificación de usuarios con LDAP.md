@@ -92,3 +92,13 @@ son:
 - [**Samba4**](http://www.samba.org) : Servidor LDAP propio + Servidor Kerberos (tipo Heimdal) + Servidor DNS propio + Servidor NTP propio + Servidor de compartición de carpetas.
 
 - [**Active Directory**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/active-directory-domain-services) : “Suite” de servidor LDAP + Kerberos + DNS + NTP (entre otros) desarrollada por Microsoft e integrada en las versiones “Server” de sus sistemas Windows para poder almacenar y gestionar de forma centralizada la información de sus dominios de administración (usuarios, equipos, configuraciones, permisos, etc).
+
+##Autenticación / Identificación en la máquina "cliente":
+Una vez tengamos un servidor LDAP funcionando y con un directorio llenado y accesible a través de la red, ya podrá ser consultado y / o modificado con las herramientas cliente pertinentes (tanto de tipo terminal como gráficas) desde una máquina remota cualquiera sin demasiadas dificultades. Sin embargo, si lo que queremos es utilizar el contenido del directorio (concretamente, nodos de tipo "usuario Linux" -conteniendo todos los atributos necesarios para definirlo: UID, contraseña, etc- y nodos de tipo "grupo Linux" -conteniendo todos los atributos necesarios para definirlo: GID, etc-) como origen de datos durante el proceso de inicio de sesión en una máquina cliente, habrá alterar este proceso para que cambie su origen de datos por defecto, que suele ser
+normalmente los archivos "/etc/passwd," /etc/group "y" /etc/shadow". Más concretamente," cambiar el origen de datos del proceso de inicio de sesión en la máquina cliente "significa en la práctica cambiar dos cosas en esta
+máquina cliente:
+
+*  Modificar la configuración de la pila de módulos PAM utilizados para que se emplee algún módulo específico (hay varios que estudiaremos próximamente: pam_ldap, pam_sssd ...) que haga la consulta de usuario <-> contraseña pertinente contra un servidor LDAP convenientemente indicado.
+*  Modificar la configuración del backend NSS utilizado por la librería libc (y, por tanto, por la gran mayoría de programas de Linux) para que contacte también con el servidor LDAP adecuado y así obtenga el resto de datos necesarios para completar la identificación del usuario (UID, GID, grupos
+adicionales, ruta de su carpeta personal, ruta del shell por defecto, fecha de caducidad de la contraseña, etc)
+

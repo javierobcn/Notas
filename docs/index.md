@@ -14,6 +14,6 @@ Title: Bienvenido
 - [Sintaxis Markdown](https://daringfireball.net/projects/markdown/syntax/)
 
 ## Software
-- [MkDocs](Software/mkdocs/mkdocs.md)
+- [MkDocs](Software/mkDocs/mkdocs.md)
 - [git](Software/git/git.md)
 - [terminator](Software/terminal/terminator.md)

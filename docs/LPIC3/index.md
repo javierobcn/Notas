@@ -33,9 +33,7 @@
 - [PAM i mòduls interessants, (pam_limit, pam_pwquality, etc) (Pes 3)](../LPIC2/PAM.md) 
 
 ###4.LDAP, Kerberos y FreeIPA (NSS+PAM+SSSD)
-- [Instalación servidor 389DS](Instalación y Configuración ldap 389DS.md)
-- [Administración básica de un directorio 389DS](Administración básica 389DS.md)
-- Autenticació i identificació contra servidor 389DS fent servir SSSD(Pes 5)
+- [Servidor 389DS](4-ldap/Servidor LDAP 389DS.md)
 - Instal.lació i configuració d'un servidor MIT Kerberos i cooperació amb servidors LDAP i NFS(Pes 5)PENDENT NFS
 - FreeIPA (client, servidor i rèplica)(Pes 4)PENDENT
 
