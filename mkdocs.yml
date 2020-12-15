@@ -28,7 +28,7 @@ site_description: >-
 # Repository
 repo_name: javierobcn/Notas
 repo_url: https://github.com/javierobcn/Notas
-edit_uri: ""
+#edit_uri: ""
 
 # Copyright
 copyright: Copyright &copy; 2016 - 2020 Javier Antó

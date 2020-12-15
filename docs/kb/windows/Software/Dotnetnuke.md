@@ -288,3 +288,21 @@ Otros
 
 Chequea el tamaño de la base de datos (SELECT * FROM Sysfiles)
 Chequea la carpeta \Portals\_default\Logs en busca de los ficheros XML más grandes (> 5MBs)
+
+##La clave del host eraaaa….. mmmm …
+
+Siempre habrá usuarios con problemas por no acordarse de la clave del host…. vamos a ver ,de forma rápida, como podemos arreglarlo
+El proceso es bastante sencillo
+
+Necesitas poder conectarte externamente a la base de datos. Doy por supuesto que sabrás hacer esto aunque quizá este sea el problema…
+1 – Registramos un usuario en el portal utilizando el proceso normal de registro
+2 – Modificamos el usuario en la base de datos, tabla Users y le marcamos el campo IsSuperUser como True
+3 – Ya está, ya eres host y puedes cambiarle la clave al usuario host desde el menú host – cuentas de superusuario…
+
+## Geolocalización IP en DotNetNuke
+
+La geolocalización de IPs en Dotnetnuke se utiliza en el control Country List Box o “Lista de Selección de Paises” que se muestra por ej. en el proceso de registro de DotNetNuke. DNN comprueba la dirección IP del usuario contra una base de datos localizada en la carpeta Controls/countryListBox/Data y de esta forma obtiene el País por defecto para mostrarlo pre-seleccionado en la lista de paises.
+
+En ocasiones, esta base de datos puede haber quedado desactualizada, pero puedes descargar la última versión desde http://dev.maxmind.com/geoip/geolite (En Formato Binario)
+
+El fichero resultante GEOIP.DAT se puede sobre-escribir por el existente en la carpeta Controls/countryListBox/Data y de esta forma solucionar algunos problemas con la base de datos de IP’s que podrían hacer que no se mostrara correctamente el país.
