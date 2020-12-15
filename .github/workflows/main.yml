@@ -30,8 +30,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install mkdocs-material
-          pip install \ 
-            mkdocs-minify-plugin>=0.3 \
+          pip install mkdocs-minify-plugin>=0.3 \
             mkdocs-redirects>=1.0 \
             mkdocs-awesome-pages-plugin>=2.4.0 \
             mkdocs-blog-plugin>=0.25 \
