@@ -87,3 +87,36 @@ blacklist mac80211_hwsim
 
 
 Para más información, consultar `man modprobe.d`
+
+
+
+##Problemas y soluciones
+
+###Liberar espacio en /boot eliminar kernels antiguos
+
+Aparece un mensaje durante las actualizaciones advirtiendo que «El volumen «boot» solo tiene 1,7MB de espacio en disco libre.»
+
+Para eliminar kernels antiguos
+
+Obtener un listado de todos los kernels activos en /boot
+    
+    sudo dpkg --get-selections | grep linux-image
+
+Aparecerá algo así:
+
+    linux-image-4.13.0-36-generic           install
+    linux-image-4.13.0-37-generic           install
+    linux-image-4.13.0-38-generic           install
+    linux-image-4.13.0-39-generic           install
+    linux-image-4.13.0-41-generic           install
+    linux-image-4.13.0-43-generic           install
+    linux-image-extra-4.13.0-36-generic     install
+    linux-image-extra-4.13.0-37-generic     install
+    linux-image-extra-4.13.0-38-generic     install
+    linux-image-extra-4.13.0-39-generic     install
+    linux-image-extra-4.13.0-41-generic     install
+    linux-image-extra-4.13.0-43-generic     install
+
+Eliminamos con el comando:
+
+    sudo apt purge linux-image-4.10.0-38-generic linux-image-extra-4.10.0-38-generic

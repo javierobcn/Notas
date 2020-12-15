@@ -703,3 +703,10 @@ http://www.thegeekstuff.com/2011/08/bash-history-expansion/
 
 3)Para que este comando funcione, después de instalado el paquete apt-file es necesario invocar el comando apt-file update
 
+##Fish
+###Sustituir bash por fish
+
+sudo apt-get install fish
+
+chsh -s /usr/bin/fish
+

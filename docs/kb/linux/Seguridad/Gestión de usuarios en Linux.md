@@ -1,12 +1,13 @@
 #Gestión de Usuarios en Linux
 
 ##Ficheros principales
+
 * `/etc/passwd` → bd del sistema
 * `/etc/shadow` → contraseñas de usuarios
 * `/etc/group` → bd  de grupos y pertenencias
 * `/etc/adduser.conf`
 
-Ejemplo de fichero `/etc/passwd`
+###Ejemplo de fichero `/etc/passwd`
 
 ``` bash
 rtkit:x:120:128:RealtimeKit,,,:/proc:/bin/false
@@ -17,7 +18,7 @@ postgres:x:123:131:PostgreSQL administrator,,,:/var/lib/postgresql:/bin/bash
 mysql:x:124:132:MySQL Server,,,:/nonexistent:/bin/false
 ```
 
-Estructura del fichero `/etc/passwd`
+###Estructura del fichero `/etc/passwd`
 
 - User: el root siempre tiene UID = 0 y GID = 0
 - pwd
@@ -125,13 +126,13 @@ Se puede bajar el fuente de sudo y compilarlo con frases divertidas, cuando fall
 
 /var/mail/usuario → correo interno de los usuarios
 
-w → comando para info de los usuarios conectados
-who → info de los usuarios en modo reducido
-whoami → en un terminal sin prompt o $ nos dice que usuario estamos utilizando
-id → parecido a whoami pero nos dice los GID o UID del usuario
-echo $UID → nos muestra el UID del usuario
-$ -> indica que es un usuario del sistema
-# -> indica que es el usuario root
+* w → comando para info de los usuarios conectados
+* who → info de los usuarios en modo reducido
+* whoami → en un terminal sin prompt o $ nos dice que usuario estamos utilizando
+* id → parecido a whoami pero nos dice los GID o UID del usuario
+* echo $UID → nos muestra el UID del usuario
+* $ -> indica que es un usuario del sistema
+* '#' -> indica que es el usuario root
 
 ## Prompt
 $PS1 define el prompt del usuario, por ej, en ubuntu
@@ -149,3 +150,26 @@ Buscar en google cool prompt bash para ver mas ejemplos incluso generadores de p
 Para definir el prompt de manera permanente para un usuario hacerlo en /root/.bashrc
 
 Para definir el prompt de manera permanente para todos los usuarios hacerlo en: /etc/profile
+
+## Resumen Gestión básica de usuarios en Linux
+
+Listado de usuarios
+   
+    cat etc/passwd o lastlog
+
+borrar usuarios
+    
+    sudo userdel nombreuser
+
+Agregar usuario «javier»
+    
+    sudo adduser javier
+
+Agregar usuario javier a grupo SUDO
+    
+    usermod -a -G sudo javier
+
+Comprobar a que grupos pertenece un usuario (javier)
+    
+    groups javier 
+    

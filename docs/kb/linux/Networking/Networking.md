@@ -567,3 +567,62 @@ Descargar el fichero indicado y muestra en pantalla su contenido
 –X tipo Realiza una petición del tipo indicado (POST, PUT, etc). Por defecto son GET
 
 [Nomenclatura de tarjetas de red en Linux]:/LPIC1/Networking/#nomenclatura-de-tarjetas-de-red-en-linux
+
+##dig
+
+Averiguar MX de un dominio, comando dig
+    
+    dig mx sugestionweb.com
+     
+    ; <<>> DiG 9.10.3-P4-Ubuntu <<>> mx sugestionweb.com
+    ;; global options: +cmd
+    ;; Got answer:
+    ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 12971
+    ;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+     
+    ;; OPT PSEUDOSECTION:
+    ; EDNS: version: 0, flags:; udp: 512
+    ;; QUESTION SECTION:
+    ;sugestionweb.com.      IN  MX
+     
+    ;; ANSWER SECTION:
+    sugestionweb.com.   14400   IN  MX  10 mx1.spamcluster.com.
+    sugestionweb.com.   14400   IN  MX  20 mx2.spamcluster.com.
+     
+    ;; Query time: 66 msec
+    ;; SERVER: 127.0.1.1#53(127.0.1.1)
+    ;; WHEN: Thu Jun 07 10:46:19 CEST 2018
+    ;; MSG SIZE  rcvd: 97
+
+    
+    
+## Ver la configuración actual de la red
+
+
+### Dirección IP
+
+Para ver el estado y configuración de las tarjetas detectadas se puede usar el comando ip address show (o bien ip address show dev NombreTarjeta si sólo se quiere obtener la información de una tarjeta determinada). Concretamente nos muestra:
+
+* Las direcciones MAC de las tarjetas
+* Su estado respectivo (UP, DOWN)
+* Sus direcciones IP respectivas (y la máscara correspondiente)
+* Otros datos (como si permite el envío «broadcast», si está en modo «promiscuo», etc).
+
+!!! Note
+    NOTA: El comando ip address show se puede escribir de forma más corta así: ip a s. Incluso, se puede dejar de escribir el verbo show (o s) porque es la acción por defecto (por lo tanto, se puede hacer ip address o ip a y sería lo mismo). También es útil el parámetro -c (así: ip -c a s) para ver los datos más relevantes en colores.
+
+
+###Puerta de Enlace
+Para saber, en cambio, cuál es la puerta de enlace configurada en nuestra máquina, usaremos el comando ip route show (o bien ip route show dev nomTarjeta o sus variantes ip route, ip r s o ip r). Este comando debe mostrar una línea que comenzará con la expresión «default via» seguida de la dirección IP de la puerta de enlace establecida. Este comando puede mostrar más líneas, pero no nos interesarán mucho … (quizás la más curiosa es una que sirve para indicar que no hay ninguna puerta de enlace para comunicarse con las máquinas que precisamente pertenezcan a la misma red a la que pertenece nuestra máquina).
+
+###Servidores DNS
+
+Para saber la dirección IP del servidor DNS configurado en nuestra máquina (o las IPs … si hay más de una se prueba conectar a la primera y si esta falla entonces se prueba la segunda, y así) se puede consultar el archivo /etc/resolv.conf (concretamente, las líneas que comienzan por la palabra nameserver). Estos servidores serán los que todas las aplicaciones del sistema (desde el ping hasta el navegador) utilizarán para averiguar cuál es la IP del nombre que el usuario haya escrito.
+
+El contenido de este archivo suele ser gestionado por diferentes programas (como puede ser el cliente dhclient, la aplicación NetworkManager, el servicio «networking«, el servicio «systemd-networkd/resolved«, etc) y es por ello que no se recomienda modificarlo manualmente ya que los cambios realizados a mano podrían «Machacar» sin avisar en cualquier momento por cualquiera de estos programas.
+
+En este sentido, estos programas (dhclient, NetworkManager, «networking», «systemd-networkd / resolved, etc) guardan los servidores DNS que usan dentro de sus propios archivos de configuración y los manipulan allí de forma autónoma (por ejemplo NetworkManager usa /var/run/NetworkManager/resolv.conf, «systemd-resolved» usa /run/systemd/resolve/resolv.conf, «Networking» usa la línea dns-nameservers dentro de /etc/network/interfaces, etc) pero además siempre vinculan en forma de enlace simbólico su archivo propio respectivo al archivo común /etc/resolv.conf para que los programas que utilicen este archivo común no tengan problemas en encontrar los servidores DNS.
+
+``` Note
+NOTA: En ocasiones al consultar el archivo /etc/resolv.conf el único servidor que aparece es el 127.0.1.1 , esto probablemente se deba a que está instalado el demonio dnsmasq que guarda una caché de DNS y de DHCP,. En el caso de querer utilizar otros servidores DNS asignados por otro dispositvo por DHCP (un router por ejemplo) podemos encontrarnos que la máquina no hace caso. Para solucionarlo, modificaremos el archivo /etc/NetworkManager/NetworkManager.conf y comentaremos la linea dns=dnsmasq con una «#» al principio. Después reiniciaremos el servicio Network Manager con sudo service network-manager restart. Si consultamos de nuevo el fichero /etc/resolv.conf veremos que ahora si asigna los DNS correctamente.
+```
