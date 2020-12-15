@@ -1,1 +1,1 @@
-cd /home/javier/Documentos/docs && mkdocs serve
+cd /home/javier/Documentos/javierantodocs && mkdocs serve
