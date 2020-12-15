@@ -57,3 +57,46 @@ Listo, ahora cuando el certificado se renueve para el sitio corriendo en el puer
  y se le dan permisos (777) . Después vas a tu panel de administrador de wordpress y definimos los permalinks
  
 * Se crea una carpeta wp-content/uploads y se le dan permisos a la carpeta uploads
+
+
+
+##SSL Por dominio de correo en Vesta
+
+Se trata de copiar los certificados en la carpeta /usr/local/vesta/ssl/
+ con el nombre de la ip por ej.
+
+92.222.165.33.crt  
+92.222.165.33.pem
+92.222.165.33.key
+
+Editamos el fichero de config del exim
+
+    nano /etc/exim4/exim4.conf.template
+
+y lo dejamos así:
+
+    tls_advertise_hosts = *
+    tls_certificate = /usr/local/vesta/ssl/$received_ip_address.cert
+    tls_privatekey = /usr/local/vesta/ssl/$received_ip_address.key
+
+
+Editamos el fichero de config del dovecot
+
+    nano /etc/dovecot/conf.d/10-ssl.conf
+
+y agregamos 
+
+    local 92.222.165.33 {
+        ssl_cert = </usr/local/vesta/ssl/92.222.165.33.crt
+        ssl_key = </usr/local/vesta/ssl/92.222.165.33.key
+    }
+
+restartamos los servicios
+
+    service dovecot restart
+    service exim4 restart
+
+y listos
+
+En caso de que haya un certificado intermedio CA hay que concatenarlo al final del fichero CRT correspondiente a la IP
+
