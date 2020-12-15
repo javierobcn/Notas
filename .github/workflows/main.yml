@@ -30,14 +30,14 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install mkdocs-material
-          pip install .
-          pip install \
+          pip install \ 
             mkdocs-minify-plugin>=0.3 \
             mkdocs-redirects>=1.0 \
             mkdocs-awesome-pages-plugin>=2.4.0 \
             mkdocs-blog-plugin>=0.25 \
-            mkdocs-material-extensions>=1.0.1
-            
+            mkdocs-material-extensions>=1.0.1 \
+            pyembed-markdown>=1.1.0
+             
       - name: Deploy
         run: |
           mkdocs gh-deploy --force
