@@ -47,8 +47,7 @@ bionic stable"
 10. Para evitar errores de permisos deberemos agregar nuestro usuario al grupo Docker
 
         sudo usermod -a -G docker $USER
-    
-    
+     
 ##Comandos Docker básicos
 
 Listar Imágenes disponibles en local
