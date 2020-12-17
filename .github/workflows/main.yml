@@ -38,7 +38,7 @@ jobs:
             mkdocs-blog-plugin>=0.25 \
             mkdocs-material-extensions>=1.0.1 \
             pyembed-markdown>=1.1.0 \
-            git-revision-date-localized
+            mkdocs-git-revision-date-localized-plugin
              
       - name: Deploy
         run: |
