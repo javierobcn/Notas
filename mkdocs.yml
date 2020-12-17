@@ -37,6 +37,7 @@ copyright: Copyright &copy; 2016 - 2020 Javier Antó
 theme:
   name: null
   custom_dir: material
+  language: es
 
   # 404 page
   static_templates:
