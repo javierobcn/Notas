@@ -69,6 +69,11 @@ plugins:
   - awesome-pages
   - git-revision-date-localized:
       type: timeago
+      exclude:
+        - consultoria/*
+        - música/*
+        - contacto/*
+        - kb/index.md
   - blog:
       format: "[%d/%m/%Y]"
       more-articles: “Mas artículos (%)”
