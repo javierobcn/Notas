@@ -18,3 +18,9 @@ S
 Limpieza de virus e instalación de software antivirus para prevenir nuevas infecciones. 
 
 ## Soporte técnico remoto
+
+No es necesario desplazarse.
+
+
+
+<span style="visibility: hidden;" class="timeago" datetime="2020-12-15T12:37:00+00:00" locale="es"></span>
