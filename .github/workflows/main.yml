@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
 
       - name: Set up Python runtime
         uses: actions/setup-python@v2
@@ -35,7 +37,8 @@ jobs:
             mkdocs-awesome-pages-plugin>=2.4.0 \
             mkdocs-blog-plugin>=0.25 \
             mkdocs-material-extensions>=1.0.1 \
-            pyembed-markdown>=1.1.0
+            pyembed-markdown>=1.1.0 \
+            git-revision-date-localized
              
       - name: Deploy
         run: |

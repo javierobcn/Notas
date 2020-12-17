@@ -1,4 +1,4 @@
-![Image Google](google-76517_960_720.png)
+![Image Google](media/google-76517_960_720.png)
 
 ## Introducción
 

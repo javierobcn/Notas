@@ -35,7 +35,6 @@ Para ignorar ficheros y directorios desde el principio, símplemente hay que agr
     git commit -m "Eliminada la carpeta nombrecarpeta" 
     git push origin master
     ```
-    
-### Plantillas para .gitignore
 
-https://github.com/github/gitignore/blob/master/README.md
+!!!NOTE "Plantillas"
+    Puedes descargar plantillas para el fichero .gitignore y para distintos lenguajes de programacion desde https://github.com/github/gitignore/blob/master/README.md

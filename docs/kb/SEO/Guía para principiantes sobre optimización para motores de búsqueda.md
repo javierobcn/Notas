@@ -1,6 +1,6 @@
 # Guía para principiantes sobre optimización para motores de búsqueda
 
-![Image SEO](search-engine-optimization-3291990_1280.jpg)
+![Image SEO](media/search-engine-optimization-3291990_1280.jpg)
 
 
 La intención inicial de este documento era la de ayudar a los equipos dentro de Google, pero luego, en Google, pensaron que este documento también podría ser útil a los webmasters que son nuevos en cuestiones de optimización para motores de búsqueda y que desean mejorar la interacción de sus sitios tanto con los usuarios como con los motores de búsqueda.

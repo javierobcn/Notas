@@ -1,7 +1,7 @@
 ## ¿Conoces Ubuntu?
 
 
-![Image Ubuntu](notebook-2666360_1280.jpg)
+![Image Ubuntu](media/notebook-2666360_1280.jpg)
 
 
 La palabra “ubuntu” proviene del dicho popular “umuntu, nigumuntu, nagamuntu”, que en idioma zulú significa “una persona es una persona a causa de los demás.”. Ubuntu es una ideología sudafricana enfocada en la lealtad de las personas y las relaciones entre éstas.

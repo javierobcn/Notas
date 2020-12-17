@@ -1,7 +1,5 @@
----
-disqus: ""
----
-
 # Base de conocimiento
 
-Bienvenido a la base de conocimientos, mi espacio donde almaceno notas, recetas y demás cosas que pueden hacerme falta en algún momento de mi trabajo. 
+![Image KB](linux/media/learning-3245793_640.jpg)
+
+Notas, recetas, tutoriales... Puedes navegar utilizando el arbol de la parte izquierda o realizar una búsqueda desde el cuadro de búsqueda ubicado en la parte superior.

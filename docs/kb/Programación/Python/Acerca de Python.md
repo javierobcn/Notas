@@ -1,7 +1,7 @@
 
 # Acerca de Python
 
-![Image Python](maxresdefault.jpg)
+![Image Python](media/maxresdefault.jpg)
 
 
 ## Introducción

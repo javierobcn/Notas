@@ -13,9 +13,6 @@ _table
 _inherit
 _inherits
 
-## Vistas
-
-
 ## Codigo ORM
 ### Ejecutar una función de otro modelo
 #### Ejecutar la función action_confirm del modelo sale.order:
@@ -28,10 +25,15 @@ self.env['sale.order'].browse([self.order_id.id]).action_confirm()
 ### Cambiar un atributo de un elemento HTML por herencia
 En el último xpath puede verse como cambia el atributo class del grid
 
-<template id="products_categories" inherit_id="website_sale.products" active="False" customize_show="True" name="Product Categories">
+```XML
+
+<template id="products_categories" inherit_id="website_sale.products" 
+    active="False" customize_show="True" name="Product Categories">
   <xpath expr="//div[@id='products_grid_before']" position="inside">
       <ul class="nav nav-pills nav-stacked mt16">
-          <li t-att-class=" '' if category else 'active' "><a t-att-href="keep('/shop',category=0)">All Products</a></li>
+          <li t-att-class=" '' if category else 'active' ">
+            <a t-att-href="keep('/shop',category=0)">All Products</a>
+          </li>
           <t t-foreach="categories" t-as="c">
               <t t-call="website_sale.categories_recursive"/>
           </t>
@@ -44,8 +46,19 @@ En el último xpath puede verse como cambia el atributo class del grid
       <attribute name="class">col-md-9</attribute>
   </xpath>
 </template>
+```
 
+### Atributos dinámicos en las vistas
 
+* Puede hacerse un campo invisible o requerido en función del valor de otro campo del mismo formulario
+
+```XML
+    <field name="sgw_documentation_url" 
+     attrs="{
+     'invisible': [('sgw_show_documentation', '=', False)],
+     'required': [('sgw_show_documentation', '=', True)]
+     }"/> 
+```
 
 ## Reports
 ### Odoo 10 necesita una version especifíca para wkhtmltopdf 
@@ -69,14 +82,6 @@ Valor  http://localhost:8069
 (Fuente)
 https://www.odoo.com/documentation/10.0/howtos/backend.html#reference-backend-reporting-printed-reports-pdf-without-styles
 
-## Entorno de desarrollo
-### Pycharm
-#### Instalar Pycharm desde repositorios
-sudo sh -c 'echo "deb http://archive.getdeb.net/ubuntu $(lsb_release -sc)-getdeb apps" >> /etc/apt/sources.list.d/getdeb.list'
-
-wget -q -O - http://archive.getdeb.net/getdeb-archive.key | sudo apt-key add -
-
-sudo apt-get update && sudo apt-get install pycharm
 
 ## Documentación
 http://odoo-new-api.readthedocs.io/en/master/

@@ -66,13 +66,15 @@ theme:
 plugins:
   - search
   - awesome-pages
+  - git-revision-date-localized:
+      type: timeago
   - blog:
       format: "[%d/%m/%Y]"
       more-articles: “Mas artículos (%)”
       articles: 25
   - minify:
       minify_html: true
-  
+      
 # Customization
 extra:
   social:

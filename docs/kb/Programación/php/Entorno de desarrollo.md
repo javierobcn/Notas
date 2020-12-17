@@ -1,5 +1,8 @@
 # Entorno de desarrollo para php (NetBeans)
 
+!!!Warning
+    Este documento es antiguo y puede estar caducado en algunos aspectos, pero puede servir de referencia para otras cosas.
+
 En este tutorial se muestra cómo instalar un entorno de desarrollo PHP en Debian / Ubuntu.
 
 La máquina de desarrollo tendrá instalado:
