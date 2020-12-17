@@ -1,6 +1,6 @@
 # Hackers & Developers
 
-![Image](magazine-806073_1280.jpg)
+![Image](assets/magazine-806073_1280.jpg)
 
 
 Excelente revista acerca de software libre y programación con entrevistas, artículos y propuestas.
@@ -19,7 +19,8 @@ Tweets by HackDevMagazine
 
 https://twitter.com/HackDevMagazine
 
-## mas
+## Más
 
 https://hackersandevelopers.wordpress.com
+
 https://www.hdmag.press/
