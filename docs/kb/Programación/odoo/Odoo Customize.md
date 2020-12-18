@@ -23,11 +23,12 @@ Para acceder a los parámetros de configuración ir a "Ajustes" "Sugestionweb" "
 
 ### Menu de usuario / Contenido
 
+
 - **Modificar el menú de usuario**: Elimina los enlaces a ODOO y permite personalizar varios enlaces a documentación, soporte, perfil, etc.
   
 - **Añadir selector de idioma**: Agrega un selector de idioma al menú de usuario
 
-- **Añadir enlaces a modo depuración**: Añade dos enlaces, uno a "modo depuración" y otro a "modo depuración con activos"
+- **Añadir enlaces a modo depuración**: Añade dos enlaces, uno a "modo depuración" y otro a "modo depuración con activos" para acceder a modo depuración desde cualquier pantalla.
 
 ### Limpieza de datos
 
