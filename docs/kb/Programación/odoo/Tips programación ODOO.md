@@ -86,3 +86,6 @@ https://www.odoo.com/documentation/10.0/howtos/backend.html#reference-backend-re
 ## Documentación
 http://odoo-new-api.readthedocs.io/en/master/
 
+https://www.odoo.com/documentation/14.0/reference/guidelines.html#python
+
+https://github.com/OCA/odoo-community.org/blob/master/website/Contribution/CONTRIBUTING.rst#introduction

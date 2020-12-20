@@ -46,3 +46,6 @@ La implementación de Python está bajo una licencia de código abierto que hace
 
 Curso Python para principiantes
 https://www.dropbox.com/s/4i6bf5k2ucn6vmr/Introduccion-python.pdf
+
+Convenciones pep8 para código Python
+https://pep8.org

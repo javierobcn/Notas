@@ -14,7 +14,12 @@ chmod 700 ~/.ssh
 
 Generar el par de claves RSA (pública y privada):
 
-`ssh-keygen -t rsa`
+    ssh-keygen -t rsa -b 4096 -C "hola@example.com"
+
+!!!note "Nota"
+    * -t indica el tipo de clave a generar, podría ser “dsa”, “ecdsa”, “ed25519”, o “rsa”.
+    * -b bits   Especifica el número de bits en la clave para crear. Para claves RSA, el tamaño mínimo es de 1024 bits y el predeterminado es de 2048 bits.
+    * -C "Comentario": Establece una etiqueta identificativa para esta clave
 
 Se transfiere la clave al host utilizando el comando local
 
@@ -27,7 +32,19 @@ El comando `ssh-copy-id` pedirá por última la vez la clave y después copiará
 Ya se puede conectar sin contraseña utilizando
 
     ssh clientes.sugestionweb.com -l root
-    
+
+
+# Agregar las claves al ssh-agent
+
+Iniciar el agente SSH en segundo plano.
+
+    $ eval "$(ssh-agent -s)"
+    > Agent pid 59566
+
+Agrega tu llave privada SSH al ssh-agent. Si creaste tu llave con un nombre distinto, o si estás agregando una llave existente que tiene un nombre distinto, reemplaza id_rsa en el comando con el nombre de tu archivo de llave privada.
+
+    $ ssh-add ~/.ssh/id_rsa
+   
 ### Eliminar de local la clave ssh de un servidor
 
     ssh-keygen -f "/root/.ssh/known_hosts" -R 192.168.1.38
