@@ -1,5 +1,11 @@
 # Tips Odoo / Contabilidad
 
+### Plan contable para fundaciones y asociaciones en Cataluña
+
+https://cloud.javieranto.com/index.php/s/f9Eki549fDwrLtt
+
+https://xarxanet.org/biblioteca/pla-de-comptabilitat-de-les-fundacions-i-les-associacions-catalanes
+
 ## Cierre de años fiscales
 
 No es recomendable cerrar años fiscales, en todo caso periodos. Una vez cerrado solo puede abrirse trasteando en la base de datos, cambiando en la tabla account_fiscal_year el campo state a "draft" y entonces desde el interface abrir el periodo necesario. Una vez cambiado lo que sea volver a cerrar poniendo el estado "done"

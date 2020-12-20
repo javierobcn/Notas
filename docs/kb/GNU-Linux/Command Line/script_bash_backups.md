@@ -196,3 +196,26 @@ printf "All backed up!\n\n"
 exit
 
 ```
+
+## Ejemplo de fichero para exclusiones
+
+Crear un fichero exclusiones.txt en la ruta que especifiques en la variable excluded_files del script
+
+
+
+```text
+/home/javier/backups/*
+/home/javier/Descargas/*
+/home/javier/Música/*
+/home/javier/Vídeos/*
+/home/javier/.cache/*
+/home/javier/Documentos
+/home/javier/.local/share/Trash/*
+/home/javier/.local/share/Steam
+/home/javier/.p2
+/home/javier/VirtualBox VMs
+/home/javier/.gconf/desktop
+/home/javier/.rnd
+/home/javier/.wine
+/home/javier/.mozilla
+```
