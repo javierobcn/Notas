@@ -21,16 +21,16 @@
 #==============================================================================
 
 # File for Excluded files / folders for source backup
-excluded_files='/home/javier/Documentos/Programas/autoscripts/exclusiones.txt'
+EXCLUDED_FILES='/home/javier/Documentos/Programas/autoscripts/exclusiones.txt'
 
 #home directory path (Source for backup)
-home_dir='/home/javier/'
+HOME_DIR='/home/javier/'
 
 # directory to put the backup files
-backup_dir="/home/javier/backups/"
+BACKUP_DIR="/home/javier/backups/"
 
 #Numbers of days to keep backups files
-number_of_days=30
+NUMBER_OF_DAYS=30
 
 # MYSQL Parameters
 MYSQL_UNAME=root
@@ -48,12 +48,12 @@ PATH=$PATH:/usr/local/mysql/bin
 #==============================================================================
 
 # Append the date to name of backups files
-backup_date=`date +%d%b%y-%H_%M`
+BACKUP_DATE=`date +%d%b%y-%H_%M`
 
 
 function delete_old_backups(){
-  echo "Deleting $backup_dir*.tar.gz older than $number_of_days days"
-  find $backup_dir -type f -name "*.tar.gz" -mtime +$number_of_days -exec rm {} \;
+  echo "Deleting $BACKUP_DIR*.gz older than $NUMBER_OF_DAYS days"
+  find $BACKUP_DIR -type f -name "*.tar.gz" -mtime +$NUMBER_OF_DAYS -exec rm {} \;
 }
 
 function pg_database_list() {
@@ -62,6 +62,7 @@ function pg_database_list() {
 }
 
 function backup_pg_database(){
+    # Pending move here the logic for backup one database
     a=1
 }
 
@@ -69,8 +70,8 @@ function backup_pg_databases(){
     local databases="$(pg_database_list)"
     for i in $databases; do
       if [ "$i" != "template0" ] && [ "$i" != "template1" ]; then
-        echo Backing up $i to $backup_dir$i\_$backup_date.gz
-        sudo -u postgres pg_dump -Fc $i|gzip > $backup_dir$i\_$backup_date.gz
+        echo Backing up $i to $BACKUP_DIR$i\_$BACKUP_DATE.gz
+        sudo -u postgres pg_dump -Fc $i|gzip > $BACKUP_DIR$i\_$BACKUP_DATE.gz
       fi
     done
 }
@@ -83,8 +84,8 @@ function backup_files(){
     # -p preserve permissions
     # -f name of the file to create / operate
     # -X specified files im txt file will not be included in the backup 
-    echo "Executing3: tar -X $excluded_files -zcvpf $backup_dir$backup_date.tar.gz $home_dir"
-    tar -X $excluded_files -zcvpf $backup_dir$backup_date.tar.gz $home_dir
+    echo "Executing: tar -X $EXCLUDED_FILES -zcvpf $BACKUP_DIR$BACKUP_DATE.tar.gz $HOME_DIR"
+    tar -X $EXCLUDED_FILES -zcvpf $BACKUP_DIR$BACKUP_DATE.tar.gz $HOME_DIR
 }
 
 function hr(){
@@ -98,6 +99,7 @@ function backup_config(){
 
     #For General Configuration Files
     hostname > hostname.out
+    cat /etc/issue > issue.out
     uname -a > uname.out
     uptime > uptime.out
     cat /etc/hosts > hosts.out
@@ -117,6 +119,14 @@ function backup_config(){
     /sbin/ifconfig -a>ifconfig-a.out
     cat /etc/sysctl.conf > sysctl.out
     
+    # Apache Sites
+    # Pending --> cp /etc/apache2/sites-available/*.* 
+
+    # Odoo Config
+    # Odoo Logs+
+
+    # Some System logs
+
     sleep 10s
 
     #Create a tar archive
@@ -124,7 +134,7 @@ function backup_config(){
     sleep 10s
 
     #Copy a tar archive to backup folder
-    cp /tmp/$(hostname)-$(date +%Y%m%d.tar) $backup_dir
+    cp /tmp/$(hostname)-$(date +%Y%m%d.tar) $BACKUP_DIR
 
     #Remove the backup config folder
     cd ..
@@ -153,7 +163,7 @@ function echo_status(){
 }
 
 function backup_mysql_database(){
-    backup_file="$backup_dir$backup_date.$database.sql.gz" 
+    backup_file="$BACKUP_DIR$BACKUP_DATE.$database.sql.gz" 
     output+="$database => $backup_file\n"
     echo_status "...backing up $count of $total databases: $database"
     $(mysqldump $(mysql_login) $database | gzip -9 > $backup_file)
