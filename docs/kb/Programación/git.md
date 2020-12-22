@@ -40,6 +40,18 @@ Para ignorar ficheros y directorios desde el principio, símplemente hay que agr
     Puedes descargar plantillas para el fichero .gitignore y para distintos lenguajes de programacion desde https://github.com/github/gitignore/blob/master/README.md
 
     
+
+## Dejar de seguir fichero y borrar del repositorio
+
+En ocasiones subes al repositorio un fichero de configuración del entorno de desarrollo y quieres borrarlo del repositorio, a la vez que lo conservas en local  y dejas de realizar seguimientos del fichero. Para borrarlo del repositorio ejecutar el comando:
+    
+    git rm --cached nombre-archivo
+
+Luego puede agregarse al fichero .gitignore
+
+y por último subir los cambios
+
+
 ## Acciones GitHub
 
 Las acciones de GitHub ayudan a automatizar tareas dentro del ciclo de vida del desarrollo. Las acciones de GitHub están controladas por eventos, lo que significa que pueden ejecutarse una serie de comandos después de que haya ocurrido un evento específico. Por ejemplo, cada vez que alguien crea una solicitud push/pull en un repositorio, puede ejecutarse automáticamente un comando que ejecuta un script de prueba de software.
