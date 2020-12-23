@@ -19,3 +19,4 @@ En la sección Diagnóstico y herramientas hay unas herramientas, muy interesant
 * Link Explorer para descubrir las páginas vinculadas a la URL
 
 A medida que pase el tiempo, podrás ir viendo numerosas estadísticas acerca del SEO de tu sitio.
+
