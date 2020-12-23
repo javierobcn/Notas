@@ -1,11 +1,12 @@
 # Docker
-##Instalación de Docker
+
+## Instalación de Docker
 
 1. Verificar que no hay nada de docker anteriormente instalado
-    
+
     sudo apt remove docker docker-engine docker.io containerd runc
 
-2.Actualizamos la máquina
+2. Actualizamos la máquina
 
     sudo apt update
 
@@ -28,13 +29,12 @@
 
 6. En el caso de Docker hay 3 versiones disponibles: «Stable», ‘Nightly’ o ‘Test’, instalaremos la versión «stable» con el comando:
 
-        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu
-bionic stable"
+        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 
 7. Con el repositorio añadido, actualizamos la cache de APT
 
         sudo apt update
-    
+
 8. Por último instalamos la última versión de Docker CE y containerd.
 
         sudo apt install docker-ce docker-ce-cli containerd.io
@@ -47,14 +47,39 @@ bionic stable"
 10. Para evitar errores de permisos deberemos agregar nuestro usuario al grupo Docker
 
         sudo usermod -a -G docker $USER
-     
-##Comandos Docker básicos
 
-Listar Imágenes disponibles en local
+## Post-instalación en Linux
+
+Después de instalar Docker, el demonio Docker queda unido a un Socket, por defecto este Socket es propiedad del usuario root y el resto de usuarios solo pueden acceder como sudo. El demonio de Docker siempre se ejecuta como el usuario root.
+
+Para evitar tener que poner sudo en todos los comandos, se crea un grupo Docker y se añaden los usuarios a ese grupo.
+
+        sudo groupadd docker
+        sudo usermod -aG docker $USER
+        newgrp docker 
+        docker run hello-world
+
+### Configurar Docker para arrancar al inicio
+
+Docker ya crea un servicio Systemd, con lo que solo hay que hacer enable para que arranque al inicio del sistema.
+
+        sudo systemctl enable docker
+
+Si quisieramos deshabilitarlo
+
+        sudo systemctl disable docker
+
+https://docs.docker.com/engine/install/linux-postinstall/
+
+## Comandos Docker básicos
+
+### Listar Imágenes disponibles en local
 
     docker images
-    
-Ejecutar una imagen (en este caso postgres) dentro de un container descargándola si es necesario
+
+### Ejecutar una imagen dentro de un container descargándola si es necesario
+
+En este caso postgres
 
     docker run -d -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo --name db postgres
     
