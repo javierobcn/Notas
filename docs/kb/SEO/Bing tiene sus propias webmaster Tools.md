@@ -1,6 +1,6 @@
 # Bing tiene sus propias webmaster Tools
 
-![Image Bing](eb7f4c58-ed94-4bfe-8641-50d6e2aebdcf.jpg)
+![Image Bing](./media/eb7f4c58-ed94-4bfe-8641-50d6e2aebdcf.jpg)
 
 
 Bing, también debería merecer nuestra atención si queremos optimizar nuestro posicionamiento en buscadores, así que conviene darse de alta en sus «Webmasters Tools», verificar la propiedad del sitio e incluir nuestro «sitemap».
