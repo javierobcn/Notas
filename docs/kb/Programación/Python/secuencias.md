@@ -90,9 +90,9 @@ Para definir un diccionario, se encierra el listado de valores entre llaves. Las
 diccionario = {'nombre' : 'Carlos', 'edad' : 22, 'cursos': ['Python','Django','JavaScript'] }
 ```
 
-### Recetas
+## Recetas
 
-#### Crear variables independientes para cada elemento de una secuencia
+### Crear variables independientes para cada elemento de una secuencia
 
 ```python
 tupla = (1,2)
@@ -105,7 +105,7 @@ print(a,b,c,d)
 
 ```
 
-#### Obtener el resto de elementos de una secuencia
+### Obtener el resto de elementos de una secuencia
 
 ```python
 tupla = (1,2,5,7)
@@ -120,7 +120,7 @@ print(var1, var2, var3)
 
 ```
 
-#### Obtener los elementos mas frecuentes en una lista
+### Obtener los elementos mas frecuentes en una lista
 
 ```python
 from collections import Counter
@@ -141,7 +141,7 @@ print (contador.most_common(3))
 
 ```
 
-#### Obtener una cantidad n de elementos mínimos o máximos
+### Obtener una cantidad n de elementos mínimos o máximos
 
 ```python
 import heapq
@@ -172,7 +172,7 @@ print (mas_baratos)
 
 ```
 
-#### Diccionario con orden mediante la clase OrderedDict
+### Diccionario con orden mediante la clase OrderedDict
 
 ```python
 
@@ -190,7 +190,7 @@ OrderedDict([(7, 'Mouse'), (5, 'Teclado'), (8, 'Monitor'), (9, 'Altavoces'), (2,
 
 ```
 
-#### Obtener los elementos únicos de una lista
+### Obtener los elementos únicos de una lista
 
 ```python
 numeros = [7,0,9,76,4,2,4,6,4,7,65,4,3,6,2]
@@ -208,7 +208,7 @@ print (type(numeros))
 
 ```
 
-#### Uso de la clase UserString
+### Uso de la clase UserString
 
 Esta clase se encuentra en el módulo Collections y se utiliza para realizar herencia cuando queremos agregar nuevos comportamientos a la clase string. 
 
@@ -233,7 +233,7 @@ pYTHON
 
 ```
 
-#### Ordenar una lista usando Diferentes Campos
+### Ordenar una lista usando Diferentes Campos
 
 ```python
 
@@ -260,7 +260,7 @@ print (productos_precio)
 [{'id': 1, 'nombre': 'Mouse', 'precio': 35}, {'id': 3, 'nombre': 'Altavoz', 'precio': 55}, {'id': 5, 'nombre': 'Teclado', 'precio': 75}, {'id': 6, 'nombre': 'Monitor', 'precio': 335}, {'id': 4, 'nombre': 'Tablet', 'precio': 435}]
 ```
 
-#### Ordenar objetos a partir de un campo arbitrario
+### Ordenar objetos a partir de un campo arbitrario
 
 ```python
 from operator import attrgetter
@@ -286,7 +286,7 @@ print (sorted(usuarios,key=attrgetter('nombre')))
 
 ```
 
-#### Agrupar elementos de una lista especificando un campo de interés
+### Agrupar elementos de una lista especificando un campo de interés
 
 ```python
 from operator import itemgetter
@@ -330,7 +330,7 @@ for fecha, elementos in groupby(productos, key=itemgetter('fecha_venta')):
 
 ```
 
-#### Filtrar los elementos de una secuencia
+### Filtrar los elementos de una secuencia
 
 ```python
 numeros = [5,4,-6,3,-9,8,0,12]
@@ -343,7 +343,7 @@ print (numeros_positivos)
 
 ```
 
-#### Extraer un subconjunto de elementos de un diccionario
+### Extraer un subconjunto de elementos de un diccionario
 
 ```python
 productos = {
@@ -364,7 +364,7 @@ print (productos_filtrados)
 
 ```
 
-#### Nombrar los elementos de una tupla a través de namedtuple
+### Nombrar los elementos de una tupla a través de namedtuple
 
 ```python
 from collections import namedtuple
