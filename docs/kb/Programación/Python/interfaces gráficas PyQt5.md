@@ -27,14 +27,14 @@ Dentro de la carpeta ```/env/lib/python3.6/site-packages/qt5_applications/Qt/bin
 
 Los elementos de la interfaz se llaman widgets y heredan todos de la clase QWidget, algunos de los mas usados
 
-QPushButton: setText(), setIcon(), SetEnabled(), clicked(),etc.
-QRadioButton: isChecked(), setChecked(),setText(), toggled()
-QCheckBox:
-QListWidget: addItem(), currentItem(), sortItems(), etc
-QComboBox:
-QLineEdit:
-QTextEdit:
-QLabel:
+* QPushButton: setText(), setIcon(), SetEnabled(), clicked(),etc.
+* QRadioButton: isChecked(), setChecked(),setText(), toggled()
+* QCheckBox:
+* QListWidget: addItem(), currentItem(), sortItems(), etc
+* QComboBox:
+* QLineEdit:
+* QTextEdit:
+* QLabel:
 
 QApplication: Es el punto de entrada a toda app Qt, administra toda la GUI, configuraciones... es lo que se ejecuta realmente.
 QMainWindow: Es la ventana principal y donde se van a colocar el resto de widgets. Puede no existir en interfaces que solo tengan cuadros de dialogo.
