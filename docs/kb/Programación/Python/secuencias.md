@@ -210,7 +210,7 @@ print (type(numeros))
 
 ### Uso de la clase UserString
 
-Esta clase se encuentra en el módulo Collections y se utiliza para realizar herencia cuando queremos agregar nuevos comportamientos a la clase string. 
+Esta clase se encuentra en el módulo Collections y se utiliza para realizar herencia cuando queremos agregar nuevos comportamientos a la clase string.
 
 ```python
 from collections import UserString
