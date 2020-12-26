@@ -88,3 +88,15 @@ git init
 git add .
 git commit -m "initial version de projectname"
 ```
+
+- Activar el entorno virtual
+
+```bash
+    source env/bin/activate
+```
+
+- Desactivar el entorno virtual
+
+```bash
+deactivate
+```
