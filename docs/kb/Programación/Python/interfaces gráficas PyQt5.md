@@ -1,4 +1,4 @@
-# Instalación
+# PyQt 5
 
 Creamos un entorno virtual, lo activamos e instalamos
 
