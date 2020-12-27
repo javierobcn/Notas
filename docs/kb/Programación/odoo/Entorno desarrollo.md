@@ -25,7 +25,7 @@ virtualenv -p python3 env
 - Crear algunos subdirectorios comunes:
 
 ```bash
-mkdir src local bin filestore logs`
+mkdir src local bin filestore logs
 ```
 
 - Clonar Odoo e instalar los requisitos indicados en el fichero requisites.txt de Odoo
@@ -43,60 +43,60 @@ env/bin/pip3 install -r src/odoo/requirements.txt
 
 - Crear el siguiente script y guardarlo como `bin/odoo`
 
-```bash
-#!/bin/sh
-ROOT=$(dirname $0)/..
-PYTHON=$ROOT/env/bin/python3
-ODOO=$ROOT/src/odoo/odoo-bin
-$PYTHON $ODOO -c $ROOT/projectname.cfg "$@"
-exit $?
-```
+    ```bash
+    #!/bin/sh
+    ROOT=$(dirname $0)/..
+    PYTHON=$ROOT/env/bin/python3
+    ODOO=$ROOT/src/odoo/odoo-bin
+    $PYTHON $ODOO -c $ROOT/projectname.cfg "$@"
+    exit $?
+    ```
 
 - Generar un módulo dummy
 
-```bash
-mkdir -p local/dummy
-touch local/dummy/__init__.py
-echo '{"name":"dummy","installable":False}' > local/dummy/__manifest__.py
-```
+    ```bash
+    mkdir -p local/dummy
+    touch local/dummy/__init__.py
+    echo '{"name":"dummy","installable":False}' > local/dummy/__manifest__.py
+    ```
 
 - Generar un fichero de configuración para la instancia
 
-```bash
-bin/odoo --stop-after-init --save \
---addons-path src/odoo/odoo/addons,src/odoo/addons,local \
---data-dir filestore
-```
+    ```bash
+    bin/odoo --stop-after-init --save \
+    --addons-path src/odoo/odoo/addons,src/odoo/addons,local \
+    --data-dir filestore
+    ```
 
 - Generar un fichero `.gitignore` que excluya algunos directorios
 
-```bash
-.*
-!.gitignore
-*.py[co]
-*~
-/env/
-/src/
-/filestore/
-/logs/
-```
+    ```bash
+    .*
+    !.gitignore
+    *.py[co]
+    *~
+    /env/
+    /src/
+    /filestore/
+    /logs/
+    ```
 
 - crear un repositorio git y agregar los ficheros:
 
-```bash
-git init
-git add .
-git commit -m "initial version de projectname"
-```
+    ```bash
+    git init
+    git add .
+    git commit -m "initial version de projectname"
+    ```
 
 - Activar el entorno virtual
 
-```bash
+    ```bash
     source env/bin/activate
-```
+    ```
 
 - Desactivar el entorno virtual
 
-```bash
-deactivate
-```
+    ```bash
+    deactivate
+    ```
