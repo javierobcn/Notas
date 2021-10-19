@@ -1,4 +1,4 @@
-## Instalar Odoo 12
+## Instalar Odoo 12 en Debian 9 con SSL Lets Encrypt y Reverse Proxy NginX
 
 Este tutorial cubre los pasos necesarios para instalar y configurar ODOO 12 usando el [código fuente de Odoo disponible en Git](https://github.com/odoo/odoo) y un entorno Python virtual (Probado con éxito en un sistema Debian GNU/Linux 9)
 
@@ -42,18 +42,20 @@ sudo su - postgres -c "createuser -s odoo12"
 
 #### Instalar Wkhtmltopdf
 
-El paquete wkhtmltox proporciona un conjunto de herramientas de código abierto las cuales pueden renderizar HTML en PDF y varios formatos de imágenes. Para poder imprimir en PDF los informes, es necesario el paquete wkhtmltopdf. la versión recomendada para Odoo es la 0.12.1 que no viene incluida en los repositorios oficiales.
+El paquete wkhtmltox proporciona un conjunto de herramientas de código abierto las cuales pueden renderizar HTML en PDF y varios formatos de imágenes. Para poder imprimir en PDF los informes, es necesario el paquete wkhtmltopdf. la versión recomendada para Odoo es la 0.12.x que no viene incluida en los repositorios oficiales.
 
 Descargar el paquete con este comando wget:
+ 
+```
+wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb
+```
+wkhtmltox_0.12.5-1.stretch_amd64.deb
+
+Una vez descargado descomprimir e instalar con los comandos:
 
 ```
-wget https://builds.wkhtmltopdf.org/0.12.1.3/wkhtmltox_0.12.1.3-1~bionic_amd64.deb
-```
+apt install ./wkhtmltox_0.12.5-1.stretch_amd64.deb
 
-Una vez descargado instalar con el comando:
-
-```
-sudo apt install ./wkhtmltox_0.12.1.3-1~bionic_amd64.deb
 ```
 
 ### Instalar y Configurar Odoo
@@ -419,7 +421,11 @@ The rest of the system resources will be used by other services that run on this
 
 This tutorial walked you through the installation of Odoo 12 on Debian GNU/Linux 9 in a Python virtual environment using Nginx as a reverse proxy. You also learned how to enable multiprocessing and optimize Odoo for production environment.
 
-\###Referencias https://linuxize.com/post/how-to-deploy-odoo-12-on-ubuntu-18-04/
+###Referencias 
+
+https://linuxize.com/post/how-to-deploy-odoo-12-on-ubuntu-18-04/
+
+https://www.rosehosting.com/blog/how-to-install-odoo-12-on-debian-10-with-nginx-as-a-reverse-proxy/#Step-3-Install-wkhtmltopdf
 
 
 
@@ -446,3 +452,12 @@ Mapear .well-known/acme-challenge a /var/lib/letsencrypt :
     #> sudo chgrp odoo12 /var/lib/letsencrypt
     #> sudo chmod g+s /var/lib/letsencrypt
 
+### Tunear Nginx
+Subir ficheros grandes en Odoo > 1.5 mb
+
+Modificar el fichero /etc/nginx.conf 
+
+agregar en http {
+    ...
+    client_max_body_size 100m;
+}
