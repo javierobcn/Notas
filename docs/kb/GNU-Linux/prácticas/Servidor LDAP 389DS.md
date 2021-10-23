@@ -45,7 +45,8 @@ y entonces asignar el valor mostrado por pantalla tal cual a esta directiva
 !!!NOTE "Nota"
     NOTA: Las líneas create_suffix_entry y suffix del fichero INF se encuentran bajo una sección titulada `[backend-userroot]` Los "backend" son los tipos de bases de datos que el servidor 389DS soporta para almacenar de forma permanente la información contenida en los directorios que gestiona; en este caso, la sección indica que se creará un backend llamado "userroot". Puede haber muchos tipos de backends, por lo que en 389DS se utiliza un mecanismo de plugins para solamente utilizar el/los plugin/s necesario/s para gestionar el/los backend/s correspondiente/s. El tipo de backend empleado por defecto por 389DS es la base de datos de tipo LDBM, que es una variante de las de tipo BerkeleyDB (las cuales todas ellas son implementadas físicamente en forma de ficheros en disco). En el archivo "dse.ldif" (ver siguiente apartado) se encuentra la información sobre la configuración del backend asociado a un directorio (bajo la sección `dn:dc=midominio,dc=local, cn=mapping tree, cn=config`) y sobre la propia configuración de ese backend elegido, bajo la sección dc: `cn=ldbm database,cn=plugins,cn=config` y `dc: cn=config,cn=ldbm database,cn=plugins,cn=config` Para más información consultar https://www.port389.org/docs/389ds/design/architecture.html y también el cuadro siguiente:
 
-    ![Screenshot](media/ldap1.jpg)
+    ![rd](../media/ldap1.jpg)
+
 
 A continuación utiliza el fichero INF generado en el paso anterior como entrada en el siguiente comando : `sudo dscreate from-file /ruta/fichero.inf`
 

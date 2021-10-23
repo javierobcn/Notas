@@ -2,7 +2,7 @@
 
 Una sencilla medida que podemos adoptar para dificultar un poco más el acceso por escritorio remoto a un servidor “Windows” es cambiar el puerto por defecto 3389.
 
- ![rd](../assets/escritorioremoto-300x182.jpg)
+ ![rd](./assets/escritorioremoto-300x182.jpg)
 
 Esta es una medida que detendrá a todo aquel usuario, de la red o de Internet, que trate de conectar con el servidor a través de escritorio remoto.
 
