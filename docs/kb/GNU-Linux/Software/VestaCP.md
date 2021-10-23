@@ -1,6 +1,12 @@
-#VestaCP
+# VestaCP
 
-##VestaCP ftp 530 Login incorrect
+VestaCP ahora es HESTIACP 
+
+https://www.hestiacp.com/
+
+
+
+## VestaCP ftp 530 Login incorrect
 
 El servidor siempre devuelve un error Login incorrect con las cuentas FTP recién creadas.
 
@@ -60,7 +66,7 @@ Listo, ahora cuando el certificado se renueve para el sitio corriendo en el puer
 
 
 
-##SSL Por dominio de correo en Vesta
+## SSL Por dominio de correo en Vesta
 
 Se trata de copiar los certificados en la carpeta /usr/local/vesta/ssl/
  con el nombre de la ip por ej.
