@@ -43,4 +43,28 @@ También ha de modificarse el fichero pg_hba.conf en la misma carpeta agregando 
 
     host     all     all     192.168.1.0/24     md5
 
-    
+
+## ¿versión de PostgreSQL?
+
+Nos impersonamos como usuario postgres
+
+```
+sudo su - postgres
+```
+
+Ejecutamos
+
+```
+SHOW SERVER_VERSION;
+```
+
+Nos devolverá algo como
+
+```
+server_version            
+-------------------------------------
+ 12.8 (Ubuntu 12.8-0ubuntu0.20.04.1)
+(1 row)
+
+```
+
