@@ -23,7 +23,7 @@ nginx version: nginx/1.14.2
 /usr/sbin/nginx -t
 
 ```
-### Cómo habilitar el uso TLS 1.2 / 1.3
+### Cómo habilitar el uso de TLS 1.2 / 1.3
 
 TLS es el acrónimo de "Transport Layer Security". Se trata de protocolos criptográficos diseñados para proporcionar seguridad en las comunicaciones de red. TLS es utilizado por sitios web y otras aplicaciones como mensajería instantánea, correo electrónico, navegadores web, VoIP y, en general,para proteger todas las comunicaciones entre el servidor y el cliente. En esta página se explica cómo habilitar y configurar Nginx para que utilice únicamente las versiones TLS 1.2 y 1.3.
 
