@@ -18,9 +18,16 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-# Direct dependencies
+material>=0.1
 mkdocs>=1.1
+mkdocs-awesome-pages-plugin>=2.5.1               
+mkdocs-blog-plugin>=0.25                
+mkdocs-git-revision-date-localized-plugin              
+mkdocs-material>=7.3.3               
+mkdocs-material-extensions>=1.0.3               
+mkdocs-minify-plugin>=0.4.1
+mkdocs-redirects>=1.0 
+pyembed-markdown
 Pygments>=2.4
 markdown>=3.2
 pymdown-extensions>=7.0
-mkdocs-material-extensions>=1.0

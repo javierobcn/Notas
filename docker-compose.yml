@@ -1,0 +1,16 @@
+version: '3'
+services:
+  mkdocs_javieranto:
+    image: javierantodocs:latest
+    restart: always
+    container_name: javierantodocs
+    volumes:
+      - /home/javier/Documentos/javierantodocs/docs:/home/myuser/code/docs
+    ports:
+      - 8000:8000
+    command:
+      - "mkdocs"
+      - "serve"
+      - "--dev-addr=0.0.0.0:8000"
+      - "--config-file"
+      - "mkdocs.yml"
