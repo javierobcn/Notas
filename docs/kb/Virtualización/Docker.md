@@ -10,7 +10,7 @@ En cierto modo ofrece lo mismo que una máquina virtual pero sin la carga de tra
 
 
 ## Imagenes
-Una imagen es una plantilla para crear el entorno que necesitemos. Es un "snapshot" de un sistema habitualmente con una app o servicio instalado. Hay imágenes de Ubuntu, Debian, Apache, Nginx, Postgres, PHP .... también podemos crear nuestras propias imágenes.
+Una imagen es una plantilla para crear el entorno que necesitemos. Es un "snapshot" de un sistema, habitualmente con una app o servicio instalado. Hay imágenes de Ubuntu, Debian, Apache, Nginx, Postgres, PHP, Python .... también es posible crear nuevas imágenes.
 
 ### Crear una imagen "Hola Mundo"
 
@@ -30,12 +30,12 @@ COPY src/ /var/www/html
 EXPOSE 80
 ```
 
-Ahora, para crear la imagen usamos el comando:
+Ahora, se crea la imagen con el comando:
 
 ```bash
 docker build -t hola-mundo .
 ```
-Nos dirá algo como:
+Observamos la salida
 
 ```bash
 Sending build context to Docker daemon  3.584kB
@@ -50,21 +50,22 @@ Removing intermediate container 4b6d47709756
 Successfully built 4b1c49a9bb2b
 Successfully tagged hola-mundo:latest
 ```
-tras lo cual tendremos nuestra imagen disponible para ejecutar con el comando
+
+tras lo cual la imagen quedará disponible para ejecutar con el comando
 
 ```bash
 docker run -p 80:80 hola-mundo
 ```
-y tras esto, si accedemos a http://localhost veremos el mensaje.
+Accediendo a http://localhost veremos el resultado.
 
-Si modificamos el fichero "src/index.php" ubicado en nuestra máquina local, lógicamente en la imagen docker no cambiará ya que esta imagen es un snapshot al que se copió el fichero en el momento de la creación. Aquí entran en juego los volúmenes
+Si el fichero "src/index.php", ubicado en la máquina anfitrión, cambia, lógicamente en la imagen docker no cambiará ya que esta imagen es un "snapshot" al que se copió el fichero en el momento de la creación. Aquí entran en juego los volúmenes
 
 ## Volúmenes
-Un volumen nos va a permitir compartir datos entre el host donde se ejecuta el container y el propio container. Podemos montar una carpeta en el host local dentro del container y entonces acceder a dichos ficheros en tiempo real.
+Un volumen permite compartir datos entre el anfitrión donde se ejecuta el contenedor y el propio contenedor. Esto se hace a través de una carpeta, ubicada físicamente en el anfitrión y montada dentro del contenedor, siendo posible entonces acceder a dichos ficheros en tiempo real.
 
-Detengamos el container pulsando control + c en la ventana donde lo estabamos ejecutando
+Detengamos el container pulsando control + c en la ventana donde se está ejecutando
 
-y ahora agregamos el parámetro -v como sigue:
+y ahora lo volvemos a ejecutar agregando el parámetro -v como sigue:
 
 ```bash
 docker run -p 80:80 -v /home/javier/vs-projects/ejemplos_docker/src:/var/www/html hola-mundo
@@ -73,15 +74,17 @@ docker run -p 80:80 -v /home/javier/vs-projects/ejemplos_docker/src:/var/www/htm
 !!!Info
     En el parámetro -v se indica primero la ruta en el host local y separada por ":" la ruta en el container.
 
+!!!Warning
     El container está ligado al proceso que ejecuta de manera que si ese proceso muere, el container se detiene, es por eso que un container debe contener solo un proceso.
 
 
-## Containers
-Un container no es una máquina virtual, ya que una máquina virtual tendría todos los servicios, el sistema operativo, incluyendo su propio kernel, y esto hace que las máquinas virtuales sean pesadas. El container en cambio ocupa muchos menos recursos, arranca mas rápido y es mas eficiente en uso de disco y memoria. Un container es una imagen ejecutándose como una instancia. 
+## Contenedores
+Un contenedor no es una máquina virtual, ya que una máquina virtual tendría todos los servicios, el sistema operativo, incluyendo su propio kernel, y esto hace que las máquinas virtuales sean pesadas. El contenedor, en cambio, ocupa muchos menos recursos, arranca mas rápido y es mas eficiente en cuanto al uso de disco y de memoria. Un contenedor es una instancia en ejecución de una imagen. 
 
-Por ej. una imagen de postgresql y una imagen de odoo pueden ejecutarse simultaneamente usando menos espacio y menos memoria que si lo instalaramos en una máquina virtual todo junto. Además en una máquina virtual la configuración de postgresql y odoo llevaría varias horas de trabajo, mientras que con Docker esto puede hacerse mucho más rápido y mas eficientemente.
+Por ej. una imagen de postgresql y otra imagen de odoo pueden ejecutarse simultaneamente usando menos espacio y menos memoria que si lo instalaramos en una máquina virtual todo junto. Además, en una máquina virtual, la configuración de postgresql y odoo supondría varias horas de trabajo, mientras que con Docker esto puede hacerse mucho más rápido y de forma mas eficiente.
 
 ## Docker Compose
+
 ```bash
 mkdir tutorial
 cd tutorial
@@ -112,9 +115,7 @@ ponemos dentro
     if __name__=='__main__':
         app.run(host='0.0.0.0',port=80,debug=True)
 
-
 ```
-
 
 
 ## Instalación
