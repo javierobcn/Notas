@@ -1,12 +1,13 @@
 # Docker
 
+## ¿Qué es Docker?
 En cierto modo ofrece lo mismo que una máquina virtual pero sin la carga de trabajo que conlleva instalar, configurar y administrar una máquina virtual.
 
 * Permite ejecutar aplicaciones en un entorno aislado que es independiente de la máquina en la que se ejecuta.
 
 * Cuando se trabaja en múltiples proyectos, permite aislar  y evitar potenciales inconsistencias o conflictos entre ellos.
 
-* Hace posible que todas las dependencias que necesite el proyecto estén disponibles 
+* Hace posible satisfacer todas las dependencias que pueda necesitar el proyecto. 
 
 
 ## Imagenes
@@ -60,6 +61,10 @@ Accediendo a http://localhost veremos el resultado.
 
 Si el fichero "src/index.php", ubicado en la máquina anfitrión, cambia, lógicamente en la imagen docker no cambiará ya que esta imagen es un "snapshot" al que se copió el fichero en el momento de la creación. Aquí entran en juego los volúmenes
 
+### Dockerhub
+Dockerhub es una librería enorme de imágenes, cualquier imagen que se te ocurra estará disponible aquí: 
+https://hub.docker.com/
+
 ## Volúmenes
 Un volumen permite compartir datos entre el anfitrión donde se ejecuta el contenedor y el propio contenedor. Esto se hace a través de una carpeta, ubicada físicamente en el anfitrión y montada dentro del contenedor, siendo posible entonces acceder a dichos ficheros en tiempo real.
 
@@ -85,38 +90,155 @@ Por ej. una imagen de postgresql y otra imagen de odoo pueden ejecutarse simulta
 
 ## Docker Compose
 
+Para ilustrar el funcionamiento de Docker Compose, vamos a crear un directorio llamado Tutorial con algunos ficheros dentro:
+
 ```bash
 mkdir tutorial
 cd tutorial
 mkdir product
 cd product
-nano product.py
+nano api.py
 ```
-ponemos dentro
+ponemos dentro del fichero api.py el siguiente código:
 
 ```python
+from flask import Flask
+from flask_restful import Resource, Api
 
-    from flask import Flask
-    from flask_restful import Resource, Api
+app = Flask(__name__)
+api = Api(app)
 
-    app = Flask(__name__)
-    api = Api(app)
+class Product(Resource):
+    def get(self):
+        return {
+            'product':  ['Ice cream',
+                            'Chocolate',
+                            'Fruta',
+                            'huevos']
+        }
 
-    class Product(Resource):
-        def get(self):
-            return {
-                'product':  ['Ice cream',
-                             'Chocolate',
-                             'Fruta']
-            }
+api.add_resource(Product,'/')
 
-    api.add_resource(Product,'/')
-
-    if __name__=='__main__':
-        app.run(host='0.0.0.0',port=80,debug=True)
+if __name__=='__main__':
+    app.run(host='0.0.0.0',port=80,debug=True)
 
 ```
+Dentro de la carpeta "product" creamos un fichero "Dockerfile"  con el siguiente contenido:
 
+```
+FROM python:3-onbuild
+COPY . /usr/src/app
+CMD ["python", "api.py"]
+```
+
+y otro fichero llamado "requirements.txt" con el contenido:
+
+```
+Flask==0.12
+flask-restful==0.3.5
+```
+
+A continuación podriamos ejecutar, a través de la linea de comandos, el comando ```docker run```, especificando parametros como los puertos, volumenes, conexiones de red entre contenedores etc. , aunque a medida que tengamos mas contenedores ejecutandose y mas imágenes y la infraestructura vaya creciendo, todo se hará mas tedioso, para eso existe Docker compose, el cual mediante un fichero de configuración puede realizar estas operaciones de forma automática con un solo comando.
+
+Para ello crearemos un fichero llamado docker-compose.yml en la carpeta "tutorial"
+
+```yaml
+version: '3'
+
+services:
+  product-service:
+    build: ./product
+    volumes:
+      - ./product:/usr/src/app
+    ports:
+      - 5001:80
+```
+
+a continuación ejecutamos el comando ```docker-compose up``` estando ubicados en la misma carpeta del fichero docker-compose.yml y veremos como comienza a construirse todo:
+
+```
+Creating network "tutorial_docker_default" with the default driver
+Building product-service
+Step 1/3 : FROM python:3-onbuild
+....
+.....
+......
+.......
+etc.
+```
+Una vez que acabe el proceso, accediendo a http://127.0.0.1:5001/ veremos el resultado.
+
+Dado que el volumen es una unidad mapeada dentro del container, si cambiamos algo en el fichero api.py veremos los cambios en tiempo real.
+
+A continuación crearemos un nuevo servicio docker para mostrar el sitio web
+
+Creamos una carpeta llamada website dentro de tutorial
+
+```
+mkdir website
+```
+
+agregamos un fichero llamado index.php con el contenido:
+
+```php
+
+<?php 
+$json_url = "http://product-service";
+$json = file_get_contents($json_url);
+
+$data = json_decode($json);
+
+echo "<pre>";
+print_r($data);
+echo "</pre>";
+?>
+```
+Modificamos el fichero docker-compose.yml para agregar un nuevo servicio y lo dejamos de esta manera:
+
+```yaml
+version: '3'
+
+services:
+  product-service:
+    build: ./product
+    volumes:
+      - ./product:/usr/src/app
+    ports:
+      - 5001:80
+    
+  website:
+    image: php:apache
+    volumes:
+    - ./website:/var/www/html
+    ports:
+    - 5000:80
+    depends_on:
+    - product-service
+```
+
+Ahora volvemos a ejecutar docker-compose up en la carpeta tutorial y veremos como comienza a levantar todo:
+
+```
+Starting tutorial_docker_product-service_1 ... done
+Creating tutorial_docker_website_1         ... done
+Attaching to tutorial_docker_product-service_1, tutorial_docker_website_1
+product-service_1  |  * Running on all addresses.
+product-service_1  |    WARNING: This is a development server. Do not use it in a production deployment.
+product-service_1  |  * Running on http://172.19.0.2:80/ (Press CTRL+C to quit)
+product-service_1  |  * Restarting with stat
+website_1          | AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.3. Set the 'ServerName' directive globally to suppress this message
+product-service_1  |  * Debugger is active!
+website_1          | AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.3. Set the 'ServerName' directive globally to suppress this message
+product-service_1  |  * Debugger PIN: 294-258-647
+website_1          | [Mon Nov 01 09:56:07.583888 2021] [mpm_prefork:notice] [pid 1] AH00163: Apache/2.4.51 (Debian) PHP/8.0.12 configured -- resuming normal operations
+website_1          | [Mon Nov 01 09:56:07.583933 2021] [core:notice] [pid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
+
+```
+Ahora, accediendo a http://127.0.0.1:5000 y a http://127.0.0.1:5001 veremos como ambas máquinas están levantadas y funcionando.
+
+
+!!!Info
+    En el fichero yaml la linea product-service indica el nombre del container al cual nos podremos dirigir desde otros containers. por ej. desde el código php $json_url = "http://product-service"; 
 
 ## Instalación
 
