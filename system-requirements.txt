@@ -1,0 +1,7 @@
+git
+gnupg
+gosu
+nano
+wget
+unzip
+zip

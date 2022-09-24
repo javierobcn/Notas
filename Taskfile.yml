@@ -1,0 +1,65 @@
+version: '3'
+
+dotenv: ['.env']
+
+tasks:
+  setenv:
+    desc: Create .env file and init local variables
+    cmds:
+        - cp dev.env .env
+        - sed -i "/UID=/c\UID=$UID" .env
+        - echo "Environment file .env generated from dev.env."
+        - echo "Please replace CHANGEME values for any secret."
+    silent: true
+
+  project:
+    desc: Set project name (task project -- project_name).
+    cmds:
+    - export PROJECT_NAME={{.CLI_ARGS}}
+    - sed -i "/UID=/c\UID=$(id -u)" dev.env
+    - sed -i "/PROJECT_NAME=/c\PROJECT_NAME={{.CLI_ARGS}}" dev.env
+    - echo Great! Your project name is correctly set as {{.CLI_ARGS}}.
+    silent: true
+
+  start:
+    desc: Start development instances.
+    cmds:
+      - task: setenv
+      - echo Starting development environment...
+      - docker-compose up
+    silent: true
+
+  stop:
+    desc: Stop development instances.
+    cmds:
+      - echo -e '\U0001F53D' Stopping development environment...
+      - docker-compose stop
+    silent: true
+
+  restart:
+    desc: Restart development instances.
+    cmds:
+      - echo -e '\U0001F501' Restarting development services...
+      - docker-compose restart
+    silent: true
+
+  build:
+    desc: Build docker images from .env file.
+    cmds:
+      - echo Building development environment...
+      - task: setenv
+      - docker-compose build --build-arg UID=$UID
+    silent: true
+
+  logs:
+    desc: View running containers logs.
+    cmds:
+      - docker-compose logs -f
+
+  rebuild:
+    desc: Force rebuild all docker images.
+    cmds:
+    - task: setenv
+    - echo Rebuilding all docker images
+    - docker-compose build --build-arg UID=$UID --no-cache
+

@@ -1,16 +1,17 @@
-version: '3'
+version: '3.9'
 services:
-  mkdocs_javieranto:
-    image: javierantodocs:latest
-    restart: always
-    container_name: javierantodocs
+  mkdocs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UID : ${UID}
+    image: ${PROJECT_NAME}
+    container_name: ${PROJECT_NAME}
     volumes:
-      - /home/javier/Documentos/javierantodocs/docs:/home/myuser/code/docs
+      - ".:/mnt:rw,z"
+    env_file:
+      - .env
     ports:
-      - 8000:8000
-    command:
-      - "mkdocs"
-      - "serve"
-      - "--dev-addr=0.0.0.0:8000"
-      - "--config-file"
-      - "mkdocs.yml"
+      - "8000:8000"
+    restart: unless-stopped

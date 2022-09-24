@@ -39,12 +39,5 @@ venv
 /dist
 /mkdocs_material.egg-info
 
-# IDEs
-.vscode
-
-# Eclipse
-.project
-.pydevproject
-.settings
 bin/task
 .env
