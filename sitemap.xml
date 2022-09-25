@@ -561,7 +561,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/strings/</loc>
+         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/PCAP1/1.Fundamentos/</loc>
+         <lastmod>2022-09-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/PCAP1/2.Tipos%20de%20datos/</loc>
          <lastmod>2022-09-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
