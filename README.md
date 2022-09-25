@@ -21,6 +21,7 @@ and choosing one of the returned options.
 * [Docker CE](https://docs.docker.com/compose/install/)
 * [TaskFile](https://taskfile.dev/#/)
 * [VS Code](https://code.visualstudio.com/) (Optional)
+* [rclone](https://rclone.org/)(optional)
 
 ## Installation
 
@@ -56,4 +57,17 @@ Starting all you need from `docker-compose.yml`. It will launch a browser window
 
 ```console
 task start
+```
+
+### 2.- Documents
+
+Put your documents in folder docs, see your documents in <http://localhost:8000>
+
+### 3. Build and publish site
+
+You will need rclone for sync your site folder with ftp remote. Configure a
+remote in rclone to your site and change docker compose
+
+```console
+task mkdocs-publish
 ```

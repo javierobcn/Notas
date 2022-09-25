@@ -131,6 +131,27 @@
         "label": "$(search) View logs"
         }
       },
-    }
+    },
+    {
+      "label": "Publish",
+      "type": "process",
+      "command": "task",
+      "args": [
+        "mkdocs-publish"
+      ],
+      "presentation": {
+        "echo": true,
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+        "label": "$(sync) Publish"
+        }
+      },
+    },
   ]
 }

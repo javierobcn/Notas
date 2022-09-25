@@ -51,6 +51,20 @@ tasks:
       - docker-compose build --build-arg UID=$UID
     silent: true
 
+  mkdocs-publish:
+    desc: Build site and publish to internet via rclone.
+    cmds:
+      - echo Building site...
+      - docker exec -it notas mkdocs build -f /mnt/mkdocs.yml -d /mnt/site
+      - echo publishing site...
+      - rclone sync ./site cdmon_javieranto:
+      - echo Site published...
+
+
+
+    silent: true
+
+
   logs:
     desc: View running containers logs.
     cmds:
