@@ -56,14 +56,10 @@ tasks:
     cmds:
       - echo Building site...
       - docker exec -it notas mkdocs build -f /mnt/mkdocs.yml -d /mnt/site
-      - echo publishing site...
-      - rclone sync ./site cdmon_javieranto:
+      - echo publishing site
+      - "rclone sync ./site javieranto:"
       - echo Site published...
-
-
-
     silent: true
-
 
   logs:
     desc: View running containers logs.
@@ -76,4 +72,3 @@ tasks:
     - task: setenv
     - echo Rebuilding all docker images
     - docker-compose build --build-arg UID=$UID --no-cache
-

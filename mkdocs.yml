@@ -31,7 +31,7 @@ repo_url: https://github.com/javierobcn/Notas
 #edit_uri: ""
 
 # Copyright
-copyright: Copyright &copy; 2016 - 2020 Javier Antó
+copyright: Copyright &copy; 2016 - 2022 Javier Antó
 
 # Configuration
 theme:
@@ -68,7 +68,7 @@ plugins:
   - search
   - awesome-pages
   - git-revision-date-localized:
-      fallback_to_build_date: true      
+      fallback_to_build_date: true
       type: timeago
       exclude:
         - consultoria/*
@@ -81,7 +81,7 @@ plugins:
       articles: 25
   - minify:
       minify_html: true
-      
+
 # Customization
 extra:
   social:
@@ -144,11 +144,11 @@ markdown_extensions:
 # Page tree
 #nav:
 #  - Home: index.md
-#  
-#  - Consultoría: 
+#
+#  - Consultoría:
 #    - Linux: consultoria/linux.md
 #    - Windows: consultoria/windows.md
-#  - Kb: 
+#  - Kb:
 #    - Linux: kb/linux.md
 #    - Windows: kb/windows.md
 #  - Contacto: index.md
@@ -194,6 +194,11 @@ markdown_extensions:
 google_analytics:
   - UA-30695368-1
   - auto
-  
 
- 
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+
+
