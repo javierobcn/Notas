@@ -5,13 +5,11 @@
 
 Excelente revista acerca de software libre y programación con entrevistas, artículos y propuestas.
 
-http://www.hdmagazine.org/
-
 Lo vi por el [grupo en google de python en español](https://groups.google.com/g/pythonhispano)
 
 Aquí hay algunos números: 
 
-https://cloud.javieranto.com/index.php/s/NbYPdMfk2bnf6Pj
+https://drive.google.com/drive/folders/1ZDGQLTDF9YVNcGDv7oexFfFIbM8YVX-2?usp=sharing
 
 ## En twitter
 
