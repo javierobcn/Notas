@@ -37,7 +37,7 @@ tasks:
     silent: true
 
   restart:
-    desc: Restart development instances.
+    desc: Restart local instance.
     cmds:
       - echo -e '\U0001F501' Restarting development services...
       - docker-compose restart

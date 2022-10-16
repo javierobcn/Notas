@@ -38,11 +38,14 @@ suma = np.nansum(np.arange(1,numbers))
 
 print (time.time()-start,"Segundos","Total Suma:", suma)
 
+
+# 12.958271980285645 Segundos Total Suma: 4999999950000000
+# 1.2130687236785889 Segundos Total Suma: 4999999950000000
+# 0.6307775974273682 Segundos Total Suma: 4999999950000000
+
+
 ```
 
-12.958271980285645 Segundos Total Suma: 4999999950000000
-1.2130687236785889 Segundos Total Suma: 4999999950000000
-0.6307775974273682 Segundos Total Suma: 4999999950000000
 
 Las funciones integradas o específicas tienen la ventaja de que la mayor parte
 de los cálculos se realizan en C siendo mucho mas rápidas que si nosotros hacemos

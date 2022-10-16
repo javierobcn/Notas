@@ -1,3 +1,4 @@
+# Google trasladará a mar abierto sus centros de datos
 ![Image Google](google-485611_1280.png)
 
 Además no pagarán impuestos ya que estarán a unos 15 km de las costas… increible te dejo el enlace a la noticia completa
