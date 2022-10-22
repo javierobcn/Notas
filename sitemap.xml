@@ -506,6 +506,41 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/1.Fundamentos/</loc>
+         <lastmod>2022-10-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/2.Tipos%20de%20datos/</loc>
+         <lastmod>2022-10-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/3.Decisiones%2C%20bucles%20y%20listas/</loc>
+         <lastmod>2022-10-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/4.Funciones%2Ctuplas%2Cdiccionarios/</loc>
+         <lastmod>2022-10-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/5.M%C3%B3dulos%2C%20paquetes%20y%20PIP/</loc>
+         <lastmod>2022-10-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/6.Excepciones%2C%20Cadenas%20y%20M%C3%A9todos%20de%20Listas%20copy/</loc>
+         <lastmod>2022-10-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/7.%20POO%20y%20proceso%20de%20archivos/</loc>
+         <lastmod>2022-10-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/Rendimiento/</loc>
          <lastmod>2022-10-22</lastmod>
          <changefreq>daily</changefreq>
@@ -527,46 +562,6 @@
     </url>
     <url>
          <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/pip/</loc>
-         <lastmod>2022-10-22</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/random/</loc>
-         <lastmod>2022-10-22</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/PCAP1/1.Fundamentos/</loc>
-         <lastmod>2022-10-22</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/PCAP1/2.Tipos%20de%20datos/</loc>
-         <lastmod>2022-10-22</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/PCAP1/3.Decisiones%2C%20bucles%20y%20listas/</loc>
-         <lastmod>2022-10-22</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/PCAP1/4.Funciones%2Ctuplas%2Cdiccionarios/</loc>
-         <lastmod>2022-10-22</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/PCAP1/5.M%C3%B3dulos%2C%20paquetes%20y%20PIP/</loc>
-         <lastmod>2022-10-22</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/PCAP1/6.Excepciones%2C%20Cadenas%20y%20M%C3%A9todos%20de%20Listas%20copy/</loc>
-         <lastmod>2022-10-22</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.javieranto.com/kb/Programaci%C3%B3n/Python/PCAP1/7.%20POO%20y%20proceso%20de%20archivos/</loc>
          <lastmod>2022-10-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
