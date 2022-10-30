@@ -81,6 +81,7 @@ plugins:
       articles: 25
   - minify:
       minify_html: true
+  - mkdocs-video
 
 # Customization
 extra:
