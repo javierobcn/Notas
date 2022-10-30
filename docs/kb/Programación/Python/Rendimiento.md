@@ -1,5 +1,7 @@
 # Rendimiento
 
+## Operaciones Matemáticas
+
 ```py
 
 import time
@@ -46,8 +48,57 @@ print (time.time()-start,"Segundos","Total Suma:", suma)
 
 ```
 
-
 Las funciones integradas o específicas tienen la ventaja de que la mayor parte
 de los cálculos se realizan en C siendo mucho mas rápidas que si nosotros hacemos
 los cálculos en python.
 
+## Métodos de acceso "punto" .
+
+Al eliminar el método de acceso "punto" mejoramos el rendimiento
+
+```py
+import math
+import time
+
+def raices(numeros):
+    resultado = []
+
+    for numero in numeros:
+        resultado.append(math.sqrt(numero))
+
+    return resultado
+
+def raices_mejorado(numeros):
+    from math import sqrt
+    raiz = sqrt # Dimensionamos variable local que tiene mejor rendimiento
+    resultado = [] 
+    add = resultado.append # Realizamos esta operación fuera del ciclo
+
+    for numero in numeros:
+        add(raiz(numero))
+
+    return resultado
+
+
+def main():
+    timestart = time.time()
+    numeros = range(1000000)
+    
+    for i in range(100):
+        r = raices(numeros)
+
+    print("Tiempo no optimizado: " + str(time.time()-timestart))
+
+    timestart = time.time()
+
+    for i in range(100):
+        r = raices_mejorado(numeros)
+    
+    print("Tiempo optimizado: " + str(time.time()-timestart))
+
+if __name__ == "__main__":
+    main()    
+
+# Tiempo no optimizado: 26.672093629837036
+# Tiempo optimizado: 16.61163568496704
+```
