@@ -9,8 +9,7 @@ Lo vi por el [grupo en google de python en español](https://groups.google.com/g
 
 Aquí hay algunos números: 
 
-https://drive.google.com/drive/folders/1ZDGQLTDF9YVNcGDv7oexFfFIbM8YVX-2?usp=sharing
-
+https://drive.google.com/drive/folders/1hRKzSjekF5uKaVyCb9139fwu8O6YE1jy?usp=share_link
 ## En twitter
 
 Tweets by HackDevMagazine 
