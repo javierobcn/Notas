@@ -20,7 +20,7 @@
 
 name: documentation
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
@@ -56,8 +56,9 @@ jobs:
             mkdocs-blog-plugin>=0.25 \
             mkdocs-material-extensions>=1.0.1 \
             pyembed-markdown>=1.1.0 \
-            mkdocs-git-revision-date-localized-plugin
-             
+            mkdocs-git-revision-date-localized-plugin \
+            mkdocs-video
+
       - name: Deploy
         run: |
           mkdocs gh-deploy --force
